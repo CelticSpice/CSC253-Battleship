@@ -6,9 +6,6 @@ namespace Battleship
 {
     public partial class BattleForm : Form
     {
-        // ShipDirection enum
-        private enum ShipDirection { North, South, East, West }
-
         // Fields
         private Color[] shipColors = { Color.Orange, Color.Green, Color.Blue, Color.Purple, Color.Yellow };
 

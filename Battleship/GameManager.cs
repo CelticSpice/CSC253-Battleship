@@ -1,6 +1,7 @@
 ﻿/*
     This class handles the game logic
 */
+using System;
 
 namespace Battleship
 {
@@ -52,5 +53,19 @@ namespace Battleship
             get { return _shipSettingUp; }
             set { _shipSettingUp = value; }
         }
+
+        /*
+             PopulateComputerBoard
+        */ 
+
+        //public void PopulateComputerBoard()
+        //{
+        //    Random rand = new Random();
+        //    int count = 5;
+        //    int tile;
+        //    int direction;
+
+            
+        //}
     }
 }
