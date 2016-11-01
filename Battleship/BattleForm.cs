@@ -216,6 +216,8 @@ namespace Battleship
                         label.MouseEnter -= TrackingGridLabel_MouseEnter;
                         label.MouseLeave -= TrackingGridLabel_MouseLeave;
                     }
+
+                    manager.PopulateComputerBoard();
                 }
             }
         }
