@@ -9,9 +9,10 @@ namespace Battleship
         // Fields
         private Color[] shipColors = { Color.Orange, Color.Green, Color.Blue, Color.Purple, Color.Yellow };
 
+        private Button[,] shootingGridBtns;
+        private Label[,] trackingGridLbls;
         private GameManager manager;
         private ShipDirection direction;
-        private Label[,] tileLabels;
 
         /*
             Constructor
@@ -24,30 +25,35 @@ namespace Battleship
 
         /*
             The GetCoordinate method returns the coordinate of the
-            passed control
+            specified control representing a tile
         */
 
         private Coordinate GetCoordinate(Control control)
         {
-            string[] delim = { "trackingGridTile", "shootingGridBtn", "_" };
-            string[] coordTokens = control.Name.Split(delim, StringSplitOptions.RemoveEmptyEntries);
-
-            int asciiA = 65;
-            int xCoord = int.Parse(coordTokens[0]);
-            int yCoord = coordTokens[1][0] - asciiA;
-
-            return new Coordinate { x = xCoord, y = yCoord };
+            const int NUM_ROWS = 10;
+            const int NUM_COLUMNS = 10;
+            bool found = false;
+            Coordinate coord = new Coordinate();
+            for (int row = 0; row < NUM_ROWS && !found; row++)
+                for (int col = 0; col < NUM_COLUMNS && !found; col++)
+                    if (trackingGridLbls[row, col] == control)
+                    {
+                        found = true;
+                        coord.x = col;
+                        coord.y = row;
+                    }
+            return coord;
         }
 
         /*
-            The GetShipPlacementCoords method gets the coords of where the
+            The GetShipPlacementCoords method gets the coordinates of where the
             ship currently being setup is
         */
 
         private Coordinate[] GetShipPlacementCoords(Label origin)
         {
             // Coordinate of label mouse entered
-            Coordinate coordinate = GetCoordinate(origin);
+            Coordinate originCoord = GetCoordinate(origin);
 
             // Determine number of parts and/or tiles the ship occupies
             int numParts = 0;
@@ -68,27 +74,28 @@ namespace Battleship
                     break;
             }
 
-            Coordinate[] shipCoordinates = new Coordinate[numParts];
+            // Prepare array of ship's coordinates
+            Coordinate[] shipCoords = new Coordinate[numParts];
 
             // Get coordinates in the direction of current ShipDirection
-            for (int i = 0; i < shipCoordinates.Length; i++)
+            for (int i = 0; i < shipCoords.Length; i++)
                 switch (direction)
                 {
                     case ShipDirection.North:
-                        shipCoordinates[i] = new Coordinate { x = coordinate.x, y = coordinate.y - i };
+                        shipCoords[i] = new Coordinate { x = originCoord.x, y = originCoord.y - i };
                         break;
                     case ShipDirection.South:
-                        shipCoordinates[i] = new Coordinate { x = coordinate.x, y = coordinate.y + i };
+                        shipCoords[i] = new Coordinate { x = originCoord.x, y = originCoord.y + i };
                         break;
                     case ShipDirection.East:
-                        shipCoordinates[i] = new Coordinate { x = coordinate.x + i, y = coordinate.y };
+                        shipCoords[i] = new Coordinate { x = originCoord.x + i, y = originCoord.y };
                         break;
                     case ShipDirection.West:
-                        shipCoordinates[i] = new Coordinate { x = coordinate.x - i, y = coordinate.y };
+                        shipCoords[i] = new Coordinate { x = originCoord.x - i, y = originCoord.y };
                         break;
                 }
 
-            return shipCoordinates;
+            return shipCoords;
         }
         
         /*
@@ -99,23 +106,24 @@ namespace Battleship
         private void LoadGridTiles()
         {
             // Variables
-            string trackingGridName = "trackingGridTile",
+            string trackingGridName = "trackingGridLbl",
                    shootingGridName = "shootingGridBtn",
                    nameSuffix = "0_A";
 
-            char xLabel = '0',
-                 yLabel = 'A';
+            char xLbl = '0',
+                 yLbl = 'A';
 
             Point location = new Point(30, 41);
             Size size = new Size(25, 25);
             Color color = Color.CornflowerBlue;
-            GroupBox trackingGrid = player1BoardGroupBox;
+            GroupBox trackingGrid = trackingGridGroupBox;
             GroupBox shootingGrid = shootingGridGroupBox;
 
             // Create labels and buttons
             const int NUM_ROWS = 10;
             const int NUM_COLUMNS = 10;
-            tileLabels = new Label[NUM_ROWS, NUM_COLUMNS];
+            trackingGridLbls = new Label[NUM_ROWS, NUM_COLUMNS];
+            shootingGridBtns = new Button[NUM_ROWS, NUM_COLUMNS];
             for (int row = 0; row < NUM_ROWS; row++)
             {
                 for (int col = 0; col < NUM_COLUMNS; col++)
@@ -131,7 +139,7 @@ namespace Battleship
                     label.MouseEnter += TrackingGridLabel_MouseEnter;
                     label.MouseLeave += TrackingGridLabel_MouseLeave;
                     trackingGrid.Controls.Add(label);
-                    tileLabels[row, col] = label;
+                    trackingGridLbls[row, col] = label;
 
                     // Create button
                     Button button = new Button();
@@ -139,23 +147,23 @@ namespace Battleship
                     button.Size = size;
                     button.Name = shootingGridName + nameSuffix;
                     button.BackColor = color;
-                    button.Click += ShootingGridButton_Click;
                     shootingGrid.Controls.Add(button);
+                    shootingGridBtns[row, col] = button;
 
                     // To next xCoord
-                    xLabel++;
+                    xLbl++;
                     location.X += 24;
 
-                    nameSuffix = xLabel.ToString() + "_" + yLabel.ToString();
+                    nameSuffix = xLbl.ToString() + "_" + yLbl.ToString();
                 }
 
                 // To next yCoord
-                xLabel = '0';
-                yLabel++;
+                xLbl = '0';
+                yLbl++;
                 location.X = 30;
                 location.Y += 22;
 
-                nameSuffix = xLabel.ToString() + "_" + yLabel.ToString();
+                nameSuffix = xLbl.ToString() + "_" + yLbl.ToString();
             }
         }
 
@@ -168,7 +176,7 @@ namespace Battleship
             manager = new GameManager();
             LoadGridTiles();
 
-            commentLabel.Text = "Construct your " + manager.ShipSettingUp.ToString() + "!";
+            commentLbl.Text = "Construct your " + manager.ShipSettingUp.ToString() + "!";
             direction = ShipDirection.North;
             KeyPress += BattleFormSetup_KeyPress;
             KeyPreview = true;
@@ -180,10 +188,7 @@ namespace Battleship
 
         private void ShootingGridButton_Click(object sender, EventArgs e)
         {
-            if (!manager.IsSetupMode)
-            {
-                
-            }
+            
         }
 
         /*
@@ -193,31 +198,36 @@ namespace Battleship
         private void TrackingGridLabel_Click(object sender, EventArgs e)
         {
             // Place ship currently being setup in the selected location
-            Coordinate[] shipCoordinates = GetShipPlacementCoords(((Label)sender));
-            if (manager.PlayerBoard.IsShipPlacementOK(shipCoordinates))
+            Coordinate[] shipCoords = GetShipPlacementCoords(((Label)sender));
+            if (manager.Player1.Board.IsShipPlacementOK(shipCoords))
             {
-                manager.PlayerBoard.PlaceShip(manager.ShipSettingUp, shipCoordinates);
+                manager.Player1.Board.PlaceShip(manager.ShipSettingUp, shipCoords);
 
                 // Prepare to setup next ship, if possible
                 if (!(manager.ShipSettingUp == ShipType.PatrolBoat))
                 {
                     manager.ShipSettingUp++;
-                    commentLabel.Text = "Construct your " + manager.ShipSettingUp.ToString() + "!";
+                    commentLbl.Text = "Construct your " + manager.ShipSettingUp.ToString() + "!";
                 }
                 else
                 {
-                    manager.IsSetupMode = false;
-                    commentLabel.Text = "";
-
-                    // Remove appropriate handler from labels
-                    foreach (Label label in tileLabels)
+                    // Remove handlers from labels
+                    foreach (Label label in trackingGridLbls)
                     {
                         label.Click -= TrackingGridLabel_Click;
                         label.MouseEnter -= TrackingGridLabel_MouseEnter;
                         label.MouseLeave -= TrackingGridLabel_MouseLeave;
                     }
 
-                    manager.PopulateComputerBoard();
+                    // Add handler to buttons
+                    foreach (Button button in shootingGridBtns)
+                        button.Click += ShootingGridButton_Click;
+
+                    // Prepare battle phase
+                    manager.PrepareBattlePhase();
+
+                    // Inform ready
+                    commentLbl.Text = "Select a tile on your shooting grid!":
                 }
             }
         }
@@ -231,7 +241,7 @@ namespace Battleship
             // Exit
             DialogResult result = MessageBox.Show("Are you sure you want to quit?", "Quit", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
-                this.Close();
+                Close();
         }
 
         /*
@@ -241,18 +251,18 @@ namespace Battleship
         private void TrackingGridLabel_MouseEnter(object sender, EventArgs e)
         {
             // Get ship coords
-            Coordinate[] shipCoordinates = GetShipPlacementCoords((Label)sender);
+            Coordinate[] shipCoords = GetShipPlacementCoords((Label)sender);
 
             // Set color of labels appropriately
-            if (manager.PlayerBoard.IsShipPlacementOK(shipCoordinates))
-                foreach (Coordinate coord in shipCoordinates)
-                    tileLabels[coord.y, coord.x].BackColor = shipColors[(int)manager.ShipSettingUp];
+            if (manager.Player1.Board.IsShipPlacementOK(shipCoords))
+                foreach (Coordinate coord in shipCoords)
+                    trackingGridLbls[coord.y, coord.x].BackColor = shipColors[(int)manager.ShipSettingUp];
             else
-                foreach (Coordinate coord in shipCoordinates)
+                foreach (Coordinate coord in shipCoords)
                     if (coord.x >= 0 && coord.x <= 9 &&
                         coord.y >= 0 && coord.y <= 9)
                     {
-                        tileLabels[coord.y, coord.x].BackColor = Color.Red;
+                        trackingGridLbls[coord.y, coord.x].BackColor = Color.Red;
                     }
         }
 
@@ -263,17 +273,17 @@ namespace Battleship
         private void TrackingGridLabel_MouseLeave(object sender, EventArgs e)
         {
             // Reset color of unoccupied tiles
-            Coordinate[] unoccupiedCoords = manager.PlayerBoard.GetUnoccupiedCoords();
+            Coordinate[] unoccupiedCoords = manager.Player1.Board.GetUnoccupiedCoords();
             foreach (Coordinate coord in unoccupiedCoords)
-                tileLabels[coord.y, coord.x].BackColor = Color.CornflowerBlue;
+                trackingGridLbls[coord.y, coord.x].BackColor = Color.CornflowerBlue;
 
             // Reset color of occupied tiles
             for (ShipType type = ShipType.AircraftCarrier; type <= ShipType.PatrolBoat; type++)
-                if (manager.PlayerBoard.IsShipExisting(type))
+                if (manager.Player1.Board.IsShipExisting(type))
                 {
-                    Coordinate[] shipCoordinates = manager.PlayerBoard.Ships[(int)type].GetCoords();
-                    foreach (Coordinate coord in shipCoordinates)
-                        tileLabels[coord.y, coord.x].BackColor = shipColors[(int)type];
+                    Coordinate[] shipCoords = manager.Player1.Board.Ships[(int)type].GetCoords();
+                    foreach (Coordinate coord in shipCoords)
+                        trackingGridLbls[coord.y, coord.x].BackColor = shipColors[(int)type];
                 }
         }
 

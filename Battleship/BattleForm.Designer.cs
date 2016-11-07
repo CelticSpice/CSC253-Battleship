@@ -28,50 +28,48 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.player1BoardGroupBox = new System.Windows.Forms.GroupBox();
-            this.player1Column9Label = new System.Windows.Forms.Label();
-            this.player1RowJLabel = new System.Windows.Forms.Label();
-            this.player1RowILabel = new System.Windows.Forms.Label();
-            this.player1Column8Label = new System.Windows.Forms.Label();
-            this.player1RowHLabel = new System.Windows.Forms.Label();
-            this.player1RowGLabel = new System.Windows.Forms.Label();
-            this.player1Column7Label = new System.Windows.Forms.Label();
-            this.player1RowFLabel = new System.Windows.Forms.Label();
-            this.player1RowELabel = new System.Windows.Forms.Label();
-            this.player1Column6Label = new System.Windows.Forms.Label();
-            this.player1RowDLabel = new System.Windows.Forms.Label();
-            this.player1RowCLabel = new System.Windows.Forms.Label();
-            this.player1Column5Label = new System.Windows.Forms.Label();
-            this.player1RowBLabel = new System.Windows.Forms.Label();
-            this.player1RowALabel = new System.Windows.Forms.Label();
-            this.player1Column4Label = new System.Windows.Forms.Label();
-            this.player1Column3Label = new System.Windows.Forms.Label();
-            this.player1Column2Label = new System.Windows.Forms.Label();
-            this.player1Column1Label = new System.Windows.Forms.Label();
-            this.player1Column0Label = new System.Windows.Forms.Label();
-            this.player1BoardNullLabel = new System.Windows.Forms.Label();
+            this.trackingGridGroupBox = new System.Windows.Forms.GroupBox();
+            this.trackingGridCol9Lbl = new System.Windows.Forms.Label();
+            this.trackingGridRowJLbl = new System.Windows.Forms.Label();
+            this.trackingGridRowILbl = new System.Windows.Forms.Label();
+            this.trackingGridCol8Lbl = new System.Windows.Forms.Label();
+            this.trackingGridRowHLbl = new System.Windows.Forms.Label();
+            this.trackingGridRowGLbl = new System.Windows.Forms.Label();
+            this.trackingGridCol7Lbl = new System.Windows.Forms.Label();
+            this.trackingGridRowFLbl = new System.Windows.Forms.Label();
+            this.trackingGridRowELbl = new System.Windows.Forms.Label();
+            this.trackingGridCol6Lbl = new System.Windows.Forms.Label();
+            this.trackingGridRowDLbl = new System.Windows.Forms.Label();
+            this.trackingGridRowCLbl = new System.Windows.Forms.Label();
+            this.trackingGridCol5Lbl = new System.Windows.Forms.Label();
+            this.trackingGridRowBLbl = new System.Windows.Forms.Label();
+            this.trackingGridRowALbl = new System.Windows.Forms.Label();
+            this.trackingGridCol4Lbl = new System.Windows.Forms.Label();
+            this.trackingGridCol3Lbl = new System.Windows.Forms.Label();
+            this.trackingGridCol2Lbl = new System.Windows.Forms.Label();
+            this.trackingGridCol1Lbl = new System.Windows.Forms.Label();
+            this.trackingGridCol0Lbl = new System.Windows.Forms.Label();
             this.shootingGridGroupBox = new System.Windows.Forms.GroupBox();
-            this.player2RowJLabel = new System.Windows.Forms.Label();
-            this.player2RowILabel = new System.Windows.Forms.Label();
-            this.player2RowHLabel = new System.Windows.Forms.Label();
-            this.player2RowGLabel = new System.Windows.Forms.Label();
-            this.player2RowFLabel = new System.Windows.Forms.Label();
-            this.player2RowELabel = new System.Windows.Forms.Label();
-            this.player2RowDLabel = new System.Windows.Forms.Label();
-            this.player2RowCLabel = new System.Windows.Forms.Label();
-            this.player2RowBLabel = new System.Windows.Forms.Label();
-            this.player2RowALabel = new System.Windows.Forms.Label();
-            this.player2Column9Label = new System.Windows.Forms.Label();
-            this.player2Column8Label = new System.Windows.Forms.Label();
-            this.player2Column7Label = new System.Windows.Forms.Label();
-            this.player2Column6Label = new System.Windows.Forms.Label();
-            this.player2Column5Label = new System.Windows.Forms.Label();
-            this.player2Column4Label = new System.Windows.Forms.Label();
-            this.player2Column3Label = new System.Windows.Forms.Label();
-            this.player2Column2Label = new System.Windows.Forms.Label();
-            this.player2Column1Label = new System.Windows.Forms.Label();
-            this.player2Column0Label = new System.Windows.Forms.Label();
-            this.shootingGridNullLabel = new System.Windows.Forms.Label();
+            this.shootingGridRowJLbl = new System.Windows.Forms.Label();
+            this.shootingGridRowILbl = new System.Windows.Forms.Label();
+            this.shootingGridRowHLbl = new System.Windows.Forms.Label();
+            this.shootingGridRowGLbl = new System.Windows.Forms.Label();
+            this.shootingGridRowFLbl = new System.Windows.Forms.Label();
+            this.shootingGridRowELbl = new System.Windows.Forms.Label();
+            this.shootingGridRowDLbl = new System.Windows.Forms.Label();
+            this.shootingGridRowCLbl = new System.Windows.Forms.Label();
+            this.shootingGridRowBLbl = new System.Windows.Forms.Label();
+            this.shootingGridRowALbl = new System.Windows.Forms.Label();
+            this.shootingGridCol9Lbl = new System.Windows.Forms.Label();
+            this.shootingGridCol8Lbl = new System.Windows.Forms.Label();
+            this.shootingGridCol7Lbl = new System.Windows.Forms.Label();
+            this.shootingGridCol6Lbl = new System.Windows.Forms.Label();
+            this.shootingGridCol5Lbl = new System.Windows.Forms.Label();
+            this.shootingGridCol4Lbl = new System.Windows.Forms.Label();
+            this.shootingGridCol3Lbl = new System.Windows.Forms.Label();
+            this.shootingGridCol2Lbl = new System.Windows.Forms.Label();
+            this.shootingGridCol1Lbl = new System.Windows.Forms.Label();
+            this.shootingGridCol0Lbl = new System.Windows.Forms.Label();
             this.player1ShipStatusPanel = new System.Windows.Forms.Panel();
             this.player1PatrolBoatHealth2Label = new System.Windows.Forms.Label();
             this.player1PatrolBoatStatusLabel = new System.Windows.Forms.Label();
@@ -96,293 +94,283 @@
             this.player1BattleshipStatusLabel = new System.Windows.Forms.Label();
             this.player1AircraftCarrierStatusLabel = new System.Windows.Forms.Label();
             this.quitButton = new System.Windows.Forms.Button();
-            this.commentLabel = new System.Windows.Forms.Label();
-            this.player1BoardGroupBox.SuspendLayout();
+            this.commentLbl = new System.Windows.Forms.Label();
+            this.trackingGridGroupBox.SuspendLayout();
             this.shootingGridGroupBox.SuspendLayout();
             this.player1ShipStatusPanel.SuspendLayout();
             this.SuspendLayout();
             // 
-            // player1BoardGroupBox
+            // trackingGridGroupBox
             // 
-            this.player1BoardGroupBox.Controls.Add(this.player1Column9Label);
-            this.player1BoardGroupBox.Controls.Add(this.player1RowJLabel);
-            this.player1BoardGroupBox.Controls.Add(this.player1RowILabel);
-            this.player1BoardGroupBox.Controls.Add(this.player1Column8Label);
-            this.player1BoardGroupBox.Controls.Add(this.player1RowHLabel);
-            this.player1BoardGroupBox.Controls.Add(this.player1RowGLabel);
-            this.player1BoardGroupBox.Controls.Add(this.player1Column7Label);
-            this.player1BoardGroupBox.Controls.Add(this.player1RowFLabel);
-            this.player1BoardGroupBox.Controls.Add(this.player1RowELabel);
-            this.player1BoardGroupBox.Controls.Add(this.player1Column6Label);
-            this.player1BoardGroupBox.Controls.Add(this.player1RowDLabel);
-            this.player1BoardGroupBox.Controls.Add(this.player1RowCLabel);
-            this.player1BoardGroupBox.Controls.Add(this.player1Column5Label);
-            this.player1BoardGroupBox.Controls.Add(this.player1RowBLabel);
-            this.player1BoardGroupBox.Controls.Add(this.player1RowALabel);
-            this.player1BoardGroupBox.Controls.Add(this.player1Column4Label);
-            this.player1BoardGroupBox.Controls.Add(this.player1Column3Label);
-            this.player1BoardGroupBox.Controls.Add(this.player1Column2Label);
-            this.player1BoardGroupBox.Controls.Add(this.player1Column1Label);
-            this.player1BoardGroupBox.Controls.Add(this.player1Column0Label);
-            this.player1BoardGroupBox.Controls.Add(this.player1BoardNullLabel);
-            this.player1BoardGroupBox.Location = new System.Drawing.Point(12, 12);
-            this.player1BoardGroupBox.Name = "player1BoardGroupBox";
-            this.player1BoardGroupBox.Size = new System.Drawing.Size(280, 272);
-            this.player1BoardGroupBox.TabIndex = 0;
-            this.player1BoardGroupBox.TabStop = false;
-            this.player1BoardGroupBox.Text = "Tracking Grid";
+            this.trackingGridGroupBox.Controls.Add(this.trackingGridCol9Lbl);
+            this.trackingGridGroupBox.Controls.Add(this.trackingGridRowJLbl);
+            this.trackingGridGroupBox.Controls.Add(this.trackingGridRowILbl);
+            this.trackingGridGroupBox.Controls.Add(this.trackingGridCol8Lbl);
+            this.trackingGridGroupBox.Controls.Add(this.trackingGridRowHLbl);
+            this.trackingGridGroupBox.Controls.Add(this.trackingGridRowGLbl);
+            this.trackingGridGroupBox.Controls.Add(this.trackingGridCol7Lbl);
+            this.trackingGridGroupBox.Controls.Add(this.trackingGridRowFLbl);
+            this.trackingGridGroupBox.Controls.Add(this.trackingGridRowELbl);
+            this.trackingGridGroupBox.Controls.Add(this.trackingGridCol6Lbl);
+            this.trackingGridGroupBox.Controls.Add(this.trackingGridRowDLbl);
+            this.trackingGridGroupBox.Controls.Add(this.trackingGridRowCLbl);
+            this.trackingGridGroupBox.Controls.Add(this.trackingGridCol5Lbl);
+            this.trackingGridGroupBox.Controls.Add(this.trackingGridRowBLbl);
+            this.trackingGridGroupBox.Controls.Add(this.trackingGridRowALbl);
+            this.trackingGridGroupBox.Controls.Add(this.trackingGridCol4Lbl);
+            this.trackingGridGroupBox.Controls.Add(this.trackingGridCol3Lbl);
+            this.trackingGridGroupBox.Controls.Add(this.trackingGridCol2Lbl);
+            this.trackingGridGroupBox.Controls.Add(this.trackingGridCol1Lbl);
+            this.trackingGridGroupBox.Controls.Add(this.trackingGridCol0Lbl);
+            this.trackingGridGroupBox.Location = new System.Drawing.Point(12, 12);
+            this.trackingGridGroupBox.Name = "trackingGridGroupBox";
+            this.trackingGridGroupBox.Size = new System.Drawing.Size(280, 272);
+            this.trackingGridGroupBox.TabIndex = 0;
+            this.trackingGridGroupBox.TabStop = false;
+            this.trackingGridGroupBox.Text = "Tracking Grid";
             // 
-            // player1Column9Label
+            // trackingGridCol9Lbl
             // 
-            this.player1Column9Label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player1Column9Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player1Column9Label.Location = new System.Drawing.Point(246, 19);
-            this.player1Column9Label.Name = "player1Column9Label";
-            this.player1Column9Label.Size = new System.Drawing.Size(25, 25);
-            this.player1Column9Label.TabIndex = 150;
-            this.player1Column9Label.Text = "9";
-            this.player1Column9Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.trackingGridCol9Lbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.trackingGridCol9Lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.trackingGridCol9Lbl.Location = new System.Drawing.Point(246, 19);
+            this.trackingGridCol9Lbl.Name = "trackingGridCol9Lbl";
+            this.trackingGridCol9Lbl.Size = new System.Drawing.Size(25, 25);
+            this.trackingGridCol9Lbl.TabIndex = 150;
+            this.trackingGridCol9Lbl.Text = "9";
+            this.trackingGridCol9Lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player1RowJLabel
+            // trackingGridRowJLbl
             // 
-            this.player1RowJLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player1RowJLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player1RowJLabel.Location = new System.Drawing.Point(6, 239);
-            this.player1RowJLabel.Name = "player1RowJLabel";
-            this.player1RowJLabel.Size = new System.Drawing.Size(25, 25);
-            this.player1RowJLabel.TabIndex = 156;
-            this.player1RowJLabel.Text = "J";
-            this.player1RowJLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.trackingGridRowJLbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.trackingGridRowJLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.trackingGridRowJLbl.Location = new System.Drawing.Point(6, 239);
+            this.trackingGridRowJLbl.Name = "trackingGridRowJLbl";
+            this.trackingGridRowJLbl.Size = new System.Drawing.Size(25, 25);
+            this.trackingGridRowJLbl.TabIndex = 156;
+            this.trackingGridRowJLbl.Text = "J";
+            this.trackingGridRowJLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player1RowILabel
+            // trackingGridRowILbl
             // 
-            this.player1RowILabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player1RowILabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player1RowILabel.Location = new System.Drawing.Point(6, 217);
-            this.player1RowILabel.Name = "player1RowILabel";
-            this.player1RowILabel.Size = new System.Drawing.Size(25, 25);
-            this.player1RowILabel.TabIndex = 155;
-            this.player1RowILabel.Text = "I";
-            this.player1RowILabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.trackingGridRowILbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.trackingGridRowILbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.trackingGridRowILbl.Location = new System.Drawing.Point(6, 217);
+            this.trackingGridRowILbl.Name = "trackingGridRowILbl";
+            this.trackingGridRowILbl.Size = new System.Drawing.Size(25, 25);
+            this.trackingGridRowILbl.TabIndex = 155;
+            this.trackingGridRowILbl.Text = "I";
+            this.trackingGridRowILbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player1Column8Label
+            // trackingGridCol8Lbl
             // 
-            this.player1Column8Label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player1Column8Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player1Column8Label.Location = new System.Drawing.Point(222, 19);
-            this.player1Column8Label.Name = "player1Column8Label";
-            this.player1Column8Label.Size = new System.Drawing.Size(25, 25);
-            this.player1Column8Label.TabIndex = 149;
-            this.player1Column8Label.Text = "8";
-            this.player1Column8Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.trackingGridCol8Lbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.trackingGridCol8Lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.trackingGridCol8Lbl.Location = new System.Drawing.Point(222, 19);
+            this.trackingGridCol8Lbl.Name = "trackingGridCol8Lbl";
+            this.trackingGridCol8Lbl.Size = new System.Drawing.Size(25, 25);
+            this.trackingGridCol8Lbl.TabIndex = 149;
+            this.trackingGridCol8Lbl.Text = "8";
+            this.trackingGridCol8Lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player1RowHLabel
+            // trackingGridRowHLbl
             // 
-            this.player1RowHLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player1RowHLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player1RowHLabel.Location = new System.Drawing.Point(6, 195);
-            this.player1RowHLabel.Name = "player1RowHLabel";
-            this.player1RowHLabel.Size = new System.Drawing.Size(25, 25);
-            this.player1RowHLabel.TabIndex = 154;
-            this.player1RowHLabel.Text = "H";
-            this.player1RowHLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.trackingGridRowHLbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.trackingGridRowHLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.trackingGridRowHLbl.Location = new System.Drawing.Point(6, 195);
+            this.trackingGridRowHLbl.Name = "trackingGridRowHLbl";
+            this.trackingGridRowHLbl.Size = new System.Drawing.Size(25, 25);
+            this.trackingGridRowHLbl.TabIndex = 154;
+            this.trackingGridRowHLbl.Text = "H";
+            this.trackingGridRowHLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player1RowGLabel
+            // trackingGridRowGLbl
             // 
-            this.player1RowGLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player1RowGLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player1RowGLabel.Location = new System.Drawing.Point(6, 173);
-            this.player1RowGLabel.Name = "player1RowGLabel";
-            this.player1RowGLabel.Size = new System.Drawing.Size(25, 25);
-            this.player1RowGLabel.TabIndex = 153;
-            this.player1RowGLabel.Text = "G";
-            this.player1RowGLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.trackingGridRowGLbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.trackingGridRowGLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.trackingGridRowGLbl.Location = new System.Drawing.Point(6, 173);
+            this.trackingGridRowGLbl.Name = "trackingGridRowGLbl";
+            this.trackingGridRowGLbl.Size = new System.Drawing.Size(25, 25);
+            this.trackingGridRowGLbl.TabIndex = 153;
+            this.trackingGridRowGLbl.Text = "G";
+            this.trackingGridRowGLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player1Column7Label
+            // trackingGridCol7Lbl
             // 
-            this.player1Column7Label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player1Column7Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player1Column7Label.Location = new System.Drawing.Point(198, 19);
-            this.player1Column7Label.Name = "player1Column7Label";
-            this.player1Column7Label.Size = new System.Drawing.Size(25, 25);
-            this.player1Column7Label.TabIndex = 148;
-            this.player1Column7Label.Text = "7";
-            this.player1Column7Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.trackingGridCol7Lbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.trackingGridCol7Lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.trackingGridCol7Lbl.Location = new System.Drawing.Point(198, 19);
+            this.trackingGridCol7Lbl.Name = "trackingGridCol7Lbl";
+            this.trackingGridCol7Lbl.Size = new System.Drawing.Size(25, 25);
+            this.trackingGridCol7Lbl.TabIndex = 148;
+            this.trackingGridCol7Lbl.Text = "7";
+            this.trackingGridCol7Lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player1RowFLabel
+            // trackingGridRowFLbl
             // 
-            this.player1RowFLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player1RowFLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player1RowFLabel.Location = new System.Drawing.Point(6, 151);
-            this.player1RowFLabel.Name = "player1RowFLabel";
-            this.player1RowFLabel.Size = new System.Drawing.Size(25, 25);
-            this.player1RowFLabel.TabIndex = 147;
-            this.player1RowFLabel.Text = "F";
-            this.player1RowFLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.trackingGridRowFLbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.trackingGridRowFLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.trackingGridRowFLbl.Location = new System.Drawing.Point(6, 151);
+            this.trackingGridRowFLbl.Name = "trackingGridRowFLbl";
+            this.trackingGridRowFLbl.Size = new System.Drawing.Size(25, 25);
+            this.trackingGridRowFLbl.TabIndex = 147;
+            this.trackingGridRowFLbl.Text = "F";
+            this.trackingGridRowFLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player1RowELabel
+            // trackingGridRowELbl
             // 
-            this.player1RowELabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player1RowELabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player1RowELabel.Location = new System.Drawing.Point(6, 129);
-            this.player1RowELabel.Name = "player1RowELabel";
-            this.player1RowELabel.Size = new System.Drawing.Size(25, 25);
-            this.player1RowELabel.TabIndex = 152;
-            this.player1RowELabel.Text = "E";
-            this.player1RowELabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.trackingGridRowELbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.trackingGridRowELbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.trackingGridRowELbl.Location = new System.Drawing.Point(6, 129);
+            this.trackingGridRowELbl.Name = "trackingGridRowELbl";
+            this.trackingGridRowELbl.Size = new System.Drawing.Size(25, 25);
+            this.trackingGridRowELbl.TabIndex = 152;
+            this.trackingGridRowELbl.Text = "E";
+            this.trackingGridRowELbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player1Column6Label
+            // trackingGridCol6Lbl
             // 
-            this.player1Column6Label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player1Column6Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player1Column6Label.Location = new System.Drawing.Point(174, 19);
-            this.player1Column6Label.Name = "player1Column6Label";
-            this.player1Column6Label.Size = new System.Drawing.Size(25, 25);
-            this.player1Column6Label.TabIndex = 147;
-            this.player1Column6Label.Text = "6";
-            this.player1Column6Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.trackingGridCol6Lbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.trackingGridCol6Lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.trackingGridCol6Lbl.Location = new System.Drawing.Point(174, 19);
+            this.trackingGridCol6Lbl.Name = "trackingGridCol6Lbl";
+            this.trackingGridCol6Lbl.Size = new System.Drawing.Size(25, 25);
+            this.trackingGridCol6Lbl.TabIndex = 147;
+            this.trackingGridCol6Lbl.Text = "6";
+            this.trackingGridCol6Lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player1RowDLabel
+            // trackingGridRowDLbl
             // 
-            this.player1RowDLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player1RowDLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player1RowDLabel.Location = new System.Drawing.Point(6, 107);
-            this.player1RowDLabel.Name = "player1RowDLabel";
-            this.player1RowDLabel.Size = new System.Drawing.Size(25, 25);
-            this.player1RowDLabel.TabIndex = 151;
-            this.player1RowDLabel.Text = "D";
-            this.player1RowDLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.trackingGridRowDLbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.trackingGridRowDLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.trackingGridRowDLbl.Location = new System.Drawing.Point(6, 107);
+            this.trackingGridRowDLbl.Name = "trackingGridRowDLbl";
+            this.trackingGridRowDLbl.Size = new System.Drawing.Size(25, 25);
+            this.trackingGridRowDLbl.TabIndex = 151;
+            this.trackingGridRowDLbl.Text = "D";
+            this.trackingGridRowDLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player1RowCLabel
+            // trackingGridRowCLbl
             // 
-            this.player1RowCLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player1RowCLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player1RowCLabel.Location = new System.Drawing.Point(6, 85);
-            this.player1RowCLabel.Name = "player1RowCLabel";
-            this.player1RowCLabel.Size = new System.Drawing.Size(25, 25);
-            this.player1RowCLabel.TabIndex = 148;
-            this.player1RowCLabel.Text = "C";
-            this.player1RowCLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.trackingGridRowCLbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.trackingGridRowCLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.trackingGridRowCLbl.Location = new System.Drawing.Point(6, 85);
+            this.trackingGridRowCLbl.Name = "trackingGridRowCLbl";
+            this.trackingGridRowCLbl.Size = new System.Drawing.Size(25, 25);
+            this.trackingGridRowCLbl.TabIndex = 148;
+            this.trackingGridRowCLbl.Text = "C";
+            this.trackingGridRowCLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player1Column5Label
+            // trackingGridCol5Lbl
             // 
-            this.player1Column5Label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player1Column5Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player1Column5Label.Location = new System.Drawing.Point(150, 19);
-            this.player1Column5Label.Name = "player1Column5Label";
-            this.player1Column5Label.Size = new System.Drawing.Size(25, 25);
-            this.player1Column5Label.TabIndex = 146;
-            this.player1Column5Label.Text = "5";
-            this.player1Column5Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.trackingGridCol5Lbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.trackingGridCol5Lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.trackingGridCol5Lbl.Location = new System.Drawing.Point(150, 19);
+            this.trackingGridCol5Lbl.Name = "trackingGridCol5Lbl";
+            this.trackingGridCol5Lbl.Size = new System.Drawing.Size(25, 25);
+            this.trackingGridCol5Lbl.TabIndex = 146;
+            this.trackingGridCol5Lbl.Text = "5";
+            this.trackingGridCol5Lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player1RowBLabel
+            // trackingGridRowBLbl
             // 
-            this.player1RowBLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player1RowBLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player1RowBLabel.Location = new System.Drawing.Point(6, 63);
-            this.player1RowBLabel.Name = "player1RowBLabel";
-            this.player1RowBLabel.Size = new System.Drawing.Size(25, 25);
-            this.player1RowBLabel.TabIndex = 149;
-            this.player1RowBLabel.Text = "B";
-            this.player1RowBLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.trackingGridRowBLbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.trackingGridRowBLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.trackingGridRowBLbl.Location = new System.Drawing.Point(6, 63);
+            this.trackingGridRowBLbl.Name = "trackingGridRowBLbl";
+            this.trackingGridRowBLbl.Size = new System.Drawing.Size(25, 25);
+            this.trackingGridRowBLbl.TabIndex = 149;
+            this.trackingGridRowBLbl.Text = "B";
+            this.trackingGridRowBLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player1RowALabel
+            // trackingGridRowALbl
             // 
-            this.player1RowALabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player1RowALabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player1RowALabel.Location = new System.Drawing.Point(6, 41);
-            this.player1RowALabel.Name = "player1RowALabel";
-            this.player1RowALabel.Size = new System.Drawing.Size(25, 25);
-            this.player1RowALabel.TabIndex = 150;
-            this.player1RowALabel.Text = "A";
-            this.player1RowALabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.trackingGridRowALbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.trackingGridRowALbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.trackingGridRowALbl.Location = new System.Drawing.Point(6, 41);
+            this.trackingGridRowALbl.Name = "trackingGridRowALbl";
+            this.trackingGridRowALbl.Size = new System.Drawing.Size(25, 25);
+            this.trackingGridRowALbl.TabIndex = 150;
+            this.trackingGridRowALbl.Text = "A";
+            this.trackingGridRowALbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player1Column4Label
+            // trackingGridCol4Lbl
             // 
-            this.player1Column4Label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player1Column4Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player1Column4Label.Location = new System.Drawing.Point(126, 19);
-            this.player1Column4Label.Name = "player1Column4Label";
-            this.player1Column4Label.Size = new System.Drawing.Size(25, 25);
-            this.player1Column4Label.TabIndex = 145;
-            this.player1Column4Label.Text = "4";
-            this.player1Column4Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.trackingGridCol4Lbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.trackingGridCol4Lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.trackingGridCol4Lbl.Location = new System.Drawing.Point(126, 19);
+            this.trackingGridCol4Lbl.Name = "trackingGridCol4Lbl";
+            this.trackingGridCol4Lbl.Size = new System.Drawing.Size(25, 25);
+            this.trackingGridCol4Lbl.TabIndex = 145;
+            this.trackingGridCol4Lbl.Text = "4";
+            this.trackingGridCol4Lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player1Column3Label
+            // trackingGridCol3Lbl
             // 
-            this.player1Column3Label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player1Column3Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player1Column3Label.Location = new System.Drawing.Point(102, 19);
-            this.player1Column3Label.Name = "player1Column3Label";
-            this.player1Column3Label.Size = new System.Drawing.Size(25, 25);
-            this.player1Column3Label.TabIndex = 144;
-            this.player1Column3Label.Text = "3";
-            this.player1Column3Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.trackingGridCol3Lbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.trackingGridCol3Lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.trackingGridCol3Lbl.Location = new System.Drawing.Point(102, 19);
+            this.trackingGridCol3Lbl.Name = "trackingGridCol3Lbl";
+            this.trackingGridCol3Lbl.Size = new System.Drawing.Size(25, 25);
+            this.trackingGridCol3Lbl.TabIndex = 144;
+            this.trackingGridCol3Lbl.Text = "3";
+            this.trackingGridCol3Lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player1Column2Label
+            // trackingGridCol2Lbl
             // 
-            this.player1Column2Label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player1Column2Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player1Column2Label.Location = new System.Drawing.Point(78, 19);
-            this.player1Column2Label.Name = "player1Column2Label";
-            this.player1Column2Label.Size = new System.Drawing.Size(25, 25);
-            this.player1Column2Label.TabIndex = 141;
-            this.player1Column2Label.Text = "2";
-            this.player1Column2Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.trackingGridCol2Lbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.trackingGridCol2Lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.trackingGridCol2Lbl.Location = new System.Drawing.Point(78, 19);
+            this.trackingGridCol2Lbl.Name = "trackingGridCol2Lbl";
+            this.trackingGridCol2Lbl.Size = new System.Drawing.Size(25, 25);
+            this.trackingGridCol2Lbl.TabIndex = 141;
+            this.trackingGridCol2Lbl.Text = "2";
+            this.trackingGridCol2Lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player1Column1Label
+            // trackingGridCol1Lbl
             // 
-            this.player1Column1Label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player1Column1Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player1Column1Label.Location = new System.Drawing.Point(54, 19);
-            this.player1Column1Label.Name = "player1Column1Label";
-            this.player1Column1Label.Size = new System.Drawing.Size(25, 25);
-            this.player1Column1Label.TabIndex = 142;
-            this.player1Column1Label.Text = "1";
-            this.player1Column1Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.trackingGridCol1Lbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.trackingGridCol1Lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.trackingGridCol1Lbl.Location = new System.Drawing.Point(54, 19);
+            this.trackingGridCol1Lbl.Name = "trackingGridCol1Lbl";
+            this.trackingGridCol1Lbl.Size = new System.Drawing.Size(25, 25);
+            this.trackingGridCol1Lbl.TabIndex = 142;
+            this.trackingGridCol1Lbl.Text = "1";
+            this.trackingGridCol1Lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player1Column0Label
+            // trackingGridCol0Lbl
             // 
-            this.player1Column0Label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player1Column0Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player1Column0Label.Location = new System.Drawing.Point(30, 19);
-            this.player1Column0Label.Name = "player1Column0Label";
-            this.player1Column0Label.Size = new System.Drawing.Size(25, 25);
-            this.player1Column0Label.TabIndex = 143;
-            this.player1Column0Label.Text = "0";
-            this.player1Column0Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // player1BoardNullLabel
-            // 
-            this.player1BoardNullLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player1BoardNullLabel.Location = new System.Drawing.Point(6, 19);
-            this.player1BoardNullLabel.Name = "player1BoardNullLabel";
-            this.player1BoardNullLabel.Size = new System.Drawing.Size(25, 25);
-            this.player1BoardNullLabel.TabIndex = 140;
+            this.trackingGridCol0Lbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.trackingGridCol0Lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.trackingGridCol0Lbl.Location = new System.Drawing.Point(30, 19);
+            this.trackingGridCol0Lbl.Name = "trackingGridCol0Lbl";
+            this.trackingGridCol0Lbl.Size = new System.Drawing.Size(25, 25);
+            this.trackingGridCol0Lbl.TabIndex = 143;
+            this.trackingGridCol0Lbl.Text = "0";
+            this.trackingGridCol0Lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // shootingGridGroupBox
             // 
-            this.shootingGridGroupBox.Controls.Add(this.player2RowJLabel);
-            this.shootingGridGroupBox.Controls.Add(this.player2RowILabel);
-            this.shootingGridGroupBox.Controls.Add(this.player2RowHLabel);
-            this.shootingGridGroupBox.Controls.Add(this.player2RowGLabel);
-            this.shootingGridGroupBox.Controls.Add(this.player2RowFLabel);
-            this.shootingGridGroupBox.Controls.Add(this.player2RowELabel);
-            this.shootingGridGroupBox.Controls.Add(this.player2RowDLabel);
-            this.shootingGridGroupBox.Controls.Add(this.player2RowCLabel);
-            this.shootingGridGroupBox.Controls.Add(this.player2RowBLabel);
-            this.shootingGridGroupBox.Controls.Add(this.player2RowALabel);
-            this.shootingGridGroupBox.Controls.Add(this.player2Column9Label);
-            this.shootingGridGroupBox.Controls.Add(this.player2Column8Label);
-            this.shootingGridGroupBox.Controls.Add(this.player2Column7Label);
-            this.shootingGridGroupBox.Controls.Add(this.player2Column6Label);
-            this.shootingGridGroupBox.Controls.Add(this.player2Column5Label);
-            this.shootingGridGroupBox.Controls.Add(this.player2Column4Label);
-            this.shootingGridGroupBox.Controls.Add(this.player2Column3Label);
-            this.shootingGridGroupBox.Controls.Add(this.player2Column2Label);
-            this.shootingGridGroupBox.Controls.Add(this.player2Column1Label);
-            this.shootingGridGroupBox.Controls.Add(this.player2Column0Label);
-            this.shootingGridGroupBox.Controls.Add(this.shootingGridNullLabel);
+            this.shootingGridGroupBox.Controls.Add(this.shootingGridRowJLbl);
+            this.shootingGridGroupBox.Controls.Add(this.shootingGridRowILbl);
+            this.shootingGridGroupBox.Controls.Add(this.shootingGridRowHLbl);
+            this.shootingGridGroupBox.Controls.Add(this.shootingGridRowGLbl);
+            this.shootingGridGroupBox.Controls.Add(this.shootingGridRowFLbl);
+            this.shootingGridGroupBox.Controls.Add(this.shootingGridRowELbl);
+            this.shootingGridGroupBox.Controls.Add(this.shootingGridRowDLbl);
+            this.shootingGridGroupBox.Controls.Add(this.shootingGridRowCLbl);
+            this.shootingGridGroupBox.Controls.Add(this.shootingGridRowBLbl);
+            this.shootingGridGroupBox.Controls.Add(this.shootingGridRowALbl);
+            this.shootingGridGroupBox.Controls.Add(this.shootingGridCol9Lbl);
+            this.shootingGridGroupBox.Controls.Add(this.shootingGridCol8Lbl);
+            this.shootingGridGroupBox.Controls.Add(this.shootingGridCol7Lbl);
+            this.shootingGridGroupBox.Controls.Add(this.shootingGridCol6Lbl);
+            this.shootingGridGroupBox.Controls.Add(this.shootingGridCol5Lbl);
+            this.shootingGridGroupBox.Controls.Add(this.shootingGridCol4Lbl);
+            this.shootingGridGroupBox.Controls.Add(this.shootingGridCol3Lbl);
+            this.shootingGridGroupBox.Controls.Add(this.shootingGridCol2Lbl);
+            this.shootingGridGroupBox.Controls.Add(this.shootingGridCol1Lbl);
+            this.shootingGridGroupBox.Controls.Add(this.shootingGridCol0Lbl);
             this.shootingGridGroupBox.Location = new System.Drawing.Point(492, 12);
             this.shootingGridGroupBox.Name = "shootingGridGroupBox";
             this.shootingGridGroupBox.Size = new System.Drawing.Size(280, 272);
@@ -390,233 +378,225 @@
             this.shootingGridGroupBox.TabStop = false;
             this.shootingGridGroupBox.Text = "Shooting Grid";
             // 
-            // player2RowJLabel
+            // shootingGridRowJLbl
             // 
-            this.player2RowJLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player2RowJLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player2RowJLabel.Location = new System.Drawing.Point(6, 239);
-            this.player2RowJLabel.Name = "player2RowJLabel";
-            this.player2RowJLabel.Size = new System.Drawing.Size(25, 25);
-            this.player2RowJLabel.TabIndex = 145;
-            this.player2RowJLabel.Text = "J";
-            this.player2RowJLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.shootingGridRowJLbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.shootingGridRowJLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shootingGridRowJLbl.Location = new System.Drawing.Point(6, 239);
+            this.shootingGridRowJLbl.Name = "shootingGridRowJLbl";
+            this.shootingGridRowJLbl.Size = new System.Drawing.Size(25, 25);
+            this.shootingGridRowJLbl.TabIndex = 145;
+            this.shootingGridRowJLbl.Text = "J";
+            this.shootingGridRowJLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player2RowILabel
+            // shootingGridRowILbl
             // 
-            this.player2RowILabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player2RowILabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player2RowILabel.Location = new System.Drawing.Point(6, 217);
-            this.player2RowILabel.Name = "player2RowILabel";
-            this.player2RowILabel.Size = new System.Drawing.Size(25, 25);
-            this.player2RowILabel.TabIndex = 144;
-            this.player2RowILabel.Text = "I";
-            this.player2RowILabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.shootingGridRowILbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.shootingGridRowILbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shootingGridRowILbl.Location = new System.Drawing.Point(6, 217);
+            this.shootingGridRowILbl.Name = "shootingGridRowILbl";
+            this.shootingGridRowILbl.Size = new System.Drawing.Size(25, 25);
+            this.shootingGridRowILbl.TabIndex = 144;
+            this.shootingGridRowILbl.Text = "I";
+            this.shootingGridRowILbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player2RowHLabel
+            // shootingGridRowHLbl
             // 
-            this.player2RowHLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player2RowHLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player2RowHLabel.Location = new System.Drawing.Point(6, 195);
-            this.player2RowHLabel.Name = "player2RowHLabel";
-            this.player2RowHLabel.Size = new System.Drawing.Size(25, 25);
-            this.player2RowHLabel.TabIndex = 143;
-            this.player2RowHLabel.Text = "H";
-            this.player2RowHLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.shootingGridRowHLbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.shootingGridRowHLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shootingGridRowHLbl.Location = new System.Drawing.Point(6, 195);
+            this.shootingGridRowHLbl.Name = "shootingGridRowHLbl";
+            this.shootingGridRowHLbl.Size = new System.Drawing.Size(25, 25);
+            this.shootingGridRowHLbl.TabIndex = 143;
+            this.shootingGridRowHLbl.Text = "H";
+            this.shootingGridRowHLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player2RowGLabel
+            // shootingGridRowGLbl
             // 
-            this.player2RowGLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player2RowGLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player2RowGLabel.Location = new System.Drawing.Point(6, 173);
-            this.player2RowGLabel.Name = "player2RowGLabel";
-            this.player2RowGLabel.Size = new System.Drawing.Size(25, 25);
-            this.player2RowGLabel.TabIndex = 142;
-            this.player2RowGLabel.Text = "G";
-            this.player2RowGLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.shootingGridRowGLbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.shootingGridRowGLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shootingGridRowGLbl.Location = new System.Drawing.Point(6, 173);
+            this.shootingGridRowGLbl.Name = "shootingGridRowGLbl";
+            this.shootingGridRowGLbl.Size = new System.Drawing.Size(25, 25);
+            this.shootingGridRowGLbl.TabIndex = 142;
+            this.shootingGridRowGLbl.Text = "G";
+            this.shootingGridRowGLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player2RowFLabel
+            // shootingGridRowFLbl
             // 
-            this.player2RowFLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player2RowFLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player2RowFLabel.Location = new System.Drawing.Point(6, 151);
-            this.player2RowFLabel.Name = "player2RowFLabel";
-            this.player2RowFLabel.Size = new System.Drawing.Size(25, 25);
-            this.player2RowFLabel.TabIndex = 3;
-            this.player2RowFLabel.Text = "F";
-            this.player2RowFLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.shootingGridRowFLbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.shootingGridRowFLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shootingGridRowFLbl.Location = new System.Drawing.Point(6, 151);
+            this.shootingGridRowFLbl.Name = "shootingGridRowFLbl";
+            this.shootingGridRowFLbl.Size = new System.Drawing.Size(25, 25);
+            this.shootingGridRowFLbl.TabIndex = 3;
+            this.shootingGridRowFLbl.Text = "F";
+            this.shootingGridRowFLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player2RowELabel
+            // shootingGridRowELbl
             // 
-            this.player2RowELabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player2RowELabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player2RowELabel.Location = new System.Drawing.Point(6, 129);
-            this.player2RowELabel.Name = "player2RowELabel";
-            this.player2RowELabel.Size = new System.Drawing.Size(25, 25);
-            this.player2RowELabel.TabIndex = 141;
-            this.player2RowELabel.Text = "E";
-            this.player2RowELabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.shootingGridRowELbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.shootingGridRowELbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shootingGridRowELbl.Location = new System.Drawing.Point(6, 129);
+            this.shootingGridRowELbl.Name = "shootingGridRowELbl";
+            this.shootingGridRowELbl.Size = new System.Drawing.Size(25, 25);
+            this.shootingGridRowELbl.TabIndex = 141;
+            this.shootingGridRowELbl.Text = "E";
+            this.shootingGridRowELbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player2RowDLabel
+            // shootingGridRowDLbl
             // 
-            this.player2RowDLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player2RowDLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player2RowDLabel.Location = new System.Drawing.Point(6, 107);
-            this.player2RowDLabel.Name = "player2RowDLabel";
-            this.player2RowDLabel.Size = new System.Drawing.Size(25, 25);
-            this.player2RowDLabel.TabIndex = 140;
-            this.player2RowDLabel.Text = "D";
-            this.player2RowDLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.shootingGridRowDLbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.shootingGridRowDLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shootingGridRowDLbl.Location = new System.Drawing.Point(6, 107);
+            this.shootingGridRowDLbl.Name = "shootingGridRowDLbl";
+            this.shootingGridRowDLbl.Size = new System.Drawing.Size(25, 25);
+            this.shootingGridRowDLbl.TabIndex = 140;
+            this.shootingGridRowDLbl.Text = "D";
+            this.shootingGridRowDLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player2RowCLabel
+            // shootingGridRowCLbl
             // 
-            this.player2RowCLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player2RowCLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player2RowCLabel.Location = new System.Drawing.Point(6, 85);
-            this.player2RowCLabel.Name = "player2RowCLabel";
-            this.player2RowCLabel.Size = new System.Drawing.Size(25, 25);
-            this.player2RowCLabel.TabIndex = 3;
-            this.player2RowCLabel.Text = "C";
-            this.player2RowCLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.shootingGridRowCLbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.shootingGridRowCLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shootingGridRowCLbl.Location = new System.Drawing.Point(6, 85);
+            this.shootingGridRowCLbl.Name = "shootingGridRowCLbl";
+            this.shootingGridRowCLbl.Size = new System.Drawing.Size(25, 25);
+            this.shootingGridRowCLbl.TabIndex = 3;
+            this.shootingGridRowCLbl.Text = "C";
+            this.shootingGridRowCLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player2RowBLabel
+            // shootingGridRowBLbl
             // 
-            this.player2RowBLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player2RowBLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player2RowBLabel.Location = new System.Drawing.Point(6, 63);
-            this.player2RowBLabel.Name = "player2RowBLabel";
-            this.player2RowBLabel.Size = new System.Drawing.Size(25, 25);
-            this.player2RowBLabel.TabIndex = 3;
-            this.player2RowBLabel.Text = "B";
-            this.player2RowBLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.shootingGridRowBLbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.shootingGridRowBLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shootingGridRowBLbl.Location = new System.Drawing.Point(6, 63);
+            this.shootingGridRowBLbl.Name = "shootingGridRowBLbl";
+            this.shootingGridRowBLbl.Size = new System.Drawing.Size(25, 25);
+            this.shootingGridRowBLbl.TabIndex = 3;
+            this.shootingGridRowBLbl.Text = "B";
+            this.shootingGridRowBLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player2RowALabel
+            // shootingGridRowALbl
             // 
-            this.player2RowALabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player2RowALabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player2RowALabel.Location = new System.Drawing.Point(6, 41);
-            this.player2RowALabel.Name = "player2RowALabel";
-            this.player2RowALabel.Size = new System.Drawing.Size(25, 25);
-            this.player2RowALabel.TabIndex = 3;
-            this.player2RowALabel.Text = "A";
-            this.player2RowALabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.shootingGridRowALbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.shootingGridRowALbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shootingGridRowALbl.Location = new System.Drawing.Point(6, 41);
+            this.shootingGridRowALbl.Name = "shootingGridRowALbl";
+            this.shootingGridRowALbl.Size = new System.Drawing.Size(25, 25);
+            this.shootingGridRowALbl.TabIndex = 3;
+            this.shootingGridRowALbl.Text = "A";
+            this.shootingGridRowALbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player2Column9Label
+            // shootingGridCol9Lbl
             // 
-            this.player2Column9Label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player2Column9Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player2Column9Label.Location = new System.Drawing.Point(246, 19);
-            this.player2Column9Label.Name = "player2Column9Label";
-            this.player2Column9Label.Size = new System.Drawing.Size(25, 25);
-            this.player2Column9Label.TabIndex = 139;
-            this.player2Column9Label.Text = "9";
-            this.player2Column9Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.shootingGridCol9Lbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.shootingGridCol9Lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shootingGridCol9Lbl.Location = new System.Drawing.Point(246, 19);
+            this.shootingGridCol9Lbl.Name = "shootingGridCol9Lbl";
+            this.shootingGridCol9Lbl.Size = new System.Drawing.Size(25, 25);
+            this.shootingGridCol9Lbl.TabIndex = 139;
+            this.shootingGridCol9Lbl.Text = "9";
+            this.shootingGridCol9Lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player2Column8Label
+            // shootingGridCol8Lbl
             // 
-            this.player2Column8Label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player2Column8Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player2Column8Label.Location = new System.Drawing.Point(222, 19);
-            this.player2Column8Label.Name = "player2Column8Label";
-            this.player2Column8Label.Size = new System.Drawing.Size(25, 25);
-            this.player2Column8Label.TabIndex = 138;
-            this.player2Column8Label.Text = "8";
-            this.player2Column8Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.shootingGridCol8Lbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.shootingGridCol8Lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shootingGridCol8Lbl.Location = new System.Drawing.Point(222, 19);
+            this.shootingGridCol8Lbl.Name = "shootingGridCol8Lbl";
+            this.shootingGridCol8Lbl.Size = new System.Drawing.Size(25, 25);
+            this.shootingGridCol8Lbl.TabIndex = 138;
+            this.shootingGridCol8Lbl.Text = "8";
+            this.shootingGridCol8Lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player2Column7Label
+            // shootingGridCol7Lbl
             // 
-            this.player2Column7Label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player2Column7Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player2Column7Label.Location = new System.Drawing.Point(198, 19);
-            this.player2Column7Label.Name = "player2Column7Label";
-            this.player2Column7Label.Size = new System.Drawing.Size(25, 25);
-            this.player2Column7Label.TabIndex = 137;
-            this.player2Column7Label.Text = "7";
-            this.player2Column7Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.shootingGridCol7Lbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.shootingGridCol7Lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shootingGridCol7Lbl.Location = new System.Drawing.Point(198, 19);
+            this.shootingGridCol7Lbl.Name = "shootingGridCol7Lbl";
+            this.shootingGridCol7Lbl.Size = new System.Drawing.Size(25, 25);
+            this.shootingGridCol7Lbl.TabIndex = 137;
+            this.shootingGridCol7Lbl.Text = "7";
+            this.shootingGridCol7Lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player2Column6Label
+            // shootingGridCol6Lbl
             // 
-            this.player2Column6Label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player2Column6Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player2Column6Label.Location = new System.Drawing.Point(174, 19);
-            this.player2Column6Label.Name = "player2Column6Label";
-            this.player2Column6Label.Size = new System.Drawing.Size(25, 25);
-            this.player2Column6Label.TabIndex = 136;
-            this.player2Column6Label.Text = "6";
-            this.player2Column6Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.shootingGridCol6Lbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.shootingGridCol6Lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shootingGridCol6Lbl.Location = new System.Drawing.Point(174, 19);
+            this.shootingGridCol6Lbl.Name = "shootingGridCol6Lbl";
+            this.shootingGridCol6Lbl.Size = new System.Drawing.Size(25, 25);
+            this.shootingGridCol6Lbl.TabIndex = 136;
+            this.shootingGridCol6Lbl.Text = "6";
+            this.shootingGridCol6Lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player2Column5Label
+            // shootingGridCol5Lbl
             // 
-            this.player2Column5Label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player2Column5Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player2Column5Label.Location = new System.Drawing.Point(150, 19);
-            this.player2Column5Label.Name = "player2Column5Label";
-            this.player2Column5Label.Size = new System.Drawing.Size(25, 25);
-            this.player2Column5Label.TabIndex = 135;
-            this.player2Column5Label.Text = "5";
-            this.player2Column5Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.shootingGridCol5Lbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.shootingGridCol5Lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shootingGridCol5Lbl.Location = new System.Drawing.Point(150, 19);
+            this.shootingGridCol5Lbl.Name = "shootingGridCol5Lbl";
+            this.shootingGridCol5Lbl.Size = new System.Drawing.Size(25, 25);
+            this.shootingGridCol5Lbl.TabIndex = 135;
+            this.shootingGridCol5Lbl.Text = "5";
+            this.shootingGridCol5Lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player2Column4Label
+            // shootingGridCol4Lbl
             // 
-            this.player2Column4Label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player2Column4Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player2Column4Label.Location = new System.Drawing.Point(126, 19);
-            this.player2Column4Label.Name = "player2Column4Label";
-            this.player2Column4Label.Size = new System.Drawing.Size(25, 25);
-            this.player2Column4Label.TabIndex = 134;
-            this.player2Column4Label.Text = "4";
-            this.player2Column4Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.shootingGridCol4Lbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.shootingGridCol4Lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shootingGridCol4Lbl.Location = new System.Drawing.Point(126, 19);
+            this.shootingGridCol4Lbl.Name = "shootingGridCol4Lbl";
+            this.shootingGridCol4Lbl.Size = new System.Drawing.Size(25, 25);
+            this.shootingGridCol4Lbl.TabIndex = 134;
+            this.shootingGridCol4Lbl.Text = "4";
+            this.shootingGridCol4Lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player2Column3Label
+            // shootingGridCol3Lbl
             // 
-            this.player2Column3Label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player2Column3Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player2Column3Label.Location = new System.Drawing.Point(102, 19);
-            this.player2Column3Label.Name = "player2Column3Label";
-            this.player2Column3Label.Size = new System.Drawing.Size(25, 25);
-            this.player2Column3Label.TabIndex = 133;
-            this.player2Column3Label.Text = "3";
-            this.player2Column3Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.shootingGridCol3Lbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.shootingGridCol3Lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shootingGridCol3Lbl.Location = new System.Drawing.Point(102, 19);
+            this.shootingGridCol3Lbl.Name = "shootingGridCol3Lbl";
+            this.shootingGridCol3Lbl.Size = new System.Drawing.Size(25, 25);
+            this.shootingGridCol3Lbl.TabIndex = 133;
+            this.shootingGridCol3Lbl.Text = "3";
+            this.shootingGridCol3Lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player2Column2Label
+            // shootingGridCol2Lbl
             // 
-            this.player2Column2Label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player2Column2Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player2Column2Label.Location = new System.Drawing.Point(78, 19);
-            this.player2Column2Label.Name = "player2Column2Label";
-            this.player2Column2Label.Size = new System.Drawing.Size(25, 25);
-            this.player2Column2Label.TabIndex = 3;
-            this.player2Column2Label.Text = "2";
-            this.player2Column2Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.shootingGridCol2Lbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.shootingGridCol2Lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shootingGridCol2Lbl.Location = new System.Drawing.Point(78, 19);
+            this.shootingGridCol2Lbl.Name = "shootingGridCol2Lbl";
+            this.shootingGridCol2Lbl.Size = new System.Drawing.Size(25, 25);
+            this.shootingGridCol2Lbl.TabIndex = 3;
+            this.shootingGridCol2Lbl.Text = "2";
+            this.shootingGridCol2Lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player2Column1Label
+            // shootingGridCol1Lbl
             // 
-            this.player2Column1Label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player2Column1Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player2Column1Label.Location = new System.Drawing.Point(54, 19);
-            this.player2Column1Label.Name = "player2Column1Label";
-            this.player2Column1Label.Size = new System.Drawing.Size(25, 25);
-            this.player2Column1Label.TabIndex = 3;
-            this.player2Column1Label.Text = "1";
-            this.player2Column1Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.shootingGridCol1Lbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.shootingGridCol1Lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shootingGridCol1Lbl.Location = new System.Drawing.Point(54, 19);
+            this.shootingGridCol1Lbl.Name = "shootingGridCol1Lbl";
+            this.shootingGridCol1Lbl.Size = new System.Drawing.Size(25, 25);
+            this.shootingGridCol1Lbl.TabIndex = 3;
+            this.shootingGridCol1Lbl.Text = "1";
+            this.shootingGridCol1Lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // player2Column0Label
+            // shootingGridCol0Lbl
             // 
-            this.player2Column0Label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.player2Column0Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.player2Column0Label.Location = new System.Drawing.Point(30, 19);
-            this.player2Column0Label.Name = "player2Column0Label";
-            this.player2Column0Label.Size = new System.Drawing.Size(25, 25);
-            this.player2Column0Label.TabIndex = 132;
-            this.player2Column0Label.Text = "0";
-            this.player2Column0Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // shootingGridNullLabel
-            // 
-            this.shootingGridNullLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.shootingGridNullLabel.Location = new System.Drawing.Point(6, 19);
-            this.shootingGridNullLabel.Name = "shootingGridNullLabel";
-            this.shootingGridNullLabel.Size = new System.Drawing.Size(25, 25);
-            this.shootingGridNullLabel.TabIndex = 2;
+            this.shootingGridCol0Lbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.shootingGridCol0Lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shootingGridCol0Lbl.Location = new System.Drawing.Point(30, 19);
+            this.shootingGridCol0Lbl.Name = "shootingGridCol0Lbl";
+            this.shootingGridCol0Lbl.Size = new System.Drawing.Size(25, 25);
+            this.shootingGridCol0Lbl.TabIndex = 132;
+            this.shootingGridCol0Lbl.Text = "0";
+            this.shootingGridCol0Lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // player1ShipStatusPanel
             // 
@@ -862,16 +842,16 @@
             this.quitButton.UseVisualStyleBackColor = true;
             this.quitButton.Click += new System.EventHandler(this.quitButton_Click);
             // 
-            // commentLabel
+            // commentLbl
             // 
-            this.commentLabel.BackColor = System.Drawing.Color.LightGray;
-            this.commentLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.commentLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.commentLabel.Location = new System.Drawing.Point(298, 31);
-            this.commentLabel.Name = "commentLabel";
-            this.commentLabel.Size = new System.Drawing.Size(188, 245);
-            this.commentLabel.TabIndex = 6;
-            this.commentLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.commentLbl.BackColor = System.Drawing.Color.LightGray;
+            this.commentLbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.commentLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.commentLbl.Location = new System.Drawing.Point(298, 31);
+            this.commentLbl.Name = "commentLbl";
+            this.commentLbl.Size = new System.Drawing.Size(188, 245);
+            this.commentLbl.TabIndex = 6;
+            this.commentLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // BattleForm
             // 
@@ -879,15 +859,15 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(784, 392);
-            this.Controls.Add(this.commentLabel);
+            this.Controls.Add(this.commentLbl);
             this.Controls.Add(this.quitButton);
             this.Controls.Add(this.player1ShipStatusPanel);
             this.Controls.Add(this.shootingGridGroupBox);
-            this.Controls.Add(this.player1BoardGroupBox);
+            this.Controls.Add(this.trackingGridGroupBox);
             this.Name = "BattleForm";
             this.Text = "Battleship - Battle!";
             this.Load += new System.EventHandler(this.BattleForm_Load);
-            this.player1BoardGroupBox.ResumeLayout(false);
+            this.trackingGridGroupBox.ResumeLayout(false);
             this.shootingGridGroupBox.ResumeLayout(false);
             this.player1ShipStatusPanel.ResumeLayout(false);
             this.player1ShipStatusPanel.PerformLayout();
@@ -897,50 +877,48 @@
 
         #endregion
 
-        private System.Windows.Forms.GroupBox player1BoardGroupBox;
-        private System.Windows.Forms.Label player1Column9Label;
-        private System.Windows.Forms.Label player1RowJLabel;
-        private System.Windows.Forms.Label player1RowILabel;
-        private System.Windows.Forms.Label player1Column8Label;
-        private System.Windows.Forms.Label player1RowHLabel;
-        private System.Windows.Forms.Label player1RowGLabel;
-        private System.Windows.Forms.Label player1Column7Label;
-        private System.Windows.Forms.Label player1RowFLabel;
-        private System.Windows.Forms.Label player1RowELabel;
-        private System.Windows.Forms.Label player1Column6Label;
-        private System.Windows.Forms.Label player1RowDLabel;
-        private System.Windows.Forms.Label player1RowCLabel;
-        private System.Windows.Forms.Label player1Column5Label;
-        private System.Windows.Forms.Label player1RowBLabel;
-        private System.Windows.Forms.Label player1RowALabel;
-        private System.Windows.Forms.Label player1Column4Label;
-        private System.Windows.Forms.Label player1Column3Label;
-        private System.Windows.Forms.Label player1Column2Label;
-        private System.Windows.Forms.Label player1Column1Label;
-        private System.Windows.Forms.Label player1Column0Label;
-        private System.Windows.Forms.Label player1BoardNullLabel;
+        private System.Windows.Forms.GroupBox trackingGridGroupBox;
+        private System.Windows.Forms.Label trackingGridCol9Lbl;
+        private System.Windows.Forms.Label trackingGridRowJLbl;
+        private System.Windows.Forms.Label trackingGridRowILbl;
+        private System.Windows.Forms.Label trackingGridCol8Lbl;
+        private System.Windows.Forms.Label trackingGridRowHLbl;
+        private System.Windows.Forms.Label trackingGridRowGLbl;
+        private System.Windows.Forms.Label trackingGridCol7Lbl;
+        private System.Windows.Forms.Label trackingGridRowFLbl;
+        private System.Windows.Forms.Label trackingGridRowELbl;
+        private System.Windows.Forms.Label trackingGridCol6Lbl;
+        private System.Windows.Forms.Label trackingGridRowDLbl;
+        private System.Windows.Forms.Label trackingGridRowCLbl;
+        private System.Windows.Forms.Label trackingGridCol5Lbl;
+        private System.Windows.Forms.Label trackingGridRowBLbl;
+        private System.Windows.Forms.Label trackingGridRowALbl;
+        private System.Windows.Forms.Label trackingGridCol4Lbl;
+        private System.Windows.Forms.Label trackingGridCol3Lbl;
+        private System.Windows.Forms.Label trackingGridCol2Lbl;
+        private System.Windows.Forms.Label trackingGridCol1Lbl;
+        private System.Windows.Forms.Label trackingGridCol0Lbl;
         private System.Windows.Forms.GroupBox shootingGridGroupBox;
-        private System.Windows.Forms.Label player2RowJLabel;
-        private System.Windows.Forms.Label player2RowILabel;
-        private System.Windows.Forms.Label player2RowHLabel;
-        private System.Windows.Forms.Label player2RowGLabel;
-        private System.Windows.Forms.Label player2RowFLabel;
-        private System.Windows.Forms.Label player2RowELabel;
-        private System.Windows.Forms.Label player2RowDLabel;
-        private System.Windows.Forms.Label player2RowCLabel;
-        private System.Windows.Forms.Label player2RowBLabel;
-        private System.Windows.Forms.Label player2RowALabel;
-        private System.Windows.Forms.Label player2Column9Label;
-        private System.Windows.Forms.Label player2Column8Label;
-        private System.Windows.Forms.Label player2Column7Label;
-        private System.Windows.Forms.Label player2Column6Label;
-        private System.Windows.Forms.Label player2Column5Label;
-        private System.Windows.Forms.Label player2Column4Label;
-        private System.Windows.Forms.Label player2Column3Label;
-        private System.Windows.Forms.Label player2Column2Label;
-        private System.Windows.Forms.Label player2Column1Label;
-        private System.Windows.Forms.Label player2Column0Label;
-        private System.Windows.Forms.Label shootingGridNullLabel;
+        private System.Windows.Forms.Label shootingGridRowJLbl;
+        private System.Windows.Forms.Label shootingGridRowILbl;
+        private System.Windows.Forms.Label shootingGridRowHLbl;
+        private System.Windows.Forms.Label shootingGridRowGLbl;
+        private System.Windows.Forms.Label shootingGridRowFLbl;
+        private System.Windows.Forms.Label shootingGridRowELbl;
+        private System.Windows.Forms.Label shootingGridRowDLbl;
+        private System.Windows.Forms.Label shootingGridRowCLbl;
+        private System.Windows.Forms.Label shootingGridRowBLbl;
+        private System.Windows.Forms.Label shootingGridRowALbl;
+        private System.Windows.Forms.Label shootingGridCol9Lbl;
+        private System.Windows.Forms.Label shootingGridCol8Lbl;
+        private System.Windows.Forms.Label shootingGridCol7Lbl;
+        private System.Windows.Forms.Label shootingGridCol6Lbl;
+        private System.Windows.Forms.Label shootingGridCol5Lbl;
+        private System.Windows.Forms.Label shootingGridCol4Lbl;
+        private System.Windows.Forms.Label shootingGridCol3Lbl;
+        private System.Windows.Forms.Label shootingGridCol2Lbl;
+        private System.Windows.Forms.Label shootingGridCol1Lbl;
+        private System.Windows.Forms.Label shootingGridCol0Lbl;
         private System.Windows.Forms.Panel player1ShipStatusPanel;
         private System.Windows.Forms.Label player1AircraftCarrierStatusLabel;
         private System.Windows.Forms.Label player1SubmarineHealth3Label;
@@ -965,6 +943,6 @@
         private System.Windows.Forms.Label player1DestroyerHealth1Label;
         private System.Windows.Forms.Label player1DestroyerStatusLabel;
         private System.Windows.Forms.Button quitButton;
-        private System.Windows.Forms.Label commentLabel;
+        private System.Windows.Forms.Label commentLbl;
     }
 }

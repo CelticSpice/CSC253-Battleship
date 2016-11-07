@@ -69,6 +69,7 @@
       <DependentUpon>BattleForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Board.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="ShipDirection.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="Coordinate.cs" />
