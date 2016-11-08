@@ -13,7 +13,7 @@ namespace Battleship
 
         /*
             Constructor
-            Accepts the Ship's type and the Tiles it occupies
+            Accepts the Ship's type and the tiles it occupies
         */
 
         public Ship(ShipType type, Tile[] tiles)
@@ -48,7 +48,7 @@ namespace Battleship
         }
 
         /*
-            The GetCoords method returns the coordinates of the Ship
+            The GetCoords method returns the coordinates of the ship
         */
 
         public Coordinate[] GetCoords()

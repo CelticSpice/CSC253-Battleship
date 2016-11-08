@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace Battleship
 {
-    public partial class BattleForm : Form
+    public partial class MainForm : Form
     {
         // Fields
         private Color[] shipColors = { Color.Orange, Color.Green, Color.Blue, Color.Purple, Color.Yellow };
@@ -12,13 +12,13 @@ namespace Battleship
         private Button[,] shootingGridBtns;
         private Label[,] trackingGridLbls;
         private GameManager manager;
-        private ShipDirection direction;
+        private Direction direction;
 
         /*
             Constructor
         */
 
-        public BattleForm()
+        public MainForm()
         {
             InitializeComponent();
         }
@@ -36,7 +36,8 @@ namespace Battleship
             Coordinate coord = new Coordinate();
             for (int row = 0; row < NUM_ROWS && !found; row++)
                 for (int col = 0; col < NUM_COLUMNS && !found; col++)
-                    if (trackingGridLbls[row, col] == control)
+                    if (trackingGridLbls[row, col] == control ||
+                        shootingGridBtns[row, col] == control)
                     {
                         found = true;
                         coord.x = col;
@@ -52,7 +53,7 @@ namespace Battleship
 
         private Coordinate[] GetShipPlacementCoords(Label origin)
         {
-            // Coordinate of label mouse entered
+            // Coordinate of origin
             Coordinate originCoord = GetCoordinate(origin);
 
             // Determine number of parts and/or tiles the ship occupies
@@ -81,16 +82,16 @@ namespace Battleship
             for (int i = 0; i < shipCoords.Length; i++)
                 switch (direction)
                 {
-                    case ShipDirection.North:
+                    case Direction.North:
                         shipCoords[i] = new Coordinate { x = originCoord.x, y = originCoord.y - i };
                         break;
-                    case ShipDirection.South:
+                    case Direction.South:
                         shipCoords[i] = new Coordinate { x = originCoord.x, y = originCoord.y + i };
                         break;
-                    case ShipDirection.East:
+                    case Direction.East:
                         shipCoords[i] = new Coordinate { x = originCoord.x + i, y = originCoord.y };
                         break;
-                    case ShipDirection.West:
+                    case Direction.West:
                         shipCoords[i] = new Coordinate { x = originCoord.x - i, y = originCoord.y };
                         break;
                 }
@@ -177,7 +178,7 @@ namespace Battleship
             LoadGridTiles();
 
             commentLbl.Text = "Construct your " + manager.ShipSettingUp.ToString() + "!";
-            direction = ShipDirection.North;
+            direction = Direction.North;
             KeyPress += BattleFormSetup_KeyPress;
             KeyPreview = true;
         }
@@ -227,7 +228,7 @@ namespace Battleship
                     manager.PrepareBattlePhase();
 
                     // Inform ready
-                    commentLbl.Text = "Select a tile on your shooting grid!":
+                    commentLbl.Text = "Select a tile on your shooting grid!";
                 }
             }
         }
@@ -295,7 +296,7 @@ namespace Battleship
         private void BattleFormSetup_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == 'R' || e.KeyChar == 'r')
-                direction = (direction != ShipDirection.West) ? direction + 1 : ShipDirection.North;
+                direction = (direction != Direction.West) ? direction + 1 : Direction.North;
         }
     }
 }

@@ -11,11 +11,24 @@ namespace Battleship
         // Fields
         private bool _isAI;
         private Board _board;
+        private Coordinate _lastHit;
         private Player _opponent;
 
         /*
             Constructor
-            Accepts the player's opponent whether the player is an AI
+            Accepts whether the player is an AI
+        */
+
+        public Player(bool ai = false)
+        {
+            _isAI = ai;
+            _board = new Board();
+            _opponent = null;
+        }
+
+        /*
+            Constructor
+            Accepts the player's opponent and whether the player is an AI
         */
 
         public Player(Player opponent, bool ai = false)
@@ -27,12 +40,35 @@ namespace Battleship
 
         /*
             The MakeGuess method generates a coordinate
+            If true is passed, the coordinate generated will be
+            based off of the last coordinate hit
         */
 
-        public Coordinate MakeGuess()
+        public Coordinate MakeGuess(bool intelligentDecision = false)
         {
             Random rand = new Random((int)DateTime.Now.Ticks);
-            return new Coordinate { x = rand.Next(_board.Columns), y = rand.Next(_board.Rows) };
+            Coordinate coord;
+
+            Coordinate[] guessable = _board.GetGuessableCoords();
+
+            if (!intelligentDecision)
+                coord = guessable[rand.Next(guessable.Length)];
+            else
+            {
+                // Code here
+                coord = new Coordinate();
+            }
+
+            return coord;
+        }
+
+        /*
+            The SetOpponent method sets the player's opponent
+        */
+
+        public void SetOpponent(Player opponent)
+        {
+            _opponent = opponent;
         }
 
         /*
@@ -44,10 +80,10 @@ namespace Battleship
             Random rand = new Random((int)DateTime.Now.Ticks);
 
             // Setup each of five ships
-            int numParts = 0;
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < _board.Ships.Length; i++)
             {
                 ShipType type = (ShipType)i;
+                int numParts = 0;
 
                 switch (type)
                 {
@@ -73,7 +109,7 @@ namespace Battleship
                 do
                 {
                     // Determine direction to setup ship in
-                    ShipDirection direction = (ShipDirection)rand.Next(4);
+                    Direction direction = (Direction)rand.Next(4);
 
                     // Get first coordinate
                     Coordinate coord = new Coordinate { x = rand.Next(_board.Columns), y = rand.Next(_board.Rows) };
@@ -83,16 +119,16 @@ namespace Battleship
                     {
                         switch (direction)
                         {
-                            case ShipDirection.North:
+                            case Direction.North:
                                 shipCoords[j] = new Coordinate { x = coord.x, y = coord.y - j };
                                 break;
-                            case ShipDirection.South:
+                            case Direction.South:
                                 shipCoords[j] = new Coordinate { x = coord.x, y = coord.y + j };
                                 break;
-                            case ShipDirection.East:
+                            case Direction.East:
                                 shipCoords[j] = new Coordinate { x = coord.x + j, y = coord.y };
                                 break;
-                            case ShipDirection.West:
+                            case Direction.West:
                                 shipCoords[j] = new Coordinate { x = coord.x - j, y = coord.y };
                                 break;
                         }

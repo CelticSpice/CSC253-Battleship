@@ -1,6 +1,6 @@
 ﻿namespace Battleship
 {
-    partial class BattleForm
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -865,7 +865,7 @@
             this.Controls.Add(this.shootingGridGroupBox);
             this.Controls.Add(this.trackingGridGroupBox);
             this.Name = "BattleForm";
-            this.Text = "Battleship - Battle!";
+            this.Text = "Battleship ";
             this.Load += new System.EventHandler(this.BattleForm_Load);
             this.trackingGridGroupBox.ResumeLayout(false);
             this.shootingGridGroupBox.ResumeLayout(false);

@@ -212,7 +212,6 @@ C:\Users\timothyb\Desktop\Battleship v6.42\Battleship\Battleship\obj\Debug\Battl
 \\VBOXSVR\burnst\ftcc\2016FA\CSC253\Battleship\Battleship\bin\Debug\Battleship.exe.config
 \\VBOXSVR\burnst\ftcc\2016FA\CSC253\Battleship\Battleship\bin\Debug\Battleship.exe
 \\VBOXSVR\burnst\ftcc\2016FA\CSC253\Battleship\Battleship\bin\Debug\Battleship.pdb
-\\VBOXSVR\burnst\ftcc\2016FA\CSC253\Battleship\Battleship\obj\Debug\Battleship.BattleForm.resources
 \\VBOXSVR\burnst\ftcc\2016FA\CSC253\Battleship\Battleship\obj\Debug\Battleship.Properties.Resources.resources
 \\VBOXSVR\burnst\ftcc\2016FA\CSC253\Battleship\Battleship\obj\Debug\Battleship.csproj.GenerateResource.Cache
 \\VBOXSVR\burnst\ftcc\2016FA\CSC253\Battleship\Battleship\obj\Debug\Battleship.exe
@@ -227,3 +226,4 @@ C:\Users\alvesj5327\Source\Repos\CSC253-Battleship\Battleship\obj\Debug\Battlesh
 C:\Users\alvesj5327\Source\Repos\CSC253-Battleship\Battleship\obj\Debug\Battleship.Properties.Resources.resources
 C:\Users\alvesj5327\Source\Repos\CSC253-Battleship\Battleship\obj\Debug\Battleship.csproj.GenerateResource.Cache
 \\VBOXSVR\burnst\ftcc\2016FA\CSC253\Battleship\Battleship\obj\Debug\Battleship.csprojResolveAssemblyReference.cache
+\\VBOXSVR\burnst\ftcc\2016FA\CSC253\Battleship\Battleship\obj\Debug\Battleship.MainForm.resources

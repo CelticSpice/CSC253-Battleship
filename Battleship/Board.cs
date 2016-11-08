@@ -12,6 +12,7 @@ namespace Battleship
         // Consts
         private const int _NUM_ROWS = 10;
         private const int _NUM_COLUMNS = 10;
+        private const int _NUM_SHIPS = 5;
 
         // Fields
         private Tile[,] _tiles;
@@ -23,14 +24,25 @@ namespace Battleship
 
         public Board()
         {
-            const int ROWS = 10;
-            const int COLUMNS = 10;
-            const int SHIPS = 5;
-            _tiles = new Tile[ROWS, COLUMNS];
-            for (int row = 0; row < ROWS; row++)
-                for (int col = 0; col < COLUMNS; col++)
+            _tiles = new Tile[_NUM_ROWS, _NUM_COLUMNS];
+            for (int row = 0; row < _NUM_ROWS; row++)
+                for (int col = 0; col < _NUM_COLUMNS; col++)
                     _tiles[row, col] = new Tile(new Coordinate { x = col, y = row });
-            _ships = new Ship[SHIPS];
+            _ships = new Ship[_NUM_SHIPS];
+        }
+
+        /*
+            The GetGuessableCoords method returns an array containing coordinates that
+            can be guessed
+        */
+
+        public Coordinate[] GetGuessableCoords()
+        {
+            List<Coordinate> coords = new List<Coordinate>();
+            foreach (Tile tile in _tiles)
+                if (!tile.IsFiredAt)
+                    coords.Add(tile.Coordinate);
+            return coords.ToArray();
         }
 
         /*
@@ -53,6 +65,21 @@ namespace Battleship
         }
 
         /*
+            The GetNumShipsLiving method returns the number of ships
+            on the board that have 1 or more parts that have not been
+            hit
+        */
+
+        public int GetNumShipsLiving()
+        {
+            int numLiving = 0;
+            foreach (Ship ship in _ships)
+                if (ship.NumParts > 0)
+                    numLiving++;
+            return numLiving;
+        }
+
+        /*
             The GetUnoccupiedCoords method returns an array of the coordinates of tiles
             that are not currently occupied by any ship
         */
@@ -72,7 +99,45 @@ namespace Battleship
         }
 
         /*
-            The IsShipExisting method returns whether the specified Ship exists on the Board
+            The IsGuessOK method returns whether the specified 
+            coordinate/tile has not already been guessed
+        */
+
+        public bool IsGuessOK(Coordinate coord)
+        {
+            bool ok;
+            if (!_tiles[coord.y, coord.x].IsFiredAt)
+                ok = true;
+            else
+                ok = false;
+            return ok;
+        }
+
+        /*
+            The IsHit method returns whether the specified
+            coordinate is occupied by a ship
+        */
+
+        public bool IsHit(Coordinate coord)
+        {
+            bool isHit = false;
+
+            for (ShipType type = ShipType.AircraftCarrier; type <= ShipType.PatrolBoat && !isHit; type++)
+            {
+                // Get coordinates of ship
+                Coordinate[] shipCoords = _ships[(int)type].GetCoords();
+
+                // Check if specified coordinate matches a ship coordinate
+                foreach (Coordinate shipCoord in shipCoords)
+                    if (coord.Equals(shipCoord))
+                        isHit = true;
+            }
+
+            return isHit;
+        }
+
+        /*
+            The IsShipExisting method returns whether the specified ship exists on the board
         */
 
         public bool IsShipExisting(ShipType type)
@@ -81,8 +146,8 @@ namespace Battleship
         }
 
         /*
-            The IsShipPlacementOK method checks if a Ship with the given coordinates
-            can be placed on the Board without error
+            The IsShipPlacementOK method checks if a ship with the given coordinates
+            can be placed on the board without error
         */
 
         public bool IsShipPlacementOK(Coordinate[] coords)
@@ -111,7 +176,7 @@ namespace Battleship
         }
 
         /*
-            The PlaceShip method places a Ship on the Board
+            The PlaceShip method places a ship on the board
             It accepts the type of ship being placed and its coordinates as arguments
             The method returns a boolean indicating whether the operation was successful
         */
