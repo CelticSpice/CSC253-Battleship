@@ -19,7 +19,7 @@ namespace Battleship
         public GameManager()
         {
             _player1 = new Player();
-            _player2 = new Player(_player1, true);
+            _player2 = new Player(_player1);
             _player1.SetOpponent(_player2);
             _isSetupMode = true;
             _shipSettingUp = ShipType.AircraftCarrier;

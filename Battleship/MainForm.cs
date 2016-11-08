@@ -189,7 +189,41 @@ namespace Battleship
 
         private void ShootingGridButton_Click(object sender, EventArgs e)
         {
-            
+            // Get the coordinate of clicked button
+            Coordinate coord = GetCoordinate((Control)sender);
+
+            // Check if the guess was not already made
+            if (manager.Player2.Board.IsGuessOK(coord))
+            {
+                // Check if the guess is a hit
+                if (manager.Player2.Board.IsHit(coord))
+                {
+                    // Ship takes hit
+                    Ship ship = manager.Player2.Board.GetShipHit(coord);
+                    ship.NumParts--;
+
+                    // Set shooting grid color
+                    ((Control)sender).BackColor = Color.Red;
+
+                    // Check if game is over
+                    if (manager.Player2.Board.GetNumShipsLiving() == 0)
+                    {
+                        MessageBox.Show("You have won the game!");
+
+                        // Remove handlers
+                        foreach (Button button in shootingGridBtns)
+                            button.Click -= ShootingGridButton_Click;
+                    }
+                }
+                else
+                {
+                    // Set shooting grid color
+                    ((Control)sender).BackColor = Color.Red;
+
+                    // Player 2, the AI, takes its turn
+                    //manager.Player2.TakeTurn();
+                }
+            }
         }
 
         /*

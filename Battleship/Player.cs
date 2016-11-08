@@ -9,31 +9,27 @@ namespace Battleship
     public class Player
     {
         // Fields
-        private bool _isAI;
         private Board _board;
         private Coordinate _lastHit;
         private Player _opponent;
 
         /*
             Constructor
-            Accepts whether the player is an AI
         */
 
-        public Player(bool ai = false)
+        public Player()
         {
-            _isAI = ai;
             _board = new Board();
             _opponent = null;
         }
 
         /*
             Constructor
-            Accepts the player's opponent and whether the player is an AI
+            Accepts the player's opponent
         */
 
-        public Player(Player opponent, bool ai = false)
+        public Player(Player opponent)
         {
-            _isAI = ai;
             _board = new Board();
             _opponent = opponent;
         }
@@ -49,7 +45,7 @@ namespace Battleship
             Random rand = new Random((int)DateTime.Now.Ticks);
             Coordinate coord;
 
-            Coordinate[] guessable = _board.GetGuessableCoords();
+            Coordinate[] guessable = _opponent._board.GetGuessableCoords();
 
             if (!intelligentDecision)
                 coord = guessable[rand.Next(guessable.Length)];
@@ -143,12 +139,32 @@ namespace Battleship
         }
 
         /*
-            IsAI Property
+            The TakeTurn method has the player make guesses for as long
+            as its guess is a hit
         */
 
-        public bool IsAI
+        public void TakeTurn()
         {
-            get { return _isAI; }
+            bool keepGoing = true;
+            do
+            {
+                // Player makes guess
+                Coordinate coord = MakeGuess();
+
+                // Check if ship is hit
+                if (_opponent._board.IsHit(coord))
+                {
+                    // Ship takes hit
+                    Ship ship = _opponent._board.GetShipHit(coord);
+                    ship.NumParts--;
+
+                    // Check if game is over
+                    if (_opponent._board.GetNumShipsLiving() == 0)
+                        keepGoing = false;
+                }
+                else
+                    keepGoing = false;
+            } while (!keepGoing);
         }
 
         /*

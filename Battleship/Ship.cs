@@ -66,6 +66,7 @@ namespace Battleship
         public int NumParts
         {
             get { return _numParts; }
+            set { _numParts = value; }
         }
 
         /*

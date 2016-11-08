@@ -46,6 +46,21 @@ namespace Battleship
         }
 
         /*
+            The GetNumShipsLiving method returns the number of ships
+            on the board that have 1 or more parts that have not been
+            hit
+        */
+
+        public int GetNumShipsLiving()
+        {
+            int numLiving = 0;
+            foreach (Ship ship in _ships)
+                if (ship.NumParts > 0)
+                    numLiving++;
+            return numLiving;
+        }
+
+        /*
             The GetOccupiedCoords method returns an array of the coordinates
             that are currently occupied by ships
         */
@@ -65,18 +80,27 @@ namespace Battleship
         }
 
         /*
-            The GetNumShipsLiving method returns the number of ships
-            on the board that have 1 or more parts that have not been
-            hit
+            The GetShipHit method returns the ship that has been hit at
+            the specified coordinate
         */
 
-        public int GetNumShipsLiving()
+        public Ship GetShipHit(Coordinate coord)
         {
-            int numLiving = 0;
-            foreach (Ship ship in _ships)
-                if (ship.NumParts > 0)
-                    numLiving++;
-            return numLiving;
+            Ship ship = null;
+            ShipType type = ShipType.AircraftCarrier;
+            while (ship == null && type <= ShipType.PatrolBoat)
+            {
+                // Get the ship's coordinates
+                Coordinate[] shipCoords = _ships[(int)type].GetCoords();
+
+                // Check for matching coordinate
+                foreach (Coordinate shipCoord in shipCoords)
+                    if (coord.Equals(shipCoord))
+                        ship = _ships[(int)type];
+
+                type++;
+            }
+            return ship;
         }
 
         /*
