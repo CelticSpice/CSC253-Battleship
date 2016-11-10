@@ -2,6 +2,7 @@
     This class represents a game board
 */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,10 +25,15 @@ namespace Battleship
 
         public Board()
         {
+            Random rand = new Random((int)DateTime.Now.Ticks);
             _tiles = new Tile[_NUM_ROWS, _NUM_COLUMNS];
             for (int row = 0; row < _NUM_ROWS; row++)
                 for (int col = 0; col < _NUM_COLUMNS; col++)
-                    _tiles[row, col] = new Tile(new Coordinate { x = col, y = row });
+                {
+                    Tile tile = new Tile(new Coordinate { x = col, y = row });
+                    tile.Weight = rand.Next(100);
+                    _tiles[row, col] = tile;
+                }
             _ships = new Ship[_NUM_SHIPS];
         }
 
@@ -144,20 +150,7 @@ namespace Battleship
 
         public bool IsHit(Coordinate coord)
         {
-            bool isHit = false;
-
-            for (ShipType type = ShipType.AircraftCarrier; type <= ShipType.PatrolBoat && !isHit; type++)
-            {
-                // Get coordinates of ship
-                Coordinate[] shipCoords = _ships[(int)type].GetCoords();
-
-                // Check if specified coordinate matches a ship coordinate
-                foreach (Coordinate shipCoord in shipCoords)
-                    if (coord.Equals(shipCoord))
-                        isHit = true;
-            }
-
-            return isHit;
+            return _tiles[coord.y, coord.x].IsOccupied;
         }
 
         /*

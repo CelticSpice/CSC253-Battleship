@@ -218,7 +218,7 @@ namespace Battleship
                 else
                 {
                     // Set shooting grid color
-                    ((Control)sender).BackColor = Color.Red;
+                    ((Control)sender).BackColor = Color.FloralWhite;
 
                     // Player 2, the AI, takes its turn
                     //manager.Player2.TakeTurn();

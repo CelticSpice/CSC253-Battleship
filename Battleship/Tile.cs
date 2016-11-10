@@ -10,6 +10,7 @@ namespace Battleship
         private Coordinate _coordinate;
         private bool _isOccupied;
         private bool _isFiredAt;
+        private int _weight;
 
         /*
             Constructor
@@ -21,6 +22,7 @@ namespace Battleship
             _coordinate = coord;
             _isOccupied = false;
             _isFiredAt = false;
+            _weight = 0;
         }
 
         /*
@@ -30,7 +32,9 @@ namespace Battleship
         public Tile(Tile toCopy)
         {
             _coordinate = toCopy._coordinate;
+            _isOccupied = toCopy._isOccupied;
             _isFiredAt = toCopy._isFiredAt;
+            _weight = toCopy._weight;
         }
 
         /*
@@ -60,6 +64,16 @@ namespace Battleship
         {
             get { return _isFiredAt; }
             set { _isFiredAt = value; }
+        }
+
+        /*
+            Weight Property
+        */
+
+        public int Weight
+        {
+            get { return _weight; }
+            set { _weight = value; }
         }
     }
 }
