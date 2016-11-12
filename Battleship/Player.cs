@@ -3,6 +3,7 @@
 */
 
 using System;
+using System.Linq;
 
 namespace Battleship
 {
@@ -10,7 +11,6 @@ namespace Battleship
     {
         // Fields
         private Board _board;
-        private Coordinate _lastHit;
         private Player _opponent;
 
         /*
@@ -35,40 +35,17 @@ namespace Battleship
         }
 
         /*
-            The MakeGuess method generates a coordinate
-            If true is passed, the coordinate generated will be
-            based off of the last coordinate hit
+            The MakeGuess method has the player make a guess
+            of a coordinate to shoot at
         */
 
-        public Coordinate MakeGuess(bool intelligentDecision = false)
+        private Coordinate MakeGuess()
         {
-            Random rand = new Random((int)DateTime.Now.Ticks);
-            Coordinate coord;
-
-            Coordinate[] guessable = _opponent._board.GetGuessableCoords();
-
-            if (!intelligentDecision)
-                coord = guessable[rand.Next(guessable.Length)];
-            else
-            {
-                // Code here
-                coord = new Coordinate();
-            }
-
-            return coord;
+            return _opponent.Board.GetGuessableCoord();
         }
 
         /*
-            The SetOpponent method sets the player's opponent
-        */
-
-        public void SetOpponent(Player opponent)
-        {
-            _opponent = opponent;
-        }
-
-        /*
-            The SetupBoard method randomly places ships on the player's board
+            The SetupBoard method has the player setup its board with ships
         */
 
         public void SetupBoard()
@@ -79,8 +56,9 @@ namespace Battleship
             for (int i = 0; i < _board.Ships.Length; i++)
             {
                 ShipType type = (ShipType)i;
-                int numParts = 0;
 
+                // Get number of parts
+                int numParts = 0;
                 switch (type)
                 {
                     case ShipType.AircraftCarrier:
@@ -105,9 +83,10 @@ namespace Battleship
                 do
                 {
                     // Determine direction to setup ship in
-                    Direction direction = (Direction)rand.Next(4);
+                    const int NUM_DIRECTIONS = 4;
+                    Direction direction = (Direction)rand.Next(NUM_DIRECTIONS);
 
-                    // Get first coordinate
+                    // Get origin coordinate
                     Coordinate coord = new Coordinate { x = rand.Next(_board.Columns), y = rand.Next(_board.Rows) };
 
                     // Get coords in direction setting up ship in
@@ -139,32 +118,23 @@ namespace Battleship
         }
 
         /*
-            The TakeTurn method has the player make guesses for as long
-            as its guess is a hit
+            The TakeTurn method has the player take its turn
+            It returns the coordinate guessed
         */
 
-        public void TakeTurn()
+        public Coordinate TakeTurn()
         {
-            bool keepGoing = true;
-            do
+            Coordinate guess = MakeGuess();
+            _opponent.Board.Tiles[guess.y, guess.x].IsFiredAt = true;
+            if (_opponent.Board.IsHit(guess))
             {
-                // Player makes guess
-                Coordinate coord = MakeGuess();
+                _opponent.Board.GetShipAtCoord(guess).NumParts--;
 
-                // Check if ship is hit
-                if (_opponent._board.IsHit(coord))
-                {
-                    // Ship takes hit
-                    Ship ship = _opponent._board.GetShipHit(coord);
-                    ship.NumParts--;
-
-                    // Check if game is over
-                    if (_opponent._board.GetNumShipsLiving() == 0)
-                        keepGoing = false;
-                }
-                else
-                    keepGoing = false;
-            } while (!keepGoing);
+                // Lower the weights of tiles surrounding hit
+                // to indicate likely ship locations
+                _opponent.Board.LowerWeights(guess);
+            }
+            return guess;
         }
 
         /*
@@ -174,6 +144,16 @@ namespace Battleship
         public Board Board
         {
             get { return _board; }
+        }
+
+        /*
+            Opponent Property
+        */
+
+        public Player Opponent
+        {
+            get { return _opponent; }
+            set { _opponent = value; }
         }
     }
 }

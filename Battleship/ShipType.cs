@@ -1,5 +1,5 @@
 ﻿/*
-    This enum represents a type of ship
+    This enumeration represents a type of ship
 */
 
 namespace Battleship

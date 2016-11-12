@@ -38,17 +38,33 @@ namespace Battleship
         }
 
         /*
-            The GetGuessableCoords method returns an array containing coordinates that
-            can be guessed
+            The GetGuessableCoord method returns the coordinate of a guessable
+            tile with the lowest weight
         */
 
-        public Coordinate[] GetGuessableCoords()
+        public Coordinate GetGuessableCoord()
         {
-            List<Coordinate> coords = new List<Coordinate>();
+            return GetGuessableTiles()[0].Coordinate;
+        }
+
+        /*
+            The GetGuessableTiles method returns an array containing tiles that
+            can be guessed, in ascending order of weight
+        */
+
+        public Tile[] GetGuessableTiles()
+        {
+            // Get list of guessable tiles
+            List<Tile> tiles = new List<Tile>();
             foreach (Tile tile in _tiles)
                 if (!tile.IsFiredAt)
-                    coords.Add(tile.Coordinate);
-            return coords.ToArray();
+                    tiles.Add(tile);
+
+            // Sort list by weight in ascending order
+            tiles.Sort((Tile a, Tile b) => a.Weight.CompareTo(b.Weight));
+
+            // Return sorted list of guessable tiles as an array
+            return tiles.ToArray();
         }
 
         /*
@@ -73,64 +89,46 @@ namespace Battleship
 
         private Coordinate[] GetOccupiedCoords()
         {
-            List<Tile> occupiedTiles = new List<Tile>();
-            foreach (Tile tile in _tiles)
-                if (tile.IsOccupied)
-                    occupiedTiles.Add(tile);
+            List<Coordinate> occupiedCoords = new List<Coordinate>();
+            foreach (Ship ship in _ships)
+                if (ship != null)
+                    occupiedCoords.AddRange(ship.GetCoords());
 
-            Coordinate[] coords = new Coordinate[occupiedTiles.Count];
-            for (int i = 0; i < coords.Length; i++)
-                coords[i] = occupiedTiles[i].Coordinate;
-
-            return coords;
+            return occupiedCoords.ToArray();
         }
 
         /*
-            The GetShipHit method returns the ship that has been hit at
-            the specified coordinate
+            The GetShipAtCoord method returns the ship that exists
+            at a specified coordinate
         */
 
-        public Ship GetShipHit(Coordinate coord)
+        public Ship GetShipAtCoord(Coordinate coord)
         {
             Ship ship = null;
-            ShipType type = ShipType.AircraftCarrier;
-            while (ship == null && type <= ShipType.PatrolBoat)
-            {
-                // Get the ship's coordinates
-                Coordinate[] shipCoords = _ships[(int)type].GetCoords();
-
-                // Check for matching coordinate
-                foreach (Coordinate shipCoord in shipCoords)
-                    if (coord.Equals(shipCoord))
-                        ship = _ships[(int)type];
-
-                type++;
-            }
+            foreach (Ship s in _ships)
+                if (s.GetCoords().Contains(coord))
+                    ship = s;
             return ship;
         }
 
         /*
-            The GetUnoccupiedCoords method returns an array of the coordinates of tiles
+            The GetUnoccupiedCoords method returns an array of the coordinates
             that are not currently occupied by any ship
         */
 
         public Coordinate[] GetUnoccupiedCoords()
         {
-            List<Tile> unoccupiedTiles = new List<Tile>();
+            List<Coordinate> unoccupiedCoords = new List<Coordinate>();
             foreach (Tile tile in _tiles)
                 if (!tile.IsOccupied)
-                    unoccupiedTiles.Add(tile);
+                    unoccupiedCoords.Add(tile.Coordinate);
 
-            Coordinate[] coords = new Coordinate[unoccupiedTiles.Count];
-            for (int i = 0; i < coords.Length; i++)
-                coords[i] = unoccupiedTiles[i].Coordinate;
-
-            return coords;
+            return unoccupiedCoords.ToArray();
         }
 
         /*
             The IsGuessOK method returns whether the specified 
-            coordinate/tile has not already been guessed
+            coordinate has not already been guessed
         */
 
         public bool IsGuessOK(Coordinate coord)
@@ -172,10 +170,10 @@ namespace Battleship
             bool ok = true;
 
             // Check for coords out of range
-            foreach (Coordinate coordinate in coords)
+            foreach (Coordinate coord in coords)
             {
-                if ((coordinate.x < 0 || coordinate.x > 9) ||
-                    (coordinate.y < 0 || coordinate.y > 9))
+                if ((coord.x < 0 || coord.x > 9) ||
+                    (coord.y < 0 || coord.y > 9))
                 {
                     ok = false;
                 }
@@ -190,6 +188,52 @@ namespace Battleship
             }
 
             return ok;
+        }
+
+        /*
+            The LowerWeights method lowers the weights of the tiles surrounding
+            a tile indicated by the specified coordinate
+        */
+
+        public void LowerWeights(Coordinate coord)
+        {
+            Random rand = new Random((int)DateTime.Now.Ticks);
+            Direction direction = Direction.North;
+            int xCoord, yCoord;
+            while (direction <= Direction.West)
+            {
+                switch (direction)
+                {
+                    case Direction.North:
+                        xCoord = coord.x;
+                        yCoord = coord.y - 1;
+                        if (yCoord >= 0)
+                            _tiles[yCoord, xCoord].Weight = rand.Next(4);
+                        direction++;
+                        break;
+                    case Direction.South:
+                        xCoord = coord.x;
+                        yCoord = coord.y + 1;
+                        if (yCoord >= 0)
+                            _tiles[yCoord, xCoord].Weight = rand.Next(4);
+                        direction++;
+                        break;
+                    case Direction.East:
+                        xCoord = coord.x + 1;
+                        yCoord = coord.y;
+                        if (xCoord >= 0)
+                            _tiles[yCoord, xCoord].Weight = rand.Next(4);
+                        direction++;
+                        break;
+                    case Direction.West:
+                        xCoord = coord.x - 1;
+                        yCoord = coord.y;
+                        if (xCoord >= 0)
+                            _tiles[yCoord, xCoord].Weight = rand.Next(4);
+                        direction++;
+                        break;
+                }
+            }
         }
 
         /*

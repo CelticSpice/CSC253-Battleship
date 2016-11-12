@@ -4,36 +4,23 @@
 
 namespace Battleship
 {
-    public class GameManager
+    public class Game
     {
         // Fields
         private Player _player1, _player2;
         private bool _isSetupMode;
         private ShipType _shipSettingUp;
 
-
         /*
             No-Arg Constructor
         */
 
-        public GameManager()
+        public Game()
         {
             _player1 = new Player();
             _player2 = new Player(_player1);
-            _player1.SetOpponent(_player2);
             _isSetupMode = true;
             _shipSettingUp = ShipType.AircraftCarrier;
-        }
-
-        /*
-            The PrepareBattlePhase method prepares the battle phase
-            of the game
-        */
-
-        public void PrepareBattlePhase()
-        {
-            _isSetupMode = false;
-            _player2.SetupBoard();
         }
 
         /*

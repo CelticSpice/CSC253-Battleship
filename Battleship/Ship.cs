@@ -43,8 +43,7 @@ namespace Battleship
                     break;
             }
 
-            for (int i = 0; i < tiles.Length; i++)
-                _tilesOccupied[i] = tiles[i];
+            _tilesOccupied = tiles;
         }
 
         /*

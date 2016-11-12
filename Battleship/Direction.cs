@@ -1,5 +1,5 @@
 ﻿/*
-    This enum represents a direction
+    This enumeration represents a direction
 */
 
 namespace Battleship

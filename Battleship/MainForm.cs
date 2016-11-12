@@ -11,7 +11,7 @@ namespace Battleship
 
         private Button[,] shootingGridBtns;
         private Label[,] trackingGridLbls;
-        private GameManager manager;
+        private Game game;
         private Direction direction;
 
         /*
@@ -58,7 +58,7 @@ namespace Battleship
 
             // Determine number of parts and/or tiles the ship occupies
             int numParts = 0;
-            switch (manager.ShipSettingUp)
+            switch (game.ShipSettingUp)
             {
                 case ShipType.AircraftCarrier:
                     numParts = 5;
@@ -174,10 +174,10 @@ namespace Battleship
 
         private void BattleForm_Load(object sender, EventArgs e)
         {
-            manager = new GameManager();
+            game = new Game();
             LoadGridTiles();
 
-            commentLbl.Text = "Construct your " + manager.ShipSettingUp.ToString() + "!";
+            commentLbl.Text = "Construct your " + game.ShipSettingUp.ToString() + "!";
             direction = Direction.North;
             KeyPress += BattleFormSetup_KeyPress;
             KeyPreview = true;
@@ -189,25 +189,30 @@ namespace Battleship
 
         private void ShootingGridButton_Click(object sender, EventArgs e)
         {
-            // Get the coordinate of clicked button
-            Coordinate coord = GetCoordinate((Control)sender);
+            bool gameOver = false;
 
-            // Check if the guess was not already made
-            if (manager.Player2.Board.IsGuessOK(coord))
+            // Get the coordinate of clicked button
+            Coordinate guess = GetCoordinate((Control)sender);
+
+            // Check that the guess was not already made
+            if (game.Player2.Board.IsGuessOK(guess))
             {
+                // Mark guess as fired at
+                game.Player2.Board.Tiles[guess.y, guess.x].IsFiredAt = true;
+
                 // Check if the guess is a hit
-                if (manager.Player2.Board.IsHit(coord))
+                if (game.Player2.Board.IsHit(guess))
                 {
                     // Ship takes hit
-                    Ship ship = manager.Player2.Board.GetShipHit(coord);
-                    ship.NumParts--;
+                    game.Player2.Board.GetShipAtCoord(guess).NumParts--;
 
-                    // Set shooting grid color
+                    // Set shooting grid color to hit color
                     ((Control)sender).BackColor = Color.Red;
 
                     // Check if game is over
-                    if (manager.Player2.Board.GetNumShipsLiving() == 0)
+                    if (game.Player2.Board.GetNumShipsLiving() == 0)
                     {
+                        gameOver = true;
                         MessageBox.Show("You have won the game!");
 
                         // Remove handlers
@@ -216,12 +221,31 @@ namespace Battleship
                     }
                 }
                 else
-                {
-                    // Set shooting grid color
+                    // Set shooting grid color to miss color
                     ((Control)sender).BackColor = Color.FloralWhite;
 
+                if (!gameOver)
+                {
                     // Player 2, the AI, takes its turn
-                    //manager.Player2.TakeTurn();
+                    guess = game.Player2.TakeTurn();
+
+                    // Check if the guess is a hit
+                    if (game.Player1.Board.IsHit(guess))
+                    {
+                        trackingGridLbls[guess.y, guess.x].BackColor = Color.Red;
+
+                        // Check if game is over
+                        if (game.Player1.Board.GetNumShipsLiving() == 0)
+                        {
+                            MessageBox.Show("You have lost the game!");
+
+                            // Remove handlers
+                            foreach (Button button in shootingGridBtns)
+                                button.Click -= ShootingGridButton_Click;
+                        }
+                    }
+                    else
+                        trackingGridLbls[guess.y, guess.x].BackColor = Color.FloralWhite;
                 }
             }
         }
@@ -234,15 +258,15 @@ namespace Battleship
         {
             // Place ship currently being setup in the selected location
             Coordinate[] shipCoords = GetShipPlacementCoords(((Label)sender));
-            if (manager.Player1.Board.IsShipPlacementOK(shipCoords))
+            if (game.Player1.Board.IsShipPlacementOK(shipCoords))
             {
-                manager.Player1.Board.PlaceShip(manager.ShipSettingUp, shipCoords);
+                game.Player1.Board.PlaceShip(game.ShipSettingUp, shipCoords);
 
                 // Prepare to setup next ship, if possible
-                if (!(manager.ShipSettingUp == ShipType.PatrolBoat))
+                if (!(game.ShipSettingUp == ShipType.PatrolBoat))
                 {
-                    manager.ShipSettingUp++;
-                    commentLbl.Text = "Construct your " + manager.ShipSettingUp.ToString() + "!";
+                    game.ShipSettingUp++;
+                    commentLbl.Text = "Construct your " + game.ShipSettingUp.ToString() + "!";
                 }
                 else
                 {
@@ -259,7 +283,8 @@ namespace Battleship
                         button.Click += ShootingGridButton_Click;
 
                     // Prepare battle phase
-                    manager.PrepareBattlePhase();
+                    game.IsSetupMode = false;
+                    game.Player2.SetupBoard();
 
                     // Inform ready
                     commentLbl.Text = "Select a tile on your shooting grid!";
@@ -289,9 +314,9 @@ namespace Battleship
             Coordinate[] shipCoords = GetShipPlacementCoords((Label)sender);
 
             // Set color of labels appropriately
-            if (manager.Player1.Board.IsShipPlacementOK(shipCoords))
+            if (game.Player1.Board.IsShipPlacementOK(shipCoords))
                 foreach (Coordinate coord in shipCoords)
-                    trackingGridLbls[coord.y, coord.x].BackColor = shipColors[(int)manager.ShipSettingUp];
+                    trackingGridLbls[coord.y, coord.x].BackColor = shipColors[(int)game.ShipSettingUp];
             else
                 foreach (Coordinate coord in shipCoords)
                     if (coord.x >= 0 && coord.x <= 9 &&
@@ -308,15 +333,15 @@ namespace Battleship
         private void TrackingGridLabel_MouseLeave(object sender, EventArgs e)
         {
             // Reset color of unoccupied tiles
-            Coordinate[] unoccupiedCoords = manager.Player1.Board.GetUnoccupiedCoords();
+            Coordinate[] unoccupiedCoords = game.Player1.Board.GetUnoccupiedCoords();
             foreach (Coordinate coord in unoccupiedCoords)
                 trackingGridLbls[coord.y, coord.x].BackColor = Color.CornflowerBlue;
 
             // Reset color of occupied tiles
             for (ShipType type = ShipType.AircraftCarrier; type <= ShipType.PatrolBoat; type++)
-                if (manager.Player1.Board.IsShipExisting(type))
+                if (game.Player1.Board.IsShipExisting(type))
                 {
-                    Coordinate[] shipCoords = manager.Player1.Board.Ships[(int)type].GetCoords();
+                    Coordinate[] shipCoords = game.Player1.Board.Ships[(int)type].GetCoords();
                     foreach (Coordinate coord in shipCoords)
                         trackingGridLbls[coord.y, coord.x].BackColor = shipColors[(int)type];
                 }
