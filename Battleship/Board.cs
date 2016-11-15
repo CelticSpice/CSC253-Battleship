@@ -265,6 +265,43 @@ namespace Battleship
         }
 
         /*
+            The SetNeighbors method sets the neighbors of the boards tiles
+        */
+
+        private void SetNeighbors()
+        {
+            foreach (Tile tile in _tiles)
+            {
+                // Get tile's coordinate
+                Coordinate coord = tile.Coordinate;
+
+                // Set neighbors
+                for (Direction direction = Direction.North; direction <= Direction.West; direction++)
+                    // Direction represents one of 4 directions: North, South, East, West, respectively
+                    // If no neighbor exists in a direction, neighbor in that direction will be left null
+                    switch (direction)
+                    {
+                        case Direction.North:
+                            if (coord.y > 0)
+                                tile.Neighbors[(int)Direction.North] = _tiles[coord.y - 1, coord.x];
+                            break;
+                        case Direction.South:
+                            if (coord.y < _NUM_ROWS - 1)
+                                tile.Neighbors[(int)Direction.South] = _tiles[coord.y + 1, coord.x];
+                            break;
+                        case Direction.East:
+                            if (coord.x < _NUM_COLUMNS - 1)
+                                tile.Neighbors[(int)Direction.East] = _tiles[coord.y, coord.x + 1];
+                            break;
+                        case Direction.West:
+                            if (coord.x > 0)
+                                tile.Neighbors[(int)Direction.West] = _tiles[coord.y, coord.x - 1];
+                            break;
+                    }
+            }
+        }
+
+        /*
             Rows Property
         */
 

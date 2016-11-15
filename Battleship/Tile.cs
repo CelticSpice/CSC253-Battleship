@@ -7,10 +7,13 @@ namespace Battleship
     public class Tile
     {
         // Fields
+        private const int NUM_NEIGHBORS = 4;
+
         private Coordinate _coordinate;
         private bool _isOccupied;
         private bool _isFiredAt;
         private int _weight;
+        private Tile[] _neighbors;
 
         /*
             Constructor
@@ -23,6 +26,7 @@ namespace Battleship
             _isOccupied = false;
             _isFiredAt = false;
             _weight = 0;
+            _neighbors = new Tile[NUM_NEIGHBORS];
         }
 
         /*
@@ -74,6 +78,15 @@ namespace Battleship
         {
             get { return _weight; }
             set { _weight = value; }
+        }
+
+        /*
+            Neighbors Property
+        */
+
+        public Tile[] Neighbors
+        {
+            get { return _neighbors; }
         }
     }
 }
