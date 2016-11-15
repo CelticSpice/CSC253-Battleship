@@ -237,6 +237,14 @@ namespace Battleship
         }
 
         /*
+            The AlterWeights method alters the weights of tiles surrounding a given tile
+            at a specified coordinate, taking into consideration neighboring tiles
+            that have been hit
+        */
+
+        // AlterWeights here
+
+        /*
             The PlaceShip method places a ship on the board
             It accepts the type of ship being placed and its coordinates as arguments
             The method returns a boolean indicating whether the operation was successful
