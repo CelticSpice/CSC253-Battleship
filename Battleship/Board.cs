@@ -25,21 +25,56 @@ namespace Battleship
 
         public Board()
         {
+            const int MAX = 100;
             Random rand = new Random((int)DateTime.Now.Ticks);
             _tiles = new Tile[_NUM_ROWS, _NUM_COLUMNS];
             for (int row = 0; row < _NUM_ROWS; row++)
                 for (int col = 0; col < _NUM_COLUMNS; col++)
                 {
                     Tile tile = new Tile(new Coordinate { x = col, y = row });
-                    tile.Weight = rand.Next(100);
+                    tile.Weight = rand.Next(MAX);
                     _tiles[row, col] = tile;
                 }
             _ships = new Ship[_NUM_SHIPS];
+
+            SetNeighbors();
         }
 
         /*
-            The GetGuessableCoord method returns the coordinate of a guessable
-            tile with the lowest weight
+            The AlterNeighborWeights method alters the weights of tiles
+            around a given tile at a specified coordinate, taking into
+            consideration neighboring tiles that may have been hit
+        */
+
+        public void AlterNeighborWeights(Coordinate coord)
+        {
+            // If there are neighbors hit, weights will
+            // be altered based on that condition
+            Tile[] neighborsHit = _tiles[coord.y, coord.x].
+                GetHitNeighbors();
+            if (neighborsHit.Length > 0)
+            {
+                foreach (Tile neighbor in neighborsHit)
+                {
+                    // Alter this tile's neighbors
+                    Direction dir = _tiles[coord.y, coord.x].
+                        GetDirectionOfNeighbor(neighbor);
+                    _tiles[coord.y, coord.x].AlterNeighborWeights(dir);
+
+                    // Alter neighbor's neighbors
+                    dir = neighbor.GetDirectionOfNeighbor(
+                        _tiles[coord.y, coord.x]);
+                    neighbor.AlterNeighborWeights(dir);
+                }
+            }
+            else
+                // Weights of neighbors will be lowered
+                _tiles[coord.y, coord.x].LowerNeighborWeights();
+        }
+
+        /*
+            The GetGuessableCoord method returns the next lowest weight
+            coordinate
         */
 
         public Coordinate GetGuessableCoord()
@@ -52,7 +87,7 @@ namespace Battleship
             can be guessed, in ascending order of weight
         */
 
-        public Tile[] GetGuessableTiles()
+        private Tile[] GetGuessableTiles()
         {
             // Get list of guessable tiles
             List<Tile> tiles = new List<Tile>();
@@ -93,7 +128,6 @@ namespace Battleship
             foreach (Ship ship in _ships)
                 if (ship != null)
                     occupiedCoords.AddRange(ship.GetCoords());
-
             return occupiedCoords.ToArray();
         }
 
@@ -122,47 +156,68 @@ namespace Battleship
             foreach (Tile tile in _tiles)
                 if (!tile.IsOccupied)
                     unoccupiedCoords.Add(tile.Coordinate);
-
             return unoccupiedCoords.ToArray();
         }
 
         /*
-            The IsGuessOK method returns whether the specified 
-            coordinate has not already been guessed
+            The IsCoordInRange method checks if a coordinate
+            exists on the board
+        */
+
+        public bool IsCoordInRange(Coordinate coord)
+        {
+            bool isInRange = false;
+            if (coord.x >= 0 && coord.x < _NUM_COLUMNS &&
+                coord.y >= 0 && coord.y < _NUM_ROWS)
+            {
+                isInRange = true;
+            }
+            return isInRange;
+        }
+
+        /*
+            The IsGuessOK method returns whether the specified
+            coordinate can be guessed
         */
 
         public bool IsGuessOK(Coordinate coord)
         {
-            bool ok;
-            if (!_tiles[coord.y, coord.x].IsFiredAt)
+            bool ok = false;
+            if (IsCoordInRange(coord) && !_tiles[coord.y, coord.x].IsFiredAt)
                 ok = true;
-            else
-                ok = false;
             return ok;
         }
 
         /*
-            The IsHit method returns whether the specified
+            The IsOccupied method returns whether the specified
             coordinate is occupied by a ship
         */
 
-        public bool IsHit(Coordinate coord)
+        public bool IsOccupied(Coordinate coord)
         {
-            return _tiles[coord.y, coord.x].IsOccupied;
+            bool occupied = false;
+            if (_tiles[coord.y, coord.x].IsOccupied)
+                occupied = true;
+            return occupied;
         }
 
         /*
-            The IsShipExisting method returns whether the specified ship exists on the board
+            The IsShipExisting method returns whether the specified ship exists
+            or is alive on the board
         */
 
         public bool IsShipExisting(ShipType type)
         {
-            return (_ships[(int)type] != null) ? true : false;
+            bool exists = false;
+            Ship ship = _ships[(int)type];
+            if (ship != null && ship.NumParts >= 1)
+                exists = true;
+            return exists;
         }
 
         /*
-            The IsShipPlacementOK method checks if a ship with the given coordinates
-            can be placed on the board without error
+            The IsShipPlacementOK method checks if a ship with the given
+            coordinates can be placed on the board without error
         */
 
         public bool IsShipPlacementOK(Coordinate[] coords)
@@ -172,11 +227,8 @@ namespace Battleship
             // Check for coords out of range
             foreach (Coordinate coord in coords)
             {
-                if ((coord.x < 0 || coord.x > 9) ||
-                    (coord.y < 0 || coord.y > 9))
-                {
+                if (!IsCoordInRange(coord))
                     ok = false;
-                }
             }
 
             // Check for placement on occupied coordinates
@@ -191,72 +243,39 @@ namespace Battleship
         }
 
         /*
-            The LowerWeights method lowers the weights of the tiles surrounding
-            a tile indicated by the specified coordinate
+            The MarkHit method marks a tile at the specified coordinate
+            as having been guessed
+            If the tile is occupied by a ship, the ship loses parts
+            The method returns whether a ship has been hit
         */
 
-        public void LowerWeights(Coordinate coord)
+        public bool MarkHit(Coordinate coord)
         {
-            Random rand = new Random((int)DateTime.Now.Ticks);
-            Direction direction = Direction.North;
-            int xCoord, yCoord;
-            while (direction <= Direction.West)
+            bool shipHit = false;
+            _tiles[coord.y, coord.x].IsFiredAt = true;
+            if (IsOccupied(coord))
             {
-                switch (direction)
-                {
-                    case Direction.North:
-                        xCoord = coord.x;
-                        yCoord = coord.y - 1;
-                        if (yCoord >= 0)
-                            _tiles[yCoord, xCoord].Weight = rand.Next(4);
-                        direction++;
-                        break;
-                    case Direction.South:
-                        xCoord = coord.x;
-                        yCoord = coord.y + 1;
-                        if (yCoord >= 0)
-                            _tiles[yCoord, xCoord].Weight = rand.Next(4);
-                        direction++;
-                        break;
-                    case Direction.East:
-                        xCoord = coord.x + 1;
-                        yCoord = coord.y;
-                        if (xCoord >= 0)
-                            _tiles[yCoord, xCoord].Weight = rand.Next(4);
-                        direction++;
-                        break;
-                    case Direction.West:
-                        xCoord = coord.x - 1;
-                        yCoord = coord.y;
-                        if (xCoord >= 0)
-                            _tiles[yCoord, xCoord].Weight = rand.Next(4);
-                        direction++;
-                        break;
-                }
+                GetShipAtCoord(coord).NumParts--;
+                shipHit = true;
             }
+            return shipHit;
         }
 
         /*
-            The AlterWeights method alters the weights of tiles surrounding a given tile
-            at a specified coordinate, taking into consideration neighboring tiles
-            that have been hit
-        */
-
-        // AlterWeights here
-
-        /*
             The PlaceShip method places a ship on the board
-            It accepts the type of ship being placed and its coordinates as arguments
-            The method returns a boolean indicating whether the operation was successful
+            It accepts the type of ship being placed and
+            its coordinates as arguments
+            The method returns a boolean indicating whether
+            the operation was successful
         */
 
         public bool PlaceShip(ShipType type, Coordinate[] coords)
         {
-            bool success;
+            bool success = false;
 
             if (IsShipPlacementOK(coords))
             {
-                // Fetch the tiles to assign to the Ship
+                // Fetch the tiles to assign to the ship
                 Tile[] tiles = new Tile[coords.Length];
                 for (int i = 0; i < tiles.Length; i++)
                 {
@@ -266,14 +285,12 @@ namespace Battleship
                 _ships[(int)type] = new Ship(type, tiles);
                 success = true;
             }
-            else
-                success = false;
 
             return success;
         }
 
         /*
-            The SetNeighbors method sets the neighbors of the boards tiles
+            The SetNeighbors method sets the neighbors of the board's tiles
         */
 
         private void SetNeighbors()
@@ -284,28 +301,22 @@ namespace Battleship
                 Coordinate coord = tile.Coordinate;
 
                 // Set neighbors
-                for (Direction direction = Direction.North; direction <= Direction.West; direction++)
-                    // Direction represents one of 4 directions: North, South, East, West, respectively
-                    // If no neighbor exists in a direction, neighbor in that direction will be left null
-                    switch (direction)
-                    {
-                        case Direction.North:
-                            if (coord.y > 0)
-                                tile.Neighbors[(int)Direction.North] = _tiles[coord.y - 1, coord.x];
-                            break;
-                        case Direction.South:
-                            if (coord.y < _NUM_ROWS - 1)
-                                tile.Neighbors[(int)Direction.South] = _tiles[coord.y + 1, coord.x];
-                            break;
-                        case Direction.East:
-                            if (coord.x < _NUM_COLUMNS - 1)
-                                tile.Neighbors[(int)Direction.East] = _tiles[coord.y, coord.x + 1];
-                            break;
-                        case Direction.West:
-                            if (coord.x > 0)
-                                tile.Neighbors[(int)Direction.West] = _tiles[coord.y, coord.x - 1];
-                            break;
-                    }
+                // North
+                Direction dir = Direction.North;
+                if (coord.y > 0)
+                    tile.Neighbors[(int)dir] = _tiles[coord.y - 1, coord.x];
+                // South
+                dir++;
+                if (coord.y < _NUM_ROWS - 1)
+                    tile.Neighbors[(int)dir] = _tiles[coord.y + 1, coord.x];
+                // East
+                dir++;
+                if (coord.x < _NUM_COLUMNS - 1)
+                    tile.Neighbors[(int)dir] = _tiles[coord.y, coord.x + 1];
+                // West
+                dir++;
+                if (coord.x > 0)
+                    tile.Neighbors[(int)dir] = _tiles[coord.y, coord.x - 1];
             }
         }
 

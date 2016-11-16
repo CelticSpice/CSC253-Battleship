@@ -4,5 +4,5 @@
 
 namespace Battleship
 {
-   public enum Direction { North, South, East, West }
+   public enum Direction { North, South, East, West, Null }
 }

@@ -3,7 +3,6 @@
 */
 
 using System;
-using System.Linq;
 
 namespace Battleship
 {
@@ -35,11 +34,22 @@ namespace Battleship
         }
 
         /*
+            The InformOfGuess method informs the player of a guess made
+            and returns whether a ship was hit
+        */
+
+        public bool InformOfGuess(Coordinate guess)
+        {
+            bool isHit = _board.MarkHit(guess);
+            return isHit;
+        }
+
+        /*
             The MakeGuess method has the player make a guess
             of a coordinate to shoot at
         */
 
-        private Coordinate MakeGuess()
+        public Coordinate MakeGuess()
         {
             return _opponent.Board.GetGuessableCoord();
         }
@@ -84,27 +94,42 @@ namespace Battleship
                 {
                     // Determine direction to setup ship in
                     const int NUM_DIRECTIONS = 4;
-                    Direction direction = (Direction)rand.Next(NUM_DIRECTIONS);
+                    Direction dir = (Direction)rand.Next(NUM_DIRECTIONS);
 
                     // Get origin coordinate
-                    Coordinate coord = new Coordinate { x = rand.Next(_board.Columns), y = rand.Next(_board.Rows) };
+                    Coordinate coord = new Coordinate {
+                        x = rand.Next(_board.Columns),
+                        y = rand.Next(_board.Rows)
+                    };
 
                     // Get coords in direction setting up ship in
                     for (int j = 0; j < numParts; j++)
                     {
-                        switch (direction)
+                        switch (dir)
                         {
                             case Direction.North:
-                                shipCoords[j] = new Coordinate { x = coord.x, y = coord.y - j };
+                                shipCoords[j] = new Coordinate {
+                                     x = coord.x,
+                                     y = coord.y - j
+                                };
                                 break;
                             case Direction.South:
-                                shipCoords[j] = new Coordinate { x = coord.x, y = coord.y + j };
+                                shipCoords[j] = new Coordinate {
+                                     x = coord.x,
+                                     y = coord.y + j
+                                };
                                 break;
                             case Direction.East:
-                                shipCoords[j] = new Coordinate { x = coord.x + j, y = coord.y };
+                                shipCoords[j] = new Coordinate {
+                                     x = coord.x + j,
+                                     y = coord.y
+                                };
                                 break;
                             case Direction.West:
-                                shipCoords[j] = new Coordinate { x = coord.x - j, y = coord.y };
+                                shipCoords[j] = new Coordinate {
+                                     x = coord.x - j,
+                                     y = coord.y
+                                };
                                 break;
                         }
                     }
@@ -125,14 +150,10 @@ namespace Battleship
         public Coordinate TakeTurn()
         {
             Coordinate guess = MakeGuess();
-            _opponent.Board.Tiles[guess.y, guess.x].IsFiredAt = true;
-            if (_opponent.Board.IsHit(guess))
+            if (_opponent.InformOfGuess(guess))
             {
-                _opponent.Board.GetShipAtCoord(guess).NumParts--;
-
-                // Lower the weights of tiles surrounding hit
-                // to indicate likely ship locations
-                _opponent.Board.LowerWeights(guess);
+                // Alter weights of tiles appropriately
+                _opponent.Board.AlterNeighborWeights(guess);
             }
             return guess;
         }
