@@ -227,3 +227,13 @@ C:\Users\alvesj5327\Source\Repos\CSC253-Battleship\Battleship\obj\Debug\Battlesh
 C:\Users\alvesj5327\Source\Repos\CSC253-Battleship\Battleship\obj\Debug\Battleship.csproj.GenerateResource.Cache
 \\VBOXSVR\burnst\ftcc\2016FA\CSC253\Battleship\Battleship\obj\Debug\Battleship.csprojResolveAssemblyReference.cache
 \\VBOXSVR\burnst\ftcc\2016FA\CSC253\Battleship\Battleship\obj\Debug\Battleship.MainForm.resources
+E:\Adv. C#\Battleship\CSC253-Battleship\Battleship\bin\Debug\Battleship.exe.config
+E:\Adv. C#\Battleship\CSC253-Battleship\Battleship\obj\Debug\Battleship.exe
+E:\Adv. C#\Battleship\CSC253-Battleship\Battleship\obj\Debug\Battleship.pdb
+E:\Adv. C#\Battleship\CSC253-Battleship\Battleship\bin\Debug\Battleship.exe
+E:\Adv. C#\Battleship\CSC253-Battleship\Battleship\bin\Debug\Battleship.pdb
+E:\Adv. C#\Battleship\CSC253-Battleship\Battleship\obj\Debug\Battleship.csprojResolveAssemblyReference.cache
+E:\Adv. C#\Battleship\CSC253-Battleship\Battleship\obj\Debug\Battleship.MainForm.resources
+E:\Adv. C#\Battleship\CSC253-Battleship\Battleship\obj\Debug\Battleship.ModeDialogForm.resources
+E:\Adv. C#\Battleship\CSC253-Battleship\Battleship\obj\Debug\Battleship.Properties.Resources.resources
+E:\Adv. C#\Battleship\CSC253-Battleship\Battleship\obj\Debug\Battleship.csproj.GenerateResource.Cache

@@ -15,7 +15,7 @@ namespace Battleship
             Color.Yellow
         };
 
-        private Button[,] shootingGridBtns;
+        private Label[,] shootingGridLbls;
         private Label[,] trackingGridLbls;
         private Game game;
         private Player player1;
@@ -29,7 +29,9 @@ namespace Battleship
         public MainForm()
         {
             InitializeComponent();
-            // Show dialog
+            DialogResult res = ModeDialogForm.ShowModeDialog();
+            Console.WriteLine(res);
+            
             // 1. Play game
             // 2. Watch game
         }
@@ -48,7 +50,7 @@ namespace Battleship
             for (int row = 0; row < numRows && !found; row++)
                 for (int col = 0; col < numColumns && !found; col++)
                     if (trackingGridLbls[row, col] == control ||
-                        shootingGridBtns[row, col] == control)
+                        shootingGridLbls[row, col] == control)
                     {
                         found = true;
                         coord.x = col;
@@ -123,7 +125,7 @@ namespace Battleship
         }
 
         /*
-            The LoadGridTiles method loads the labels and buttons that
+            The LoadGridTiles method loads the labels that
             represent tiles on the grids
         */
 
@@ -131,7 +133,7 @@ namespace Battleship
         {
             // Variables
             string trackingGridName = "trackingGridLbl",
-                   shootingGridName = "shootingGridBtn",
+                   shootingGridName = "shootingGridLbl",
                    nameSuffix = "0_A";
 
             char xLbl = '0',
@@ -143,36 +145,37 @@ namespace Battleship
             GroupBox trackingGrid = trackingGridGroupBox;
             GroupBox shootingGrid = shootingGridGroupBox;
 
-            // Create labels and buttons
+            // Create labels
             const int NUM_ROWS = 10;
             const int NUM_COLUMNS = 10;
             trackingGridLbls = new Label[NUM_ROWS, NUM_COLUMNS];
-            shootingGridBtns = new Button[NUM_ROWS, NUM_COLUMNS];
+            shootingGridLbls = new Label[NUM_ROWS, NUM_COLUMNS];
             for (int row = 0; row < NUM_ROWS; row++)
             {
                 for (int col = 0; col < NUM_COLUMNS; col++)
                 {
-                    // Create label
-                    Label label = new Label();
-                    label.Location = location;
-                    label.Size = size;
-                    label.Name = trackingGridName + nameSuffix;
-                    label.BackColor = color;
-                    label.BorderStyle = BorderStyle.FixedSingle;
-                    label.Click += TrackingGridLabel_Click;
-                    label.MouseEnter += TrackingGridLabel_MouseEnter;
-                    label.MouseLeave += TrackingGridLabel_MouseLeave;
-                    trackingGrid.Controls.Add(label);
-                    trackingGridLbls[row, col] = label;
+                    // Create tracking grid labels
+                    Label trackLabel = new Label();
+                    trackLabel.Location = location;
+                    trackLabel.Size = size;
+                    trackLabel.Name = trackingGridName + nameSuffix;
+                    trackLabel.BackColor = color;
+                    trackLabel.BorderStyle = BorderStyle.FixedSingle;
+                    trackLabel.Click += TrackingGridLabel_Click;
+                    trackLabel.MouseEnter += TrackingGridLabel_MouseEnter;
+                    trackLabel.MouseLeave += TrackingGridLabel_MouseLeave;
+                    trackingGrid.Controls.Add(trackLabel);
+                    trackingGridLbls[row, col] = trackLabel;
 
-                    // Create button
-                    Button button = new Button();
-                    button.Location = location;
-                    button.Size = size;
-                    button.Name = shootingGridName + nameSuffix;
-                    button.BackColor = color;
-                    shootingGrid.Controls.Add(button);
-                    shootingGridBtns[row, col] = button;
+                    // Create shooting grid labels
+                    Label shootLabel = new Label();
+                    shootLabel.Location = location;
+                    shootLabel.Size = size;
+                    shootLabel.Name = shootingGridName + nameSuffix;
+                    shootLabel.BackColor = color;
+                    shootLabel.BorderStyle = BorderStyle.FixedSingle;
+                    shootingGrid.Controls.Add(shootLabel);
+                    shootingGridLbls[row, col] = shootLabel;
 
                     // To next xCoord
                     xLbl++;
@@ -210,14 +213,14 @@ namespace Battleship
         }
 
         /*
-            Click handler for Shooting Grid button
+            Click handler for Shooting Grid label
         */
 
-        private void ShootingGridButton_Click(object sender, EventArgs e)
+        private void ShootingGridLabel_Click(object sender, EventArgs e)
         {
             bool gameOver = false;
 
-            // Get the coordinate of clicked button
+            // Get the coordinate of clicked label
             Coordinate guess = GetCoordinate((Control)sender);
 
             // Check that the guess was not already made
@@ -236,8 +239,8 @@ namespace Battleship
                         MessageBox.Show("You have won the game!");
 
                         // Remove handlers
-                        foreach (Button button in shootingGridBtns)
-                            button.Click -= ShootingGridButton_Click;
+                        foreach (Label label in shootingGridLbls)
+                            label.Click -= ShootingGridLabel_Click;
                     }
                 }
                 else
@@ -265,8 +268,8 @@ namespace Battleship
                             MessageBox.Show("You have lost the game!");
 
                             // Remove handlers
-                            foreach (Button button in shootingGridBtns)
-                                button.Click -= ShootingGridButton_Click;
+                            foreach (Label label in shootingGridLbls)
+                                label.Click -= ShootingGridLabel_Click;
                         }
                     }
                     else
@@ -305,9 +308,9 @@ namespace Battleship
                         label.MouseLeave -= TrackingGridLabel_MouseLeave;
                     }
 
-                    // Add handler to buttons
-                    foreach (Button button in shootingGridBtns)
-                        button.Click += ShootingGridButton_Click;
+                    // Add handler to labels
+                    foreach (Label label in shootingGridLbls)
+                        label.Click += ShootingGridLabel_Click;
 
                     // Prepare battle phase
                     game.IsSetupMode = false;
