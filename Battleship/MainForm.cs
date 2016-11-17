@@ -29,6 +29,9 @@ namespace Battleship
         public MainForm()
         {
             InitializeComponent();
+            // Show dialog
+            // 1. Play game
+            // 2. Watch game
         }
 
         /*

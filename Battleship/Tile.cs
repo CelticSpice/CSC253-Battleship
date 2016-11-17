@@ -54,8 +54,8 @@ namespace Battleship
 
         public void AlterNeighborWeights(Direction direction)
         {
-            const int LOWER_ALTER = -55;
-            const int HIGHER_ALTER = 45;
+            const int LOWER_ALTER = -65;
+            const int HIGHER_ALTER = 30;
 
             for (Direction d = Direction.North; d < Direction.Null; d++)
             {
@@ -110,7 +110,7 @@ namespace Battleship
         {
             List<Tile> hitNeighbors = new List<Tile>();
             foreach (Tile neighbor in _neighbors)
-                if (neighbor._isFiredAt)
+                if (neighbor != null && neighbor._isFiredAt)
                     hitNeighbors.Add(neighbor);
             return hitNeighbors.ToArray();
         }
