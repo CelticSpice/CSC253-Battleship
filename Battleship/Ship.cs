@@ -13,7 +13,7 @@ namespace Battleship
 
         /*
             Constructor
-            Accepts the Ship's type and the coordinates it occupies
+            Accepts the ship's type and the coordinates it occupies
         */
 
         public Ship(ShipType type, Coordinate[] coordinates)

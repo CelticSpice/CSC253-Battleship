@@ -32,19 +32,6 @@ namespace Battleship
         }
 
         /*
-            Copy Constructor
-        */
-
-        public Tile(Tile toCopy)
-        {
-            _coordinate = toCopy._coordinate;
-            _isOccupied = toCopy._isOccupied;
-            _isGuessed = toCopy._isGuessed;
-            _weight = toCopy._weight;
-            _neighbors = toCopy._neighbors;
-        }
-
-        /*
             The AlterNeighborWeights method alters the weights of the tile's
             neighbors based on a specified direction. The direction and its
             cardinal opposite specify neighbors to lower the weight of; the

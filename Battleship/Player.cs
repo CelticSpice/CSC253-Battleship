@@ -44,13 +44,23 @@ namespace Battleship
         }
 
         /*
-            The GetIfHit method asks the player if a tile on the player's board
-            specified by a coordinate is a hit
+            The GetIfHit method asks the player if the tile on the player's board
+            specified by the given coordinate is a hit
         */
 
         public bool GetIfHit(Coordinate coord)
         {
             return _board.IsHit(coord);
+        }
+
+        /*
+            The GetIfSetupOK method returns whether a ship
+            with the given coordinates can be placed on the player's board
+        */
+
+        public bool GetIfSetupOK(Coordinate[] coords)
+        {
+            return _board.IsShipPlacementOK(coords);
         }
 
         /*
@@ -92,6 +102,16 @@ namespace Battleship
         {
             const int LOWEST_WEIGHT_CHOICE = 0;
             return _opponent.GetChoices()[LOWEST_WEIGHT_CHOICE];
+        }
+
+        /*
+            The PlaceShip method has the player place the specified
+            ship type on its board with the given coordinates
+        */
+
+        public void PlaceShip(ShipType type, Coordinate[] coords)
+        {
+            _board.PlaceShip(type, coords);
         }
 
         /*

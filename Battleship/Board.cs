@@ -162,7 +162,7 @@ namespace Battleship
             exists on the board
         */
 
-        public bool IsCoordInRange(Coordinate coord)
+        private bool IsCoordInRange(Coordinate coord)
         {
             bool isInRange = false;
             if (coord.x >= 0 && coord.x < _NUM_COLUMNS &&
@@ -187,8 +187,8 @@ namespace Battleship
         }
 
         /*
-            The IsHit method returns whether a tile at the specified coordinate
-            is a hit
+            The IsHit method returns whether the tile at the specified coordinate
+            has been hit
         */
 
         public bool IsHit(Coordinate coord)
@@ -199,14 +199,12 @@ namespace Battleship
 
         /*
             The IsShipExisting method returns whether the specified ship exists
-            or is alive on the board
         */
 
         public bool IsShipExisting(ShipType type)
         {
             bool exists = false;
-            Ship ship = _ships[(int)type];
-            if (ship != null && ship.NumParts >= 1)
+            if (_ships[(int)type] != null)
                 exists = true;
             return exists;
         }
