@@ -13,8 +13,7 @@ namespace Battleship
         private const int NUM_NEIGHBORS = 4;
 
         private Coordinate _coordinate;
-        private bool _isOccupied;
-        private bool _isFiredAt;
+        private bool _isOccupied, _isGuessed;
         private int _weight;
         private Tile[] _neighbors;
 
@@ -27,7 +26,7 @@ namespace Battleship
         {
             _coordinate = coord;
             _isOccupied = false;
-            _isFiredAt = false;
+            _isGuessed = false;
             _weight = 0;
             _neighbors = new Tile[NUM_NEIGHBORS];
         }
@@ -40,7 +39,7 @@ namespace Battleship
         {
             _coordinate = toCopy._coordinate;
             _isOccupied = toCopy._isOccupied;
-            _isFiredAt = toCopy._isFiredAt;
+            _isGuessed = toCopy._isGuessed;
             _weight = toCopy._weight;
             _neighbors = toCopy._neighbors;
         }
@@ -57,9 +56,10 @@ namespace Battleship
             const int LOWER_ALTER = -65;
             const int HIGHER_ALTER = 30;
 
-            for (Direction d = Direction.North; d < Direction.Null; d++)
+            for (Direction d = Direction.North; d <= Direction.West; d++)
             {
-                if (_neighbors[(int)d] != null)
+                if (_neighbors[(int)d] != null &&
+                    !_neighbors[(int)d]._isGuessed)
                 {
                     switch (direction)
                     {
@@ -86,13 +86,12 @@ namespace Battleship
         /*
             The GetDirectionOfNeighbor method returns the direction
             that a specified neighbor is in relation to this tile
-            If the tile is not a neighbor, null direction is returned
         */
 
         public Direction GetDirectionOfNeighbor(Tile neighbor)
         {
-            Direction direction = Direction.Null;
-            for (Direction dir = Direction.North; dir < Direction.Null; dir++)
+            Direction direction = Direction.North;
+            for (Direction dir = Direction.North; dir <= Direction.West; dir++)
                 if (_neighbors[(int)dir] != null &&
                     _neighbors[(int)dir].Equals(neighbor))
                 {
@@ -109,9 +108,9 @@ namespace Battleship
         public Tile[] GetHitNeighbors()
         {
             List<Tile> hitNeighbors = new List<Tile>();
-            foreach (Tile neighbor in _neighbors)
-                if (neighbor != null && neighbor._isFiredAt)
-                    hitNeighbors.Add(neighbor);
+            foreach (Tile neigh in _neighbors)
+                if (neigh != null && neigh._isGuessed && neigh._isOccupied)
+                    hitNeighbors.Add(neigh);
             return hitNeighbors.ToArray();
         }
 
@@ -126,7 +125,7 @@ namespace Battleship
             const int MAX = 100;
             Random rand = new Random((int)DateTime.Now.Ticks);
 
-            for (Direction dir = Direction.North; dir < Direction.Null; dir++)
+            for (Direction dir = Direction.North; dir <= Direction.West; dir++)
                 if (_neighbors[(int)dir] != null)
                     _neighbors[(int)dir]._weight -= rand.Next(MIN, MAX);
         }
@@ -151,13 +150,13 @@ namespace Battleship
         }
 
         /*
-            IsFiredAt property
+            IsGuessed property
         */
 
-        public bool IsFiredAt
+        public bool IsGuessed
         {
-            get { return _isFiredAt; }
-            set { _isFiredAt = value; }
+            get { return _isGuessed; }
+            set { _isGuessed = value; }
         }
 
         /*

@@ -41,45 +41,47 @@ namespace Battleship
         }
 
         /*
-            The AlterNeighborWeights method alters the weights of tiles
-            around a given tile at a specified coordinate, taking into
+            The AlterWeights method alters the weights of tiles
+            around a given tile, taking into
             consideration neighboring tiles that may have been hit
         */
 
-        public void AlterNeighborWeights(Coordinate coord)
+        public void AlterWeights(Tile tile)
         {
             // If there are neighbors hit, weights will
             // be altered based on that condition
-            Tile[] neighborsHit = _tiles[coord.y, coord.x].
-                GetHitNeighbors();
+            Tile[] neighborsHit = tile.GetHitNeighbors();
             if (neighborsHit.Length > 0)
             {
                 foreach (Tile neighbor in neighborsHit)
                 {
-                    // Alter this tile's neighbors
-                    Direction dir = _tiles[coord.y, coord.x].
-                        GetDirectionOfNeighbor(neighbor);
-                    _tiles[coord.y, coord.x].AlterNeighborWeights(dir);
+                    // Alter the tile's neighbors
+                    Direction dir = tile.GetDirectionOfNeighbor(neighbor);
+                    tile.AlterNeighborWeights(dir);
 
                     // Alter neighbor's neighbors
-                    dir = neighbor.GetDirectionOfNeighbor(
-                        _tiles[coord.y, coord.x]);
+                    dir = neighbor.GetDirectionOfNeighbor(tile);
                     neighbor.AlterNeighborWeights(dir);
                 }
             }
             else
                 // Weights of neighbors will be lowered
-                _tiles[coord.y, coord.x].LowerNeighborWeights();
+                tile.LowerNeighborWeights();
         }
 
         /*
-            The GetGuessableCoord method returns the next lowest weight
-            coordinate
+            The GetGuessableCoords method returns the coordinates
+            that can be guessed, in ascending order of weight
         */
 
-        public Coordinate GetGuessableCoord()
+        public Coordinate[] GetGuessableCoords()
         {
-            return GetGuessableTiles()[0].Coordinate;
+            Tile[] guessableTiles = GetGuessableTiles();
+            Coordinate[] guessableCoords =
+                new Coordinate[guessableTiles.Length];
+            for (int i = 0; i < guessableCoords.Length; i++)
+                guessableCoords[i] = guessableTiles[i].Coordinate;
+            return guessableCoords;
         }
 
         /*
@@ -92,7 +94,7 @@ namespace Battleship
             // Get list of guessable tiles
             List<Tile> tiles = new List<Tile>();
             foreach (Tile tile in _tiles)
-                if (!tile.IsFiredAt)
+                if (!tile.IsGuessed)
                     tiles.Add(tile);
 
             // Sort list by weight in ascending order
@@ -127,7 +129,7 @@ namespace Battleship
             List<Coordinate> occupiedCoords = new List<Coordinate>();
             foreach (Ship ship in _ships)
                 if (ship != null)
-                    occupiedCoords.AddRange(ship.GetCoords());
+                    occupiedCoords.AddRange(ship.Coords);
             return occupiedCoords.ToArray();
         }
 
@@ -138,11 +140,7 @@ namespace Battleship
 
         public Ship GetShipAtCoord(Coordinate coord)
         {
-            Ship ship = null;
-            foreach (Ship s in _ships)
-                if (s.GetCoords().Contains(coord))
-                    ship = s;
-            return ship;
+            return _ships.First(ship => ship.Coords.Contains(coord));
         }
 
         /*
@@ -183,22 +181,20 @@ namespace Battleship
         public bool IsGuessOK(Coordinate coord)
         {
             bool ok = false;
-            if (IsCoordInRange(coord) && !_tiles[coord.y, coord.x].IsFiredAt)
+            if (IsCoordInRange(coord) && !_tiles[coord.y, coord.x].IsGuessed)
                 ok = true;
             return ok;
         }
 
         /*
-            The IsOccupied method returns whether the specified
-            coordinate is occupied by a ship
+            The IsHit method returns whether a tile at the specified coordinate
+            is a hit
         */
 
-        public bool IsOccupied(Coordinate coord)
+        public bool IsHit(Coordinate coord)
         {
-            bool occupied = false;
-            if (_tiles[coord.y, coord.x].IsOccupied)
-                occupied = true;
-            return occupied;
+            return _tiles[coord.y, coord.x].IsOccupied &&
+                   _tiles[coord.y, coord.x].IsGuessed;
         }
 
         /*
@@ -226,39 +222,42 @@ namespace Battleship
 
             // Check for coords out of range
             foreach (Coordinate coord in coords)
-            {
                 if (!IsCoordInRange(coord))
                     ok = false;
-            }
 
             // Check for placement on occupied coordinates
             if (ok)
-            {
                 foreach (Coordinate coord in GetOccupiedCoords())
                     if (coords.Contains(coord))
                         ok = false;
-            }
 
             return ok;
         }
 
         /*
-            The MarkHit method marks a tile at the specified coordinate
-            as having been guessed
-            If the tile is occupied by a ship, the ship loses parts
-            The method returns whether a ship has been hit
+            The IsSunk method returns whether the specified type of ship
+            is sunk (has 0 parts)
         */
 
-        public bool MarkHit(Coordinate coord)
+        public bool IsSunk(ShipType type)
         {
-            bool shipHit = false;
-            _tiles[coord.y, coord.x].IsFiredAt = true;
-            if (IsOccupied(coord))
+            return (_ships[(int)type].NumParts == 0);
+        }
+
+        /*
+            The MarkGuess method marks a tile at the specified coordinate
+            as having been guessed. If a ship exists at the tile with the
+            specified coordinate, the ship loses parts and weights are altered
+        */
+
+        public void MarkGuess(Coordinate coord)
+        {
+            _tiles[coord.y, coord.x].IsGuessed = true;
+            if (_tiles[coord.y, coord.x].IsOccupied)
             {
                 GetShipAtCoord(coord).NumParts--;
-                shipHit = true;
+                AlterWeights(_tiles[coord.y, coord.x]);
             }
-            return shipHit;
         }
 
         /*
@@ -272,20 +271,13 @@ namespace Battleship
         public bool PlaceShip(ShipType type, Coordinate[] coords)
         {
             bool success = false;
-
             if (IsShipPlacementOK(coords))
             {
-                // Fetch the tiles to assign to the ship
-                Tile[] tiles = new Tile[coords.Length];
-                for (int i = 0; i < tiles.Length; i++)
-                {
-                    tiles[i] = _tiles[coords[i].y, coords[i].x];
-                    tiles[i].IsOccupied = true;
-                }
-                _ships[(int)type] = new Ship(type, tiles);
+                _ships[(int)type] = new Ship(type, coords);
+                foreach (Coordinate coord in coords)
+                    _tiles[coord.y, coord.x].IsOccupied = true;
                 success = true;
             }
-
             return success;
         }
 

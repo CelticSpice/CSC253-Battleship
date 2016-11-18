@@ -8,58 +8,44 @@ namespace Battleship
     {
         // Fields
         private int _numParts;
-        private Tile[] _tilesOccupied;
+        private Coordinate[] _coords;
         private ShipType _type;
 
         /*
             Constructor
-            Accepts the Ship's type and the tiles it occupies
+            Accepts the Ship's type and the coordinates it occupies
         */
 
-        public Ship(ShipType type, Tile[] tiles)
+        public Ship(ShipType type, Coordinate[] coordinates)
         {
             switch (type)
             {
                 case ShipType.AircraftCarrier:
                     _numParts = 5;
-                    _tilesOccupied = new Tile[_numParts];
+                    _coords = coordinates;
                     _type = type;
                     break;
                 case ShipType.Battleship:
                     _numParts = 4;
-                    _tilesOccupied = new Tile[_numParts];
+                    _coords = coordinates;
                     _type = type;
                     break;
                 case ShipType.Submarine:
                 case ShipType.Destroyer:
                     _numParts = 3;
-                    _tilesOccupied = new Tile[_numParts];
+                    _coords = coordinates;
                     _type = type;
                     break;
                 case ShipType.PatrolBoat:
                     _numParts = 2;
-                    _tilesOccupied = new Tile[_numParts];
+                    _coords = coordinates;
                     _type = type;
                     break;
             }
-
-            _tilesOccupied = tiles;
         }
 
         /*
-            The GetCoords method returns the coordinates of the ship
-        */
-
-        public Coordinate[] GetCoords()
-        {
-            Coordinate[] coords = new Coordinate[_tilesOccupied.Length];
-            for (int i = 0; i < coords.Length; i++)
-                coords[i] = _tilesOccupied[i].Coordinate;
-            return coords;
-        }
-
-        /*
-            NumParts property
+            NumParts Property
         */
 
         public int NumParts
@@ -69,16 +55,16 @@ namespace Battleship
         }
 
         /*
-            TilesOccupied property
+            Coords Property
         */
 
-        public Tile[] TilesOccupied
+        public Coordinate[] Coords
         {
-            get { return _tilesOccupied; }
+            get { return _coords; }
         }
 
         /*
-            Type property
+            Type Property
         */
 
         public ShipType Type
