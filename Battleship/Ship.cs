@@ -8,7 +8,7 @@ namespace Battleship
     {
         // Fields
         private int _numParts;
-        private Coordinate[] _coords;
+        private Coordinate[] coords;
         private ShipType _type;
 
         /*
@@ -22,26 +22,35 @@ namespace Battleship
             {
                 case ShipType.AircraftCarrier:
                     _numParts = 5;
-                    _coords = coordinates;
+                    coords = coordinates;
                     _type = type;
                     break;
                 case ShipType.Battleship:
                     _numParts = 4;
-                    _coords = coordinates;
+                    coords = coordinates;
                     _type = type;
                     break;
                 case ShipType.Submarine:
                 case ShipType.Destroyer:
                     _numParts = 3;
-                    _coords = coordinates;
+                    coords = coordinates;
                     _type = type;
                     break;
                 case ShipType.PatrolBoat:
                     _numParts = 2;
-                    _coords = coordinates;
+                    coords = coordinates;
                     _type = type;
                     break;
             }
+        }
+
+        /*
+            The GetCoords method returns the ship's coordinates
+        */
+
+        public Coordinate[] GetCoords()
+        {
+            return coords;
         }
 
         /*
@@ -52,15 +61,6 @@ namespace Battleship
         {
             get { return _numParts; }
             set { _numParts = value; }
-        }
-
-        /*
-            Coords Property
-        */
-
-        public Coordinate[] Coords
-        {
-            get { return _coords; }
         }
 
         /*

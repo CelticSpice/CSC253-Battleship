@@ -15,7 +15,7 @@ namespace Battleship
         private Coordinate _coordinate;
         private bool _isOccupied, _isGuessed;
         private int _weight;
-        private Tile[] _neighbors;
+        private Tile[] neighbors;
 
         /*
             Constructor
@@ -28,7 +28,7 @@ namespace Battleship
             _isOccupied = false;
             _isGuessed = false;
             _weight = 0;
-            _neighbors = new Tile[NUM_NEIGHBORS];
+            neighbors = new Tile[NUM_NEIGHBORS];
         }
 
         /*
@@ -45,24 +45,23 @@ namespace Battleship
 
             for (Direction d = Direction.North; d <= Direction.West; d++)
             {
-                if (_neighbors[(int)d] != null &&
-                    !_neighbors[(int)d]._isGuessed)
+                if (neighbors[(int)d] != null && !neighbors[(int)d]._isGuessed)
                 {
                     switch (direction)
                     {
                         case Direction.North:
                         case Direction.South:
                             if (d == Direction.North || d == Direction.South)
-                                _neighbors[(int)d]._weight += LOWER_ALTER;
+                                neighbors[(int)d]._weight += LOWER_ALTER;
                             else
-                                _neighbors[(int)d]._weight += HIGHER_ALTER;
+                                neighbors[(int)d]._weight += HIGHER_ALTER;
                             break;
                         case Direction.East:
                         case Direction.West:
                             if (d == Direction.East || d == Direction.West)
-                                _neighbors[(int)d]._weight += LOWER_ALTER;
+                                neighbors[(int)d]._weight += LOWER_ALTER;
                             else
-                                _neighbors[(int)d]._weight += HIGHER_ALTER;
+                                neighbors[(int)d]._weight += HIGHER_ALTER;
                             break;
                     }
                 }
@@ -79,8 +78,8 @@ namespace Battleship
         {
             Direction direction = Direction.North;
             for (Direction dir = Direction.North; dir <= Direction.West; dir++)
-                if (_neighbors[(int)dir] != null &&
-                    _neighbors[(int)dir].Equals(neighbor))
+                if (neighbors[(int)dir] != null &&
+                    neighbors[(int)dir].Equals(neighbor))
                 {
                     direction = dir;
                 }
@@ -95,10 +94,20 @@ namespace Battleship
         public Tile[] GetHitNeighbors()
         {
             List<Tile> hitNeighbors = new List<Tile>();
-            foreach (Tile neigh in _neighbors)
-                if (neigh != null && neigh._isGuessed && neigh._isOccupied)
-                    hitNeighbors.Add(neigh);
+            foreach (Tile n in neighbors)
+                if (n != null && n._isGuessed && n._isOccupied)
+                    hitNeighbors.Add(n);
             return hitNeighbors.ToArray();
+        }
+
+        /*
+            The GetNeighbors method returns the tile's
+            neighbors
+        */
+
+        public Tile[] GetNeighbors()
+        {
+            return neighbors;
         }
 
         /*
@@ -113,12 +122,12 @@ namespace Battleship
             Random rand = new Random((int)DateTime.Now.Ticks);
 
             for (Direction dir = Direction.North; dir <= Direction.West; dir++)
-                if (_neighbors[(int)dir] != null)
-                    _neighbors[(int)dir]._weight -= rand.Next(MIN, MAX);
+                if (neighbors[(int)dir] != null)
+                    neighbors[(int)dir]._weight -= rand.Next(MIN, MAX);
         }
 
         /*
-            Coordinate property
+            Coordinate Property
         */
 
         public Coordinate Coordinate
@@ -137,7 +146,7 @@ namespace Battleship
         }
 
         /*
-            IsGuessed property
+            IsGuessed Property
         */
 
         public bool IsGuessed
@@ -154,15 +163,6 @@ namespace Battleship
         {
             get { return _weight; }
             set { _weight = value; }
-        }
-
-        /*
-            Neighbors Property
-        */
-
-        public Tile[] Neighbors
-        {
-            get { return _neighbors; }
         }
     }
 }

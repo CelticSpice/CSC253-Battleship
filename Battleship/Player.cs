@@ -9,8 +9,8 @@ namespace Battleship
     public class Player
     {
         // Fields
-        private Board _board;
-        private Player _opponent;
+        private Board board;
+        private Player opponent;
 
         /*
             Constructor
@@ -18,8 +18,8 @@ namespace Battleship
 
         public Player()
         {
-            _board = new Board();
-            _opponent = null;
+            board = new Board();
+            opponent = null;
         }
 
         /*
@@ -27,30 +27,10 @@ namespace Battleship
             Accepts the player's opponent
         */
 
-        public Player(Player opponent)
+        public Player(Player oppo)
         {
-            _board = new Board();
-            _opponent = opponent;
-        }
-
-        /*
-            The GetChoices method asks the player for valid guesses that can be
-            made on its board
-        */
-
-        public Coordinate[] GetChoices()
-        {
-            return _board.GetGuessableCoords();
-        }
-
-        /*
-            The GetIfHit method asks the player if the tile on the player's board
-            specified by the given coordinate is a hit
-        */
-
-        public bool GetIfHit(Coordinate coord)
-        {
-            return _board.IsHit(coord);
+            board = new Board();
+            opponent = oppo;
         }
 
         /*
@@ -60,37 +40,27 @@ namespace Battleship
 
         public bool GetIfSetupOK(Coordinate[] coords)
         {
-            return _board.IsShipPlacementOK(coords);
+            return board.IsShipPlacementOK(coords);
         }
 
         /*
-            The GetIfShipSunk method asks the player if a ship of the specified
-            type is sunk
+            The InformOfGuess method tells the player that a guess has been
+            made at the specified coordinate
+            The method returns the result of the guess
         */
 
-        public bool GetIfShipSunk(ShipType type)
+        public GuessResult InformOfGuess(Coordinate guess)
         {
-            return _board.IsSunk(type);
-        }
-
-        /*
-            The GetShipTypeAt method returns the type of ship that exists
-            at the specified coordinate
-        */
-
-        public ShipType GetShipTypeAt(Coordinate coord)
-        {
-            return _board.GetShipAtCoord(coord).Type;
-        }
-
-        /*
-            The InformOfGuess method informs the player of a guess made
-            of a shot to take on its board
-        */
-
-        public void InformOfGuess(Coordinate guess)
-        {
-            _board.MarkGuess(guess);
+            GuessResult result = GuessResult.Miss;
+            board.MarkGuess(guess);
+            if (board.IsHit(guess))
+            {
+                if (board.IsSunk(board.GetShipTypeAtCoord(guess)))
+                    result = GuessResult.Sink;
+                else
+                    result = GuessResult.Hit;
+            }
+            return result;
         }
 
         /*
@@ -100,8 +70,7 @@ namespace Battleship
 
         public Coordinate MakeGuess()
         {
-            const int LOWEST_WEIGHT_CHOICE = 0;
-            return _opponent.GetChoices()[LOWEST_WEIGHT_CHOICE];
+            return opponent.board.GetGuessableCoord();
         }
 
         /*
@@ -111,7 +80,16 @@ namespace Battleship
 
         public void PlaceShip(ShipType type, Coordinate[] coords)
         {
-            _board.PlaceShip(type, coords);
+            board.PlaceShip(type, coords);
+        }
+
+        /*
+            The SetOpponent method sets the player's opponent
+        */
+
+        public void SetOpponent(Player oppo)
+        {
+            opponent = oppo;
         }
 
         /*
@@ -157,8 +135,8 @@ namespace Battleship
 
                     // Get origin coordinate
                     Coordinate coord = new Coordinate {
-                        x = rand.Next(_board.Columns),
-                        y = rand.Next(_board.Rows)
+                        x = rand.Next(board.Columns),
+                        y = rand.Next(board.Rows)
                     };
 
                     // Get coordinates in direction setting up ship in
@@ -194,7 +172,7 @@ namespace Battleship
                     }
 
                     // Attempt to place ship
-                    success = _board.PlaceShip(type, shipCoords);
+                    success = board.PlaceShip(type, shipCoords);
 
 
                 } while (!success);
@@ -202,22 +180,54 @@ namespace Battleship
         }
 
         /*
-            Board Property
+            The TellIfGuessOK method returns whether a guess can be made
+            at the specified coordinate on the player's board
         */
 
-        public Board Board
+        public bool TellIfGuessOK(Coordinate guess)
         {
-            get { return _board; }
+            return board.IsGuessOK(guess);
         }
 
         /*
-            Opponent Property
+            The TellNumShipsLiving method returns the number of ships that are
+            currently living (have 1 or more parts that have not been hit)
+            on the player's board
         */
 
-        public Player Opponent
+        public int TellNumShipsLiving()
         {
-            get { return _opponent; }
-            set { _opponent = value; }
+            return board.GetNumShipsLiving();
+        }
+
+        /*
+            The TellShipCoords method returns an array containing coordinates
+            that the specified ship occupies
+        */
+
+        public Coordinate[] TellShipCoords(ShipType type)
+        {
+            return board.GetShipCoords(type);
+        }
+
+        /*
+            The TellShipHit method returns the ship type that was hit on the
+            player's board at the specified coordinate
+        */
+
+        public ShipType TellShipHit(Coordinate coord)
+        {
+            return board.GetShipTypeAtCoord(coord);
+        }
+
+        /*
+            The TellUnoccupiedCoords method returns an array of coordinates
+            on the player's board that are unoccupied
+        */
+
+        public Coordinate[] TellUnoccupiedCoords()
+        {
+            return board.GetUnoccupiedCoords();
         }
     }
 }

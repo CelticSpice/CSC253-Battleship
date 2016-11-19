@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.trackingGridGroupBox = new System.Windows.Forms.GroupBox();
+            this.lblSet1GroupBox = new System.Windows.Forms.GroupBox();
             this.trackingGridCol9Lbl = new System.Windows.Forms.Label();
             this.trackingGridRowJLbl = new System.Windows.Forms.Label();
             this.trackingGridRowILbl = new System.Windows.Forms.Label();
@@ -49,7 +49,7 @@
             this.trackingGridCol2Lbl = new System.Windows.Forms.Label();
             this.trackingGridCol1Lbl = new System.Windows.Forms.Label();
             this.trackingGridCol0Lbl = new System.Windows.Forms.Label();
-            this.shootingGridGroupBox = new System.Windows.Forms.GroupBox();
+            this.lblSet2GroupBox = new System.Windows.Forms.GroupBox();
             this.shootingGridRowJLbl = new System.Windows.Forms.Label();
             this.shootingGridRowILbl = new System.Windows.Forms.Label();
             this.shootingGridRowHLbl = new System.Windows.Forms.Label();
@@ -95,39 +95,40 @@
             this.player1AircraftCarrierStatusLabel = new System.Windows.Forms.Label();
             this.quitButton = new System.Windows.Forms.Button();
             this.commentLbl = new System.Windows.Forms.Label();
-            this.trackingGridGroupBox.SuspendLayout();
-            this.shootingGridGroupBox.SuspendLayout();
+            this.AIGameWorker = new System.ComponentModel.BackgroundWorker();
+            this.lblSet1GroupBox.SuspendLayout();
+            this.lblSet2GroupBox.SuspendLayout();
             this.player1ShipStatusPanel.SuspendLayout();
             this.SuspendLayout();
             // 
-            // trackingGridGroupBox
+            // lblSet1GroupBox
             // 
-            this.trackingGridGroupBox.Controls.Add(this.trackingGridCol9Lbl);
-            this.trackingGridGroupBox.Controls.Add(this.trackingGridRowJLbl);
-            this.trackingGridGroupBox.Controls.Add(this.trackingGridRowILbl);
-            this.trackingGridGroupBox.Controls.Add(this.trackingGridCol8Lbl);
-            this.trackingGridGroupBox.Controls.Add(this.trackingGridRowHLbl);
-            this.trackingGridGroupBox.Controls.Add(this.trackingGridRowGLbl);
-            this.trackingGridGroupBox.Controls.Add(this.trackingGridCol7Lbl);
-            this.trackingGridGroupBox.Controls.Add(this.trackingGridRowFLbl);
-            this.trackingGridGroupBox.Controls.Add(this.trackingGridRowELbl);
-            this.trackingGridGroupBox.Controls.Add(this.trackingGridCol6Lbl);
-            this.trackingGridGroupBox.Controls.Add(this.trackingGridRowDLbl);
-            this.trackingGridGroupBox.Controls.Add(this.trackingGridRowCLbl);
-            this.trackingGridGroupBox.Controls.Add(this.trackingGridCol5Lbl);
-            this.trackingGridGroupBox.Controls.Add(this.trackingGridRowBLbl);
-            this.trackingGridGroupBox.Controls.Add(this.trackingGridRowALbl);
-            this.trackingGridGroupBox.Controls.Add(this.trackingGridCol4Lbl);
-            this.trackingGridGroupBox.Controls.Add(this.trackingGridCol3Lbl);
-            this.trackingGridGroupBox.Controls.Add(this.trackingGridCol2Lbl);
-            this.trackingGridGroupBox.Controls.Add(this.trackingGridCol1Lbl);
-            this.trackingGridGroupBox.Controls.Add(this.trackingGridCol0Lbl);
-            this.trackingGridGroupBox.Location = new System.Drawing.Point(12, 12);
-            this.trackingGridGroupBox.Name = "trackingGridGroupBox";
-            this.trackingGridGroupBox.Size = new System.Drawing.Size(280, 272);
-            this.trackingGridGroupBox.TabIndex = 0;
-            this.trackingGridGroupBox.TabStop = false;
-            this.trackingGridGroupBox.Text = "Tracking Grid";
+            this.lblSet1GroupBox.Controls.Add(this.trackingGridCol9Lbl);
+            this.lblSet1GroupBox.Controls.Add(this.trackingGridRowJLbl);
+            this.lblSet1GroupBox.Controls.Add(this.trackingGridRowILbl);
+            this.lblSet1GroupBox.Controls.Add(this.trackingGridCol8Lbl);
+            this.lblSet1GroupBox.Controls.Add(this.trackingGridRowHLbl);
+            this.lblSet1GroupBox.Controls.Add(this.trackingGridRowGLbl);
+            this.lblSet1GroupBox.Controls.Add(this.trackingGridCol7Lbl);
+            this.lblSet1GroupBox.Controls.Add(this.trackingGridRowFLbl);
+            this.lblSet1GroupBox.Controls.Add(this.trackingGridRowELbl);
+            this.lblSet1GroupBox.Controls.Add(this.trackingGridCol6Lbl);
+            this.lblSet1GroupBox.Controls.Add(this.trackingGridRowDLbl);
+            this.lblSet1GroupBox.Controls.Add(this.trackingGridRowCLbl);
+            this.lblSet1GroupBox.Controls.Add(this.trackingGridCol5Lbl);
+            this.lblSet1GroupBox.Controls.Add(this.trackingGridRowBLbl);
+            this.lblSet1GroupBox.Controls.Add(this.trackingGridRowALbl);
+            this.lblSet1GroupBox.Controls.Add(this.trackingGridCol4Lbl);
+            this.lblSet1GroupBox.Controls.Add(this.trackingGridCol3Lbl);
+            this.lblSet1GroupBox.Controls.Add(this.trackingGridCol2Lbl);
+            this.lblSet1GroupBox.Controls.Add(this.trackingGridCol1Lbl);
+            this.lblSet1GroupBox.Controls.Add(this.trackingGridCol0Lbl);
+            this.lblSet1GroupBox.Location = new System.Drawing.Point(12, 12);
+            this.lblSet1GroupBox.Name = "lblSet1GroupBox";
+            this.lblSet1GroupBox.Size = new System.Drawing.Size(280, 272);
+            this.lblSet1GroupBox.TabIndex = 0;
+            this.lblSet1GroupBox.TabStop = false;
+            this.lblSet1GroupBox.Text = "Tracking Grid";
             // 
             // trackingGridCol9Lbl
             // 
@@ -349,34 +350,34 @@
             this.trackingGridCol0Lbl.Text = "0";
             this.trackingGridCol0Lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // shootingGridGroupBox
+            // lblSet2GroupBox
             // 
-            this.shootingGridGroupBox.Controls.Add(this.shootingGridRowJLbl);
-            this.shootingGridGroupBox.Controls.Add(this.shootingGridRowILbl);
-            this.shootingGridGroupBox.Controls.Add(this.shootingGridRowHLbl);
-            this.shootingGridGroupBox.Controls.Add(this.shootingGridRowGLbl);
-            this.shootingGridGroupBox.Controls.Add(this.shootingGridRowFLbl);
-            this.shootingGridGroupBox.Controls.Add(this.shootingGridRowELbl);
-            this.shootingGridGroupBox.Controls.Add(this.shootingGridRowDLbl);
-            this.shootingGridGroupBox.Controls.Add(this.shootingGridRowCLbl);
-            this.shootingGridGroupBox.Controls.Add(this.shootingGridRowBLbl);
-            this.shootingGridGroupBox.Controls.Add(this.shootingGridRowALbl);
-            this.shootingGridGroupBox.Controls.Add(this.shootingGridCol9Lbl);
-            this.shootingGridGroupBox.Controls.Add(this.shootingGridCol8Lbl);
-            this.shootingGridGroupBox.Controls.Add(this.shootingGridCol7Lbl);
-            this.shootingGridGroupBox.Controls.Add(this.shootingGridCol6Lbl);
-            this.shootingGridGroupBox.Controls.Add(this.shootingGridCol5Lbl);
-            this.shootingGridGroupBox.Controls.Add(this.shootingGridCol4Lbl);
-            this.shootingGridGroupBox.Controls.Add(this.shootingGridCol3Lbl);
-            this.shootingGridGroupBox.Controls.Add(this.shootingGridCol2Lbl);
-            this.shootingGridGroupBox.Controls.Add(this.shootingGridCol1Lbl);
-            this.shootingGridGroupBox.Controls.Add(this.shootingGridCol0Lbl);
-            this.shootingGridGroupBox.Location = new System.Drawing.Point(492, 12);
-            this.shootingGridGroupBox.Name = "shootingGridGroupBox";
-            this.shootingGridGroupBox.Size = new System.Drawing.Size(280, 272);
-            this.shootingGridGroupBox.TabIndex = 1;
-            this.shootingGridGroupBox.TabStop = false;
-            this.shootingGridGroupBox.Text = "Shooting Grid";
+            this.lblSet2GroupBox.Controls.Add(this.shootingGridRowJLbl);
+            this.lblSet2GroupBox.Controls.Add(this.shootingGridRowILbl);
+            this.lblSet2GroupBox.Controls.Add(this.shootingGridRowHLbl);
+            this.lblSet2GroupBox.Controls.Add(this.shootingGridRowGLbl);
+            this.lblSet2GroupBox.Controls.Add(this.shootingGridRowFLbl);
+            this.lblSet2GroupBox.Controls.Add(this.shootingGridRowELbl);
+            this.lblSet2GroupBox.Controls.Add(this.shootingGridRowDLbl);
+            this.lblSet2GroupBox.Controls.Add(this.shootingGridRowCLbl);
+            this.lblSet2GroupBox.Controls.Add(this.shootingGridRowBLbl);
+            this.lblSet2GroupBox.Controls.Add(this.shootingGridRowALbl);
+            this.lblSet2GroupBox.Controls.Add(this.shootingGridCol9Lbl);
+            this.lblSet2GroupBox.Controls.Add(this.shootingGridCol8Lbl);
+            this.lblSet2GroupBox.Controls.Add(this.shootingGridCol7Lbl);
+            this.lblSet2GroupBox.Controls.Add(this.shootingGridCol6Lbl);
+            this.lblSet2GroupBox.Controls.Add(this.shootingGridCol5Lbl);
+            this.lblSet2GroupBox.Controls.Add(this.shootingGridCol4Lbl);
+            this.lblSet2GroupBox.Controls.Add(this.shootingGridCol3Lbl);
+            this.lblSet2GroupBox.Controls.Add(this.shootingGridCol2Lbl);
+            this.lblSet2GroupBox.Controls.Add(this.shootingGridCol1Lbl);
+            this.lblSet2GroupBox.Controls.Add(this.shootingGridCol0Lbl);
+            this.lblSet2GroupBox.Location = new System.Drawing.Point(492, 12);
+            this.lblSet2GroupBox.Name = "lblSet2GroupBox";
+            this.lblSet2GroupBox.Size = new System.Drawing.Size(280, 272);
+            this.lblSet2GroupBox.TabIndex = 1;
+            this.lblSet2GroupBox.TabStop = false;
+            this.lblSet2GroupBox.Text = "Shooting Grid";
             // 
             // shootingGridRowJLbl
             // 
@@ -853,7 +854,13 @@
             this.commentLbl.TabIndex = 6;
             this.commentLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // BattleForm
+            // AIGameWorker
+            // 
+            this.AIGameWorker.WorkerReportsProgress = true;
+            this.AIGameWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.AIGameWorker_DoWork);
+            this.AIGameWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.AIGameWorker_ProgressChanged);
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -862,13 +869,13 @@
             this.Controls.Add(this.commentLbl);
             this.Controls.Add(this.quitButton);
             this.Controls.Add(this.player1ShipStatusPanel);
-            this.Controls.Add(this.shootingGridGroupBox);
-            this.Controls.Add(this.trackingGridGroupBox);
-            this.Name = "BattleForm";
+            this.Controls.Add(this.lblSet2GroupBox);
+            this.Controls.Add(this.lblSet1GroupBox);
+            this.Name = "MainForm";
             this.Text = "Battleship ";
-            this.Load += new System.EventHandler(this.BattleForm_Load);
-            this.trackingGridGroupBox.ResumeLayout(false);
-            this.shootingGridGroupBox.ResumeLayout(false);
+            this.Load += new System.EventHandler(this.MainForm_Load);
+            this.lblSet1GroupBox.ResumeLayout(false);
+            this.lblSet2GroupBox.ResumeLayout(false);
             this.player1ShipStatusPanel.ResumeLayout(false);
             this.player1ShipStatusPanel.PerformLayout();
             this.ResumeLayout(false);
@@ -877,7 +884,7 @@
 
         #endregion
 
-        private System.Windows.Forms.GroupBox trackingGridGroupBox;
+        private System.Windows.Forms.GroupBox lblSet1GroupBox;
         private System.Windows.Forms.Label trackingGridCol9Lbl;
         private System.Windows.Forms.Label trackingGridRowJLbl;
         private System.Windows.Forms.Label trackingGridRowILbl;
@@ -898,7 +905,7 @@
         private System.Windows.Forms.Label trackingGridCol2Lbl;
         private System.Windows.Forms.Label trackingGridCol1Lbl;
         private System.Windows.Forms.Label trackingGridCol0Lbl;
-        private System.Windows.Forms.GroupBox shootingGridGroupBox;
+        private System.Windows.Forms.GroupBox lblSet2GroupBox;
         private System.Windows.Forms.Label shootingGridRowJLbl;
         private System.Windows.Forms.Label shootingGridRowILbl;
         private System.Windows.Forms.Label shootingGridRowHLbl;
@@ -944,5 +951,6 @@
         private System.Windows.Forms.Label player1DestroyerStatusLabel;
         private System.Windows.Forms.Button quitButton;
         private System.Windows.Forms.Label commentLbl;
+        private System.ComponentModel.BackgroundWorker AIGameWorker;
     }
 }

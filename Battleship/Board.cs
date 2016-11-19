@@ -16,8 +16,8 @@ namespace Battleship
         private const int _NUM_SHIPS = 5;
 
         // Fields
-        private Tile[,] _tiles;
-        private Ship[] _ships;
+        private Tile[,] tiles;
+        private Ship[] ships;
 
         /*
             No-Arg constructor
@@ -27,15 +27,15 @@ namespace Battleship
         {
             const int MAX = 100;
             Random rand = new Random((int)DateTime.Now.Ticks);
-            _tiles = new Tile[_NUM_ROWS, _NUM_COLUMNS];
+            tiles = new Tile[_NUM_ROWS, _NUM_COLUMNS];
             for (int row = 0; row < _NUM_ROWS; row++)
                 for (int col = 0; col < _NUM_COLUMNS; col++)
                 {
                     Tile tile = new Tile(new Coordinate { x = col, y = row });
                     tile.Weight = rand.Next(MAX);
-                    _tiles[row, col] = tile;
+                    tiles[row, col] = tile;
                 }
-            _ships = new Ship[_NUM_SHIPS];
+            ships = new Ship[_NUM_SHIPS];
 
             SetNeighbors();
         }
@@ -70,38 +70,20 @@ namespace Battleship
         }
 
         /*
-            The GetGuessableCoords method returns the coordinates
-            that can be guessed, in ascending order of weight
+            The GetGuessableCoord method returns the coordinate
+            of the next lowest weight tile
         */
 
-        public Coordinate[] GetGuessableCoords()
+        public Coordinate GetGuessableCoord()
         {
-            Tile[] guessableTiles = GetGuessableTiles();
-            Coordinate[] guessableCoords =
-                new Coordinate[guessableTiles.Length];
-            for (int i = 0; i < guessableCoords.Length; i++)
-                guessableCoords[i] = guessableTiles[i].Coordinate;
-            return guessableCoords;
-        }
-
-        /*
-            The GetGuessableTiles method returns an array containing tiles that
-            can be guessed, in ascending order of weight
-        */
-
-        private Tile[] GetGuessableTiles()
-        {
-            // Get list of guessable tiles
-            List<Tile> tiles = new List<Tile>();
-            foreach (Tile tile in _tiles)
-                if (!tile.IsGuessed)
-                    tiles.Add(tile);
-
-            // Sort list by weight in ascending order
-            tiles.Sort((Tile a, Tile b) => a.Weight.CompareTo(b.Weight));
-
-            // Return sorted list of guessable tiles as an array
-            return tiles.ToArray();
+            Tile lowest = tiles[0, 0];
+            foreach (Tile tile in tiles)
+                if (lowest.IsGuessed || (!tile.IsGuessed &&
+                    tile.Weight < lowest.Weight))
+                {
+                    lowest = tile;
+                }
+            return lowest.Coordinate;
         }
 
         /*
@@ -113,7 +95,7 @@ namespace Battleship
         public int GetNumShipsLiving()
         {
             int numLiving = 0;
-            foreach (Ship ship in _ships)
+            foreach (Ship ship in ships)
                 if (ship.NumParts > 0)
                     numLiving++;
             return numLiving;
@@ -127,10 +109,20 @@ namespace Battleship
         private Coordinate[] GetOccupiedCoords()
         {
             List<Coordinate> occupiedCoords = new List<Coordinate>();
-            foreach (Ship ship in _ships)
+            foreach (Ship ship in ships)
                 if (ship != null)
-                    occupiedCoords.AddRange(ship.Coords);
+                    occupiedCoords.AddRange(ship.GetCoords());
             return occupiedCoords.ToArray();
+        }
+
+        /*
+           The GetShipCoords method returns an array containing coordinates
+           that the specified ship occupies
+        */
+
+        public Coordinate[] GetShipCoords(ShipType type)
+        {
+            return ships[(int)type].GetCoords();
         }
 
         /*
@@ -138,9 +130,19 @@ namespace Battleship
             at a specified coordinate
         */
 
-        public Ship GetShipAtCoord(Coordinate coord)
+        private Ship GetShipAtCoord(Coordinate coord)
         {
-            return _ships.First(ship => ship.Coords.Contains(coord));
+            return ships.First(ship => ship.GetCoords().Contains(coord));
+        }
+
+        /*
+            The GetShipTypeAtCoord method returns the type of ship that
+            occupies the specified coordinate
+        */
+
+        public ShipType GetShipTypeAtCoord(Coordinate coord)
+        {
+            return GetShipAtCoord(coord).Type;
         }
 
         /*
@@ -151,7 +153,7 @@ namespace Battleship
         public Coordinate[] GetUnoccupiedCoords()
         {
             List<Coordinate> unoccupiedCoords = new List<Coordinate>();
-            foreach (Tile tile in _tiles)
+            foreach (Tile tile in tiles)
                 if (!tile.IsOccupied)
                     unoccupiedCoords.Add(tile.Coordinate);
             return unoccupiedCoords.ToArray();
@@ -181,32 +183,20 @@ namespace Battleship
         public bool IsGuessOK(Coordinate coord)
         {
             bool ok = false;
-            if (IsCoordInRange(coord) && !_tiles[coord.y, coord.x].IsGuessed)
+            if (IsCoordInRange(coord) && !tiles[coord.y, coord.x].IsGuessed)
                 ok = true;
             return ok;
         }
 
         /*
-            The IsHit method returns whether the tile at the specified coordinate
-            has been hit
+            The IsHit method returns whether the tile at the specified
+            coordinate has been hit
         */
 
         public bool IsHit(Coordinate coord)
         {
-            return _tiles[coord.y, coord.x].IsOccupied &&
-                   _tiles[coord.y, coord.x].IsGuessed;
-        }
-
-        /*
-            The IsShipExisting method returns whether the specified ship exists
-        */
-
-        public bool IsShipExisting(ShipType type)
-        {
-            bool exists = false;
-            if (_ships[(int)type] != null)
-                exists = true;
-            return exists;
+            return tiles[coord.y, coord.x].IsOccupied &&
+                   tiles[coord.y, coord.x].IsGuessed;
         }
 
         /*
@@ -239,7 +229,7 @@ namespace Battleship
 
         public bool IsSunk(ShipType type)
         {
-            return (_ships[(int)type].NumParts == 0);
+            return (ships[(int)type].NumParts == 0);
         }
 
         /*
@@ -250,11 +240,11 @@ namespace Battleship
 
         public void MarkGuess(Coordinate coord)
         {
-            _tiles[coord.y, coord.x].IsGuessed = true;
-            if (_tiles[coord.y, coord.x].IsOccupied)
+            tiles[coord.y, coord.x].IsGuessed = true;
+            if (tiles[coord.y, coord.x].IsOccupied)
             {
                 GetShipAtCoord(coord).NumParts--;
-                AlterWeights(_tiles[coord.y, coord.x]);
+                AlterWeights(tiles[coord.y, coord.x]);
             }
         }
 
@@ -271,9 +261,9 @@ namespace Battleship
             bool success = false;
             if (IsShipPlacementOK(coords))
             {
-                _ships[(int)type] = new Ship(type, coords);
+                ships[(int)type] = new Ship(type, coords);
                 foreach (Coordinate coord in coords)
-                    _tiles[coord.y, coord.x].IsOccupied = true;
+                    tiles[coord.y, coord.x].IsOccupied = true;
                 success = true;
             }
             return success;
@@ -285,7 +275,7 @@ namespace Battleship
 
         private void SetNeighbors()
         {
-            foreach (Tile tile in _tiles)
+            foreach (Tile tile in tiles)
             {
                 // Get tile's coordinate
                 Coordinate coord = tile.Coordinate;
@@ -294,19 +284,19 @@ namespace Battleship
                 // North
                 Direction dir = Direction.North;
                 if (coord.y > 0)
-                    tile.Neighbors[(int)dir] = _tiles[coord.y - 1, coord.x];
+                    tile.GetNeighbors()[(int)dir] = tiles[coord.y - 1, coord.x];
                 // South
                 dir++;
                 if (coord.y < _NUM_ROWS - 1)
-                    tile.Neighbors[(int)dir] = _tiles[coord.y + 1, coord.x];
+                    tile.GetNeighbors()[(int)dir] = tiles[coord.y + 1, coord.x];
                 // East
                 dir++;
                 if (coord.x < _NUM_COLUMNS - 1)
-                    tile.Neighbors[(int)dir] = _tiles[coord.y, coord.x + 1];
+                    tile.GetNeighbors()[(int)dir] = tiles[coord.y, coord.x + 1];
                 // West
                 dir++;
                 if (coord.x > 0)
-                    tile.Neighbors[(int)dir] = _tiles[coord.y, coord.x - 1];
+                    tile.GetNeighbors()[(int)dir] = tiles[coord.y, coord.x - 1];
             }
         }
 
@@ -326,24 +316,6 @@ namespace Battleship
         public int Columns
         {
             get { return _NUM_COLUMNS; }
-        }
-
-        /*
-            Tiles property
-        */
-
-        public Tile[,] Tiles
-        {
-            get { return _tiles; }
-        }
-
-        /*
-            Ships property
-        */
-
-        public Ship[] Ships
-        {
-            get { return _ships; }
         }
     }
 }

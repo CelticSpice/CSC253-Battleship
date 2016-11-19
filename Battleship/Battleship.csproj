@@ -62,6 +62,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GuessInfo.cs" />
+    <Compile Include="GuessResult.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -77,6 +79,7 @@
     </Compile>
     <Compile Include="Player.cs" />
     <Compile Include="Direction.cs" />
+    <Compile Include="PlayerType.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="Coordinate.cs" />
     <Compile Include="Game.cs" />
