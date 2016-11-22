@@ -4,6 +4,6 @@
 
 namespace Battleship
 {
-    public enum ShipType { AircraftCarrier, Battleship, Submarine, Destroyer,
-                           PatrolBoat }
+    public enum ShipType { AircraftCarrier, Battleship, Submarine,
+                           Destroyer, PatrolBoat, None = 0 }
 }

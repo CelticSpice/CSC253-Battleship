@@ -34,43 +34,51 @@ namespace Battleship
         }
 
         /*
-            The GetIfSetupOK method returns whether a ship
-            with the given coordinates can be placed on the player's board
+            The InformOfShot method tells the player of a shot
+            that has been made
+            The method modifies the shot to include results
         */
 
-        public bool GetIfSetupOK(Coordinate[] coords)
+        private void InformOfShot(Shot shot)
         {
-            return board.IsShipPlacementOK(coords);
+            board.MarkShot(shot);
         }
 
         /*
-            The InformOfGuess method tells the player that a guess has been
-            made at the specified coordinate
-            The method returns the result of the guess
+            The IsDefeated method returns whether the player has been
+            defeated
         */
 
-        public GuessResult InformOfGuess(Coordinate guess)
+        public bool IsDefeated()
         {
-            GuessResult result = GuessResult.Miss;
-            board.MarkGuess(guess);
-            if (board.IsHit(guess))
-            {
-                if (board.IsSunk(board.GetShipTypeAtCoord(guess)))
-                    result = GuessResult.Sink;
-                else
-                    result = GuessResult.Hit;
-            }
-            return result;
+            return !board.AreShipsLiving();
         }
 
         /*
-            The MakeGuess method has the player make a guess
-            of a coordinate to shoot at
+            The MakeShot method has the player make a shot automatically
+            The method returns the shot made
         */
 
-        public Coordinate MakeGuess()
+        public Shot MakeShot()
         {
-            return opponent.board.GetGuessableCoord();
+            Shot shot = new Shot();
+            shot.Coord = opponent.board.NextGuessableCoord();
+            opponent.InformOfShot(shot);
+            return shot;
+        }
+
+        /*
+            The MakeShot method has the player make a shot at the
+            specified coordinate
+            The method returns the shot made
+        */
+
+        public Shot MakeShot(Coordinate coord)
+        {
+            Shot shot = new Shot();
+            shot.Coord = coord;
+            opponent.InformOfShot(shot);
+            return shot;
         }
 
         /*
@@ -94,6 +102,7 @@ namespace Battleship
 
         /*
             The SetupBoard method has the player setup its board with ships
+            automatically
         */
 
         public void SetupBoard()
@@ -180,44 +189,13 @@ namespace Battleship
         }
 
         /*
-            The TellIfGuessOK method returns whether a guess can be made
-            at the specified coordinate on the player's board
-        */
-
-        public bool TellIfGuessOK(Coordinate guess)
-        {
-            return board.IsGuessOK(guess);
-        }
-
-        /*
-            The TellNumShipsLiving method returns the number of ships that are
-            currently living (have 1 or more parts that have not been hit)
-            on the player's board
-        */
-
-        public int TellNumShipsLiving()
-        {
-            return board.GetNumShipsLiving();
-        }
-
-        /*
             The TellShipCoords method returns an array containing coordinates
-            that the specified ship occupies
+            that the specified ship occupies on the player's board
         */
 
         public Coordinate[] TellShipCoords(ShipType type)
         {
             return board.GetShipCoords(type);
-        }
-
-        /*
-            The TellShipHit method returns the ship type that was hit on the
-            player's board at the specified coordinate
-        */
-
-        public ShipType TellShipHit(Coordinate coord)
-        {
-            return board.GetShipTypeAtCoord(coord);
         }
 
         /*
@@ -228,6 +206,26 @@ namespace Battleship
         public Coordinate[] TellUnoccupiedCoords()
         {
             return board.GetUnoccupiedCoords();
+        }
+
+        /*
+            The TellIfShotOK method returns whether a shot can be made
+            on the player's board at the specified coordinate
+        */
+
+        public bool TellIfShotOK(Coordinate coord)
+        {
+            return board.IsShotOK(coord);
+        }
+
+        /*
+            The TellIfSetupOK method returns whether a ship
+            with the given coordinates can be placed on the player's board
+        */
+
+        public bool TellIfSetupOK(Coordinate[] coords)
+        {
+            return board.IsSetupOK(coords);
         }
     }
 }

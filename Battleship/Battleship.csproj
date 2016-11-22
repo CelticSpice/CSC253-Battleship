@@ -62,8 +62,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GuessInfo.cs" />
-    <Compile Include="GuessResult.cs" />
+    <Compile Include="ShotResult.cs" />
+    <Compile Include="Shot.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

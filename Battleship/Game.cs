@@ -10,6 +10,7 @@ namespace Battleship
         private bool _isSetupMode, _isWatchGame;
         private Direction _directionSettingUp;
         private Player player1, player2;
+        private PlayerType _activePlayer;
         private ShipType _shipSettingUp;
 
         /*
@@ -20,12 +21,13 @@ namespace Battleship
 
         public Game(bool watchGame = false)
         {
-            _isSetupMode = true;
+            _isSetupMode = (!watchGame) ? true : false;
             _isWatchGame = watchGame;
             _directionSettingUp = Direction.North;
             player1 = new Player();
             player2 = new Player(player1);
             player1.SetOpponent(player2);
+            _activePlayer = PlayerType.Player1;
             _shipSettingUp = ShipType.AircraftCarrier;
 
             player2.SetupBoard();
@@ -63,21 +65,6 @@ namespace Battleship
         }
 
         /*
-            The GetShipHit method returns the ship that was hit at the specified
-            coordinate on the specified player's board
-        */
-
-        public ShipType GetShipHit(PlayerType player, Coordinate coord)
-        {
-            ShipType type = ShipType.AircraftCarrier;
-            if (player == PlayerType.Player1)
-                type = player1.TellShipHit(coord);
-            else
-                type = player2.TellShipHit(coord);
-            return type;
-        }
-
-        /*
             The GetUnoccupiedCoords method returns an array of coordinates that
             are unoccupied on player 1's board
         */
@@ -95,24 +82,20 @@ namespace Battleship
         public PlayerType GetWinner()
         {
             PlayerType winner = PlayerType.Player1;
-            if (player2.TellNumShipsLiving() != 0)
+            if (player1.IsDefeated())
                 winner = PlayerType.Player2;
             return winner;
         }
 
         /*
-            The IsOver method returns whether a player's ships have all
-            been sunk, and thus the game is over
+            The IsOver method returns whether a player has been defeated
         */
 
         public bool IsOver()
         {
             bool gameOver = false;
-            if (player1.TellNumShipsLiving() == 0 ||
-                player2.TellNumShipsLiving() == 0)
-            {
+            if (player1.IsDefeated() || player2.IsDefeated())
                 gameOver = true;
-            }
             return gameOver;
         }
 
@@ -123,32 +106,17 @@ namespace Battleship
 
         public bool IsSetupOK(Coordinate[] coords)
         {
-            return player1.GetIfSetupOK(coords);
+            return player1.TellIfSetupOK(coords);
         }
 
         /*
-            The IsValidGuess method returns whether the specified coordinate
-            can be guessed on player 2's board
+            The IsValidShot method returns whether the specified
+            coordinate can be shot on player 2's board
         */
 
-        public bool IsValidGuess(Coordinate guess)
+        public bool IsValidShot(Coordinate coord)
         {
-            return player2.TellIfGuessOK(guess);
-        }
-
-        /*
-            The MakeGuess method has the specified player make a guess
-            of a coordinate to shoot at
-        */
-
-        public Coordinate MakeGuess(PlayerType player)
-        {
-            Coordinate guess = new Coordinate { x = -1, y = -1 };
-            if (player == PlayerType.Player1)
-                guess = player1.MakeGuess();
-            else
-                guess = player2.MakeGuess();
-            return guess;
+            return player2.TellIfShotOK(coord);
         }
 
         /*
@@ -166,19 +134,50 @@ namespace Battleship
         }
 
         /*
-            The SubmitGuess method has the specified player submit a
-            guess to its opponent
-            The method returns the results of the guess
+            The TakeTurn method has the active player take its turn
+            The method returns the shot made
         */
 
-        public GuessResult SubmitGuess(PlayerType player, Coordinate guess)
+        public Shot TakeTurn()
         {
-            GuessResult result = GuessResult.Miss;
-            if (player == PlayerType.Player1)
-                result = player2.InformOfGuess(guess);
+            Shot shot;
+            if (_activePlayer == PlayerType.Player1)
+            {
+                shot = player1.MakeShot();
+                shot.Shooter = _activePlayer;
+                _activePlayer = PlayerType.Player2;
+            }
             else
-                result = player1.InformOfGuess(guess);
-            return result;
+            {
+                shot = player2.MakeShot();
+                shot.Shooter = _activePlayer;
+                _activePlayer = PlayerType.Player1;
+            }
+            return shot;
+        }
+
+        /*
+            The TakeTurn method has the active player take its turn,
+            shooting at the specified coordinate
+            The method returns the shot made
+        */
+
+        public Shot TakeTurn(Coordinate coord)
+        {
+            Shot shot;
+            if (_activePlayer == PlayerType.Player1)
+            {
+                shot = player1.MakeShot(coord);
+                shot.Shooter = _activePlayer;
+                _activePlayer = PlayerType.Player2;
+            }
+            else
+            {
+                shot = player2.MakeShot(coord);
+                shot.Shooter = _activePlayer;
+                _activePlayer = PlayerType.Player1;
+            }
+            return shot;
         }
 
         /*
@@ -206,6 +205,15 @@ namespace Battleship
         public Direction DirectionSettingUp
         {
             get { return _directionSettingUp; }
+        }
+
+        /*
+            ActivePlayer Property
+        */
+
+        public PlayerType ActivePlayer
+        {
+            get { return _activePlayer; }
         }
 
         /*

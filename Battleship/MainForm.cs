@@ -278,73 +278,48 @@ namespace Battleship
         private void LabelSet2_Click(object sender, EventArgs e)
         {
             // Get the coordinate of clicked label
-            Coordinate guess = GetCoordinate((Label)sender);
+            Coordinate coord = GetCoordinate((Label)sender);
 
-            // Check that the guess can be made
-            if (game.IsValidGuess(guess))
+            // Check that the shot can be made
+            if (game.IsValidShot(coord))
             {
-                // Submit guess and get result
-                GuessResult result = game.SubmitGuess(
-                    PlayerType.Player1, guess);
+                // Take turn
+                Shot shot = game.TakeTurn(coord);
 
-                if (result == GuessResult.Miss)
+                if (shot.Result == ShotResult.Miss)
                 {
                     // Set color of label
-                    lblSet2[guess.y, guess.x].BackColor = Color.FloralWhite;
+                    lblSet2[shot.Coord.y, shot.Coord.x].BackColor = Color.FloralWhite;
 
                     // Display message
-                    commentLbl.Text = "You missed!";
+                    commentLbl.Text = "You missed me!";
                 }
                 else
                 {
                     // Set color of label
-                    lblSet2[guess.y, guess.x].BackColor = Color.Red;
-
-                    // Get the ship that was hit or sunk
-                    ShipType t = game.GetShipHit(
-                        PlayerType.Player2, guess);
+                    lblSet2[shot.Coord.y, shot.Coord.x].BackColor = Color.Red;
 
                     // Display appropriate message
-                    if (result == GuessResult.Hit)
-                        commentLbl.Text = "You hit my " + t.ToString() + "!";
+                    if (shot.Result == ShotResult.Hit)
+                        commentLbl.Text = "You hit my " +
+                            shot.ShipHit.ToString() + "!";
                     else
-                        commentLbl.Text = "You sunk my " + t.ToString() + "!";
+                        commentLbl.Text = "You sunk my " +
+                            shot.ShipHit.ToString() + "!";
                 }
 
                 // Check if the game is over
                 if (!game.IsOver())
                 {
                     // Player 2 takes turn
-                    guess = game.MakeGuess(PlayerType.Player2);
+                    shot = game.TakeTurn();
 
-                    // Submit guess and get result
-                    result = game.SubmitGuess(PlayerType.Player2, guess);
-
-                    if (result == GuessResult.Miss)
-                    {
+                    if (shot.Result == ShotResult.Miss)
                         // Set color of label
-                        lblSet1[guess.y, guess.x].BackColor = Color.FloralWhite;
-
-                        // Display message
-                        commentLbl.Text = "Your opponent missed!";
-                    }
+                        lblSet1[shot.Coord.y, shot.Coord.x].BackColor = Color.FloralWhite;
                     else
-                    {
                         // Set color of label
-                        lblSet1[guess.y, guess.x].BackColor = Color.Red;
-
-                        // Get the ship that was hit or sunk
-                        ShipType t = game.GetShipHit(
-                            PlayerType.Player1, guess);
-
-                        // Display appropriate message
-                        if (result == GuessResult.Hit)
-                            commentLbl.Text = "Your opponent hit your " +
-                                t.ToString() + "!";
-                        else
-                            commentLbl.Text = "Your opponent sunk your " +
-                                t.ToString() + "!";
-                    }
+                        lblSet1[shot.Coord.y, shot.Coord.x].BackColor = Color.Red;
                 }
 
                 // Check if the game is over
@@ -505,16 +480,9 @@ namespace Battleship
                 AIGameWorker.ReportProgress(0, "Player 1 is thinking...");
                 Thread.Sleep(900);
 
-                Coordinate guess = game.MakeGuess(PlayerType.Player1);
-                GuessResult res = game.SubmitGuess(PlayerType.Player1,
-                    guess);
-                GuessInfo info = new GuessInfo();
-                info.coord = guess;
-                info.result = res;
-                info.player = PlayerType.Player1;
-                if (res != GuessResult.Miss)
-                    info.type = game.GetShipHit(PlayerType.Player2, guess);
-                AIGameWorker.ReportProgress(0, info);
+                Shot shot = game.TakeTurn();
+
+                AIGameWorker.ReportProgress(0, shot);
                 Thread.Sleep(900);
 
                 // Check if game is over
@@ -524,14 +492,9 @@ namespace Battleship
                     AIGameWorker.ReportProgress(0, "Player 2 is thinking...");
                     Thread.Sleep(900);
 
-                    guess = game.MakeGuess(PlayerType.Player2);
-                    res = game.SubmitGuess(PlayerType.Player2, guess);
-                    info.coord = guess;
-                    info.result = res;
-                    info.player = PlayerType.Player2;
-                    if (res != GuessResult.Miss)
-                        info.type = game.GetShipHit(PlayerType.Player1, guess);
-                    AIGameWorker.ReportProgress(0, info);
+                    shot = game.TakeTurn();
+
+                    AIGameWorker.ReportProgress(0, shot);
                     Thread.Sleep(900);
                 }
 
@@ -553,51 +516,56 @@ namespace Battleship
             ProgressChanged handler for updateGuiWorker
         */
 
-        private void AIGameWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        private void AIGameWorker_ProgressChanged(object sender,
+                                                  ProgressChangedEventArgs e)
         {
-            if (e.UserState is GuessInfo)
+            if (e.UserState is Shot)
             {
-                GuessInfo info = ((GuessInfo)e.UserState);
+                Shot shot = ((Shot)e.UserState);
 
                 // Check if hit
-                if (info.result == GuessResult.Miss)
+                if (shot.Result == ShotResult.Miss)
                 {
-                    if (info.player == PlayerType.Player1)
+                    if (shot.Shooter == PlayerType.Player1)
                     {
-                        lblSet2[info.coord.y, info.coord.x].BackColor = Color.FloralWhite;
+                        lblSet2[shot.Coord.y, shot.Coord.x].BackColor =
+                            Color.FloralWhite;
                         commentLbl.Text = "Player 1 missed!";
                     }
                     else
                     {
-                        lblSet1[info.coord.y, info.coord.x].BackColor = Color.FloralWhite;
+                        lblSet1[shot.Coord.y, shot.Coord.x].BackColor =
+                            Color.FloralWhite;
                         commentLbl.Text = "Player 2 missed!";
                     }
                 }
                 else
                 {
-                    if (info.player == PlayerType.Player1)
+                    if (shot.Shooter == PlayerType.Player1)
                     {
-                        lblSet2[info.coord.y, info.coord.x].BackColor = Color.Red;
+                        lblSet2[shot.Coord.y, shot.Coord.x].BackColor =
+                            Color.Red;
 
                         // Get if hit or sunk
-                        if (info.result == GuessResult.Hit)
+                        if (shot.Result == ShotResult.Hit)
                             commentLbl.Text = "Player 1 hit Player 2's " +
-                                info.type.ToString() + "!";
+                                shot.ShipHit.ToString() + "!";
                         else
                             commentLbl.Text = "Player 1 sunk Player 2's " +
-                               info.type.ToString() + "!";
+                               shot.ShipHit.ToString() + "!";
                     }
                     else
                     {
-                        lblSet1[info.coord.y, info.coord.x].BackColor = Color.Red;
+                        lblSet1[shot.Coord.y, shot.Coord.x].BackColor =
+                         Color.Red;
 
                         // Get if hit or sunk
-                        if (info.result == GuessResult.Hit)
+                        if (shot.Result == ShotResult.Hit)
                             commentLbl.Text = "Player 2 hit Player 1's " +
-                                info.type.ToString() + "!";
+                                shot.ShipHit.ToString() + "!";
                         else
                             commentLbl.Text = "Player 2 sunk Player 1's " +
-                               info.type.ToString() + "!";
+                               shot.ShipHit.ToString() + "!";
                     }
                 }
             }

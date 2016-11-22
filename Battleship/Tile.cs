@@ -13,7 +13,7 @@ namespace Battleship
         private const int NUM_NEIGHBORS = 4;
 
         private Coordinate _coordinate;
-        private bool _isOccupied, _isGuessed;
+        private bool _isOccupied, _isShot;
         private int _weight;
         private Tile[] neighbors;
 
@@ -26,7 +26,7 @@ namespace Battleship
         {
             _coordinate = coord;
             _isOccupied = false;
-            _isGuessed = false;
+            _isShot = false;
             _weight = 0;
             neighbors = new Tile[NUM_NEIGHBORS];
         }
@@ -45,7 +45,7 @@ namespace Battleship
 
             for (Direction d = Direction.North; d <= Direction.West; d++)
             {
-                if (neighbors[(int)d] != null && !neighbors[(int)d]._isGuessed)
+                if (neighbors[(int)d] != null && !neighbors[(int)d]._isShot)
                 {
                     switch (direction)
                     {
@@ -95,7 +95,7 @@ namespace Battleship
         {
             List<Tile> hitNeighbors = new List<Tile>();
             foreach (Tile n in neighbors)
-                if (n != null && n._isGuessed && n._isOccupied)
+                if (n != null && n._isShot && n._isOccupied)
                     hitNeighbors.Add(n);
             return hitNeighbors.ToArray();
         }
@@ -146,13 +146,13 @@ namespace Battleship
         }
 
         /*
-            IsGuessed Property
+            IsShot Property
         */
 
-        public bool IsGuessed
+        public bool IsShot
         {
-            get { return _isGuessed; }
-            set { _isGuessed = value; }
+            get { return _isShot; }
+            set { _isShot = value; }
         }
 
         /*

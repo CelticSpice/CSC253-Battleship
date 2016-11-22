@@ -70,35 +70,17 @@ namespace Battleship
         }
 
         /*
-            The GetGuessableCoord method returns the coordinate
-            of the next lowest weight tile
+            The AreShipsLiving method returns whether there is at
+            least one ship on the board with 1 or more parts
         */
 
-        public Coordinate GetGuessableCoord()
+        public bool AreShipsLiving()
         {
-            Tile lowest = tiles[0, 0];
-            foreach (Tile tile in tiles)
-                if (lowest.IsGuessed || (!tile.IsGuessed &&
-                    tile.Weight < lowest.Weight))
-                {
-                    lowest = tile;
-                }
-            return lowest.Coordinate;
-        }
-
-        /*
-            The GetNumShipsLiving method returns the number of ships
-            on the board that have 1 or more parts that have not been
-            hit
-        */
-
-        public int GetNumShipsLiving()
-        {
-            int numLiving = 0;
-            foreach (Ship ship in ships)
-                if (ship.NumParts > 0)
-                    numLiving++;
-            return numLiving;
+            bool living = false;
+            for (int i = 0; i < ships.Length && !living; i++)
+                if (ships[i].NumParts > 0)
+                    living = true;
+            return living;
         }
 
         /*
@@ -136,16 +118,6 @@ namespace Battleship
         }
 
         /*
-            The GetShipTypeAtCoord method returns the type of ship that
-            occupies the specified coordinate
-        */
-
-        public ShipType GetShipTypeAtCoord(Coordinate coord)
-        {
-            return GetShipAtCoord(coord).Type;
-        }
-
-        /*
             The GetUnoccupiedCoords method returns an array of the coordinates
             that are not currently occupied by any ship
         */
@@ -176,35 +148,24 @@ namespace Battleship
         }
 
         /*
-            The IsGuessOK method returns whether the specified
-            coordinate can be guessed
+            The IsShotOK method returns whether a shot can be made at the
+            specified coordinate
         */
 
-        public bool IsGuessOK(Coordinate coord)
+        public bool IsShotOK(Coordinate coord)
         {
             bool ok = false;
-            if (IsCoordInRange(coord) && !tiles[coord.y, coord.x].IsGuessed)
+            if (!tiles[coord.y, coord.x].IsShot)
                 ok = true;
             return ok;
         }
 
         /*
-            The IsHit method returns whether the tile at the specified
-            coordinate has been hit
-        */
-
-        public bool IsHit(Coordinate coord)
-        {
-            return tiles[coord.y, coord.x].IsOccupied &&
-                   tiles[coord.y, coord.x].IsGuessed;
-        }
-
-        /*
-            The IsShipPlacementOK method checks if a ship with the given
+            The IsSetupOK method returns if a ship with the given
             coordinates can be placed on the board without error
         */
 
-        public bool IsShipPlacementOK(Coordinate[] coords)
+        public bool IsSetupOK(Coordinate[] coords)
         {
             bool ok = true;
 
@@ -223,29 +184,45 @@ namespace Battleship
         }
 
         /*
-            The IsSunk method returns whether the specified type of ship
-            is sunk (has 0 parts)
+            The MarkShot method marks a tile at the coordinate
+            the specified shot targets as having been guessed
+            If a ship exists at the tile shot, the ship loses
+            parts and weights are altered
+            The method modifies the shot to include results
         */
 
-        public bool IsSunk(ShipType type)
+        public void MarkShot(Shot shot)
         {
-            return (ships[(int)type].NumParts == 0);
+            tiles[shot.Coord.y, shot.Coord.x].IsShot = true;
+            if (tiles[shot.Coord.y, shot.Coord.x].IsOccupied)
+            {
+                Ship ship = GetShipAtCoord(shot.Coord);
+                if (--ship.NumParts > 0)
+                    shot.Result = ShotResult.Hit;
+                else
+                    shot.Result = ShotResult.Sink;
+                shot.ShipHit = ship.Type;
+                AlterWeights(tiles[shot.Coord.y, shot.Coord.x]);
+            }
+            else
+                shot.Result = ShotResult.Miss;
         }
 
         /*
-            The MarkGuess method marks a tile at the specified coordinate
-            as having been guessed. If a ship exists at the tile with the
-            specified coordinate, the ship loses parts and weights are altered
+            The NextGuessableCoord method returns the coordinate
+            of the next guessable and lowest weight tile
         */
 
-        public void MarkGuess(Coordinate coord)
+        public Coordinate NextGuessableCoord()
         {
-            tiles[coord.y, coord.x].IsGuessed = true;
-            if (tiles[coord.y, coord.x].IsOccupied)
-            {
-                GetShipAtCoord(coord).NumParts--;
-                AlterWeights(tiles[coord.y, coord.x]);
-            }
+            Tile lowestTile = tiles[0, 0];
+            foreach (Tile currentTile in tiles)
+                if (lowestTile.IsShot || (!currentTile.IsShot &&
+                    currentTile.Weight < lowestTile.Weight))
+                {
+                    lowestTile = currentTile;
+                }
+            return lowestTile.Coordinate;
         }
 
         /*
@@ -259,7 +236,7 @@ namespace Battleship
         public bool PlaceShip(ShipType type, Coordinate[] coords)
         {
             bool success = false;
-            if (IsShipPlacementOK(coords))
+            if (IsSetupOK(coords))
             {
                 ships[(int)type] = new Ship(type, coords);
                 foreach (Coordinate coord in coords)
