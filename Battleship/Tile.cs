@@ -111,6 +111,46 @@ namespace Battleship
         }
 
         /*
+            The IsLPivot method returns whether the tile is the pivot
+            of an 'L' shape of hit tiles
+        */
+
+        public bool IsLPivot()
+        {
+            bool isPivot = false;
+            for (Direction d = Direction.North; d <= Direction.West && !isPivot; d++)
+            {
+                if (neighbors[(int)d] != null && neighbors[(int)d].IsShot)
+                {
+                    switch (d)
+                    {
+                        case Direction.North:
+                        case Direction.South:
+                            if ((neighbors[(int)Direction.East] != null &&
+                                 neighbors[(int)Direction.East].IsShot) ||
+                                (neighbors[(int)Direction.West] != null &&
+                                 neighbors[(int)Direction.West].IsShot))
+                            {
+                                isPivot = true;
+                            }
+                            break;
+                        case Direction.East:
+                        case Direction.West:
+                            if ((neighbors[(int)Direction.North] != null &&
+                                 neighbors[(int)Direction.North].IsShot) ||
+                                (neighbors[(int)Direction.South] != null &&
+                                 neighbors[(int)Direction.South].IsShot))
+                            {
+                                isPivot = true;
+                            }
+                            break;
+                    }
+                }
+            }
+            return isPivot;
+        }
+
+        /*
             The LowerNeighborWeights method lowers the weights of the tile's
             neighbors
         */
