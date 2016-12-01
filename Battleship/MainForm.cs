@@ -34,21 +34,14 @@ namespace Battleship
             InitializeComponent();
 
             // Get whether we will play or watch a game
-            DialogResult res = ModeDialogForm.ShowModeDialog();
-            
-            // Play game
-            if (res == DialogResult.Yes)
-            {
-                game = new Game();
-                SetupGrids();
-            }
+            ModeDialogForm form = new ModeDialogForm();
+            form.ShowDialog();
+            ModeSelection selection = form.Selection;
+            form.Dispose();
 
-            // Watch game
-            else
-            {
-                game = new Game(true);
-                SetupGrids(true);
-            }
+            // Play game
+            game = new Game(selection.watchGame, selection.shotMode);
+            SetupGrids(selection.watchGame);
 
             CenterToScreen();
         }
@@ -60,6 +53,23 @@ namespace Battleship
         private void BeginAIGame()
         {
             AIGameWorker.RunWorkerAsync();
+        }
+
+        /*
+            DoAITurn - Do AI's turn and return shot made
+        */
+
+        private Shot DoAITurn(Player player)
+        {
+            Shot shot = game.DoTurn((player == game.Player1) ? game.Player1 : game.Player2);
+
+            // Set color of label
+            if (shot.Result == ShotResult.Miss)
+                lblSet1[shot.Coord.y, shot.Coord.x].BackColor = Color.FloralWhite;
+            else
+                lblSet1[shot.Coord.y, shot.Coord.x].BackColor = Color.Red;
+
+            return shot;
         }
 
         /*
@@ -163,6 +173,59 @@ namespace Battleship
                 isInRange = true;
             }
             return isInRange;
+        }
+
+        /*
+            ReportAIShotResult - Reports and displays results of AI's shot
+        */
+
+        private void ReportAIShotResult(Shot shot)
+        {
+            // Check if hit
+            if (shot.Result == ShotResult.Miss)
+            {
+                if (shot.Shooter == game.Player1)
+                {
+                    lblSet2[shot.Coord.y, shot.Coord.x].BackColor =
+                        Color.FloralWhite;
+                    commentLbl.Text = "Player 1 missed!";
+                }
+                else
+                {
+                    lblSet1[shot.Coord.y, shot.Coord.x].BackColor =
+                        Color.FloralWhite;
+                    commentLbl.Text = "Player 2 missed!";
+                }
+            }
+            else
+            {
+                if (shot.Shooter == game.Player1)
+                {
+                    lblSet2[shot.Coord.y, shot.Coord.x].BackColor =
+                        Color.Red;
+
+                    // Get if hit or sunk
+                    if (shot.Result == ShotResult.Hit)
+                        commentLbl.Text = "Player 1 hit Player 2's " +
+                            shot.ShipHit.ToString() + "!";
+                    else
+                        commentLbl.Text = "Player 1 sunk Player 2's " +
+                           shot.ShipHit.ToString() + "!";
+                }
+                else
+                {
+                    lblSet1[shot.Coord.y, shot.Coord.x].BackColor =
+                     Color.Red;
+
+                    // Get if hit or sunk
+                    if (shot.Result == ShotResult.Hit)
+                        commentLbl.Text = "Player 2 hit Player 1's " +
+                            shot.ShipHit.ToString() + "!";
+                    else
+                        commentLbl.Text = "Player 2 sunk Player 1's " +
+                           shot.ShipHit.ToString() + "!";
+                }
+            }
         }
 
         /*
@@ -306,17 +369,8 @@ namespace Battleship
 
                 // Check if the game is over
                 if (!game.IsOver())
-                {
                     // Player 2 takes turn
-                    shot = game.DoTurn(game.Player2);
-
-                    if (shot.Result == ShotResult.Miss)
-                        // Set color of label
-                        lblSet1[shot.Coord.y, shot.Coord.x].BackColor = Color.FloralWhite;
-                    else
-                        // Set color of label
-                        lblSet1[shot.Coord.y, shot.Coord.x].BackColor = Color.Red;
-                }
+                    DoAITurn(game.Player2);
 
                 // Check if the game is over
                 if (game.IsOver())
@@ -473,25 +527,32 @@ namespace Battleship
             do
             {
                 // Player 1 takes turn
-                AIGameWorker.ReportProgress(0, "Player 1 is thinking...");
-                Thread.Sleep(900);
-
-                Shot shot = game.DoTurn(game.Player1);
-
-                AIGameWorker.ReportProgress(0, shot);
-                Thread.Sleep(900);
-
-                // Check if game is over
-                if (!game.IsOver())
+                if (game.ShotMode == ShotMode.Normal)
                 {
-                    // Player 2 takes turn
-                    AIGameWorker.ReportProgress(0, "Player 2 is thinking...");
+                    AIGameWorker.ReportProgress(0, "Player 1 is thinking...");
                     Thread.Sleep(900);
 
-                    shot = game.DoTurn(game.Player2);
+                    Shot shot = game.DoTurn(game.Player1);
 
                     AIGameWorker.ReportProgress(0, shot);
                     Thread.Sleep(900);
+
+                    // Check if game is over
+                    if (!game.IsOver())
+                    {
+                        // Player 2 takes turn
+                        AIGameWorker.ReportProgress(0, "Player 2 is thinking...");
+                        Thread.Sleep(900);
+
+                        shot = game.DoTurn(game.Player2);
+
+                        AIGameWorker.ReportProgress(0, shot);
+                        Thread.Sleep(900);
+                    }
+                }
+                else
+                {
+                    
                 }
 
                 // Check if game is over
@@ -516,55 +577,7 @@ namespace Battleship
                                                   ProgressChangedEventArgs e)
         {
             if (e.UserState is Shot)
-            {
-                Shot shot = ((Shot)e.UserState);
-
-                // Check if hit
-                if (shot.Result == ShotResult.Miss)
-                {
-                    if (shot.Shooter == game.Player1)
-                    {
-                        lblSet2[shot.Coord.y, shot.Coord.x].BackColor =
-                            Color.FloralWhite;
-                        commentLbl.Text = "Player 1 missed!";
-                    }
-                    else
-                    {
-                        lblSet1[shot.Coord.y, shot.Coord.x].BackColor =
-                            Color.FloralWhite;
-                        commentLbl.Text = "Player 2 missed!";
-                    }
-                }
-                else
-                {
-                    if (shot.Shooter == game.Player1)
-                    {
-                        lblSet2[shot.Coord.y, shot.Coord.x].BackColor =
-                            Color.Red;
-
-                        // Get if hit or sunk
-                        if (shot.Result == ShotResult.Hit)
-                            commentLbl.Text = "Player 1 hit Player 2's " +
-                                shot.ShipHit.ToString() + "!";
-                        else
-                            commentLbl.Text = "Player 1 sunk Player 2's " +
-                               shot.ShipHit.ToString() + "!";
-                    }
-                    else
-                    {
-                        lblSet1[shot.Coord.y, shot.Coord.x].BackColor =
-                         Color.Red;
-
-                        // Get if hit or sunk
-                        if (shot.Result == ShotResult.Hit)
-                            commentLbl.Text = "Player 2 hit Player 1's " +
-                                shot.ShipHit.ToString() + "!";
-                        else
-                            commentLbl.Text = "Player 2 sunk Player 1's " +
-                               shot.ShipHit.ToString() + "!";
-                    }
-                }
-            }
+                ReportAIShotResult((Shot)e.UserState);
             else
                 commentLbl.Text = ((string)e.UserState);
         }

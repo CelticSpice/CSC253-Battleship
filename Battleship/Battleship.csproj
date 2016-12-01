@@ -62,6 +62,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ModeSelection.cs" />
+    <Compile Include="ShotMode.cs" />
     <Compile Include="ShotResult.cs" />
     <Compile Include="Shot.cs" />
     <Compile Include="MainForm.cs">

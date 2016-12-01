@@ -104,6 +104,20 @@ namespace Battleship
         }
 
         /*
+         GetNumShipsLiving - Returns the number of ships that have at
+         least 1 part remaining
+        */
+
+        public int GetNumShipsLiving()
+        {
+            int numLiving = 0;
+            foreach (Ship ship in ships)
+                if (ship.NumParts > 0)
+                    numLiving++;
+            return numLiving;
+        }
+
+        /*
             GetOccupiedCoords - Returns occupied coordinates on
             the board
         */

@@ -188,6 +188,16 @@ namespace Battleship
         }
 
         /*
+            TellNumShipsLiving - Returns the number of ships living
+            on the player's board
+        */
+
+        public int TellNumShipsLiving()
+        {
+            return board.GetNumShipsLiving();
+        }
+
+        /*
            TellShipCoords - Returns coordinates that a type of ship
            occupies on the player's board
         */

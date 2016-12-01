@@ -11,24 +11,27 @@ namespace Battleship
         // Fields
         private bool _isSetupMode, _isWatchGame;
         private Direction _directionSettingUp;
+        private int _numShotsRemaining;
         private Player _player1, _player2;
         private ShipType _shipSettingUp;
+        private ShotMode _shotMode;
 
         /*
-            Constructor
-            Accepts whether the game is human vs. AI or AI vs. AI; that is,
-            whether it's a watch game or not
+            Constructor - Accepts whether the game is human vs. AI or AI vs. AI,
+            and the shot mode
         */
 
-        public Game(bool watchGame = false)
+        public Game(bool watchGame, ShotMode mode)
         {
             _isSetupMode = (!watchGame) ? true : false;
             _isWatchGame = watchGame;
             _directionSettingUp = Direction.North;
+            _numShotsRemaining = 0;
             _player1 = new Player();
             _player2 = new Player(_player1);
             _player1.SetOpponent(_player2);
             _shipSettingUp = ShipType.AircraftCarrier;
+            _shotMode = mode;
 
             _player2.SetupBoard();
 
@@ -50,8 +53,7 @@ namespace Battleship
                 _directionSettingUp++;
             else
                 _directionSettingUp = Direction.North;
-        }
-          
+        }       
 
         /*
             GetShipCoords - Returns coordinates that a type of
@@ -143,6 +145,9 @@ namespace Battleship
 
         public Shot DoTurn(Player player)
         {
+            if (_shotMode == ShotMode.Salvo)
+                _numShotsRemaining = player.TellNumShipsLiving();
+
             Shot shot;
             if (player == _player1)
                 shot = _player1.MakeShot();
@@ -158,6 +163,44 @@ namespace Battleship
 
         public Shot DoTurn(Coordinate coord)
         {
+            return _player1.MakeShot(coord);
+        }
+
+        /*
+            DoSalvoTurn - Has player take a turn and returns
+            the shots the player made
+            Accepts the player to take turn
+        */
+
+        public Shot[] DoSalvoTurn(Player player)
+        {
+            Shot[] shots;
+            if (player == _player1)
+            {
+                shots = new Shot[_player1.TellNumShipsLiving()];
+                for (int i = 0; i < shots.Length; i++)
+                    shots[i] = _player1.MakeShot();
+            }
+            else
+            {
+                shots = new Shot[_player2.TellNumShipsLiving()];
+                for (int i = 0; i < shots.Length; i++)
+                    shots[i] = _player2.MakeShot();
+            }
+            return shots;
+        }
+
+        /*
+            DoSalvoTurn - Has player 1 take a turn and returns
+            the shot the player made at a specified coordinate
+        */
+
+        public Shot DoSalvoTurn(Coordinate coord)
+        {
+            if (_numShotsRemaining == 0)
+                _numShotsRemaining = _player1.TellNumShipsLiving();
+
+            _numShotsRemaining--;
             return _player1.MakeShot(coord);
         }
 
@@ -189,6 +232,15 @@ namespace Battleship
         }
 
         /*
+            NumShotsRemaining Property
+        */
+
+        public int NumShotsRemaining
+        {
+            get { return _numShotsRemaining; }
+        }
+
+        /*
             Player1 Property
         */
 
@@ -213,6 +265,15 @@ namespace Battleship
         public ShipType ShipSettingUp
         {
             get { return _shipSettingUp; }
+        }
+
+        /*
+            ShotMode Property
+        */
+
+        public ShotMode ShotMode
+        {
+            get { return _shotMode; }
         }
     }
 }

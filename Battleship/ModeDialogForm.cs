@@ -1,6 +1,6 @@
 ﻿/*
-    This form enables the user to choose whether he wants to play
-    or watch a game of Battleship
+    This form enables the user to choose game
+    and shooting modes
 */
 
 using System;
@@ -10,27 +10,17 @@ namespace Battleship
 {
     public partial class ModeDialogForm : Form
     {
+        // Fields
+        private ModeSelection _selection;
+
         /*
             No-Arg Constructor
         */
 
-        private ModeDialogForm()
+        public ModeDialogForm()
         {
             InitializeComponent();
             CenterToScreen();
-        }
-
-        /*
-            The ShowModeDialog method displays a dialog requesting
-            the user to input whether he wants to play or watch
-            a game of Battleship
-        */
-
-        public static DialogResult ShowModeDialog()
-        {
-            ModeDialogForm form = new ModeDialogForm();
-            DialogResult result = form.ShowDialog();
-            return result;
         }
 
         /*
@@ -39,8 +29,11 @@ namespace Battleship
 
         private void playButton_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.Yes;
-            // Play game.
+            ShotMode mode = ShotMode.Normal;
+            if (salvoShootRadBtn.Checked)
+                mode = ShotMode.Salvo;
+            _selection.watchGame = false;
+            _selection.shotMode = mode;
             Close();
         }
 
@@ -50,9 +43,21 @@ namespace Battleship
 
         private void watchButton_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.No;
-            // Watch game.
+            ShotMode mode = ShotMode.Normal;
+            if (salvoShootRadBtn.Checked)
+                mode = ShotMode.Salvo;
+            _selection.watchGame = true;
+            _selection.shotMode = mode;
             Close();
+        }
+
+        /*
+            _selection Property
+        */
+
+        public ModeSelection Selection
+        {
+            get { return _selection; }
         }
     }
 }
