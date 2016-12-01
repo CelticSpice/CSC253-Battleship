@@ -46,22 +46,42 @@ namespace Battleship
             consideration neighboring tiles that may have been hit
         */
 
-        public void AlterWeights(Tile tile)
+        private void AlterWeights(Tile tile)
         {
-            // If there are neighbors hit, weights will
-            // be altered based on that condition
             Tile[] neighborsHit = tile.GetHitNeighbors();
+
+            // Check if tile and/or its neighbors are L-pivots     
             if (neighborsHit.Length > 0)
             {
-                foreach (Tile neighbor in neighborsHit)
+                bool altered = false;
+                if (tile.IsLPivot())
                 {
-                    // Alter the tile's neighbors
-                    Direction dir = tile.GetDirectionOfNeighbor(neighbor);
-                    tile.AlterNeighborWeights(dir);
+                    altered = true;
+                    tile.LowerNeighborWeights();
+                }
 
-                    // Alter neighbor's neighbors
-                    dir = neighbor.GetDirectionOfNeighbor(tile);
-                    neighbor.AlterNeighborWeights(dir);
+                foreach (Tile neighbor in neighborsHit)
+                    if (neighbor.IsLPivot())
+                    {
+                        altered = true;
+                        neighbor.LowerNeighborWeights();
+                        tile.LowerNeighborWeights();
+                    }
+
+                // If weights have not already been altered,
+                // alter weights based on direction of neighbors
+                if (!altered)
+                {
+                    foreach (Tile neighbor in neighborsHit)
+                    {
+                        // Alter the tile's neighbors
+                        Direction dir = tile.GetDirectionOfNeighbor(neighbor);
+                        tile.AlterNeighborWeights(dir);
+
+                        // Alter neighbor's neighbors
+                        dir = neighbor.GetDirectionOfNeighbor(tile);
+                        neighbor.AlterNeighborWeights(dir);
+                    }
                 }
             }
             else
@@ -70,8 +90,8 @@ namespace Battleship
         }
 
         /*
-            The AreShipsLiving method returns whether there is at
-            least one ship on the board with 1 or more parts
+            AreShipsLiving - Returns whether there are ships
+            on the board that have at least 1 part
         */
 
         public bool AreShipsLiving()
@@ -84,27 +104,27 @@ namespace Battleship
         }
 
         /*
-            The GetOccupiedCoords method returns an array of the coordinates
-            that are currently occupied by ships
+            GetOccupiedCoords - Returns occupied coordinates on
+            the board
         */
 
         private Coordinate[] GetOccupiedCoords()
         {
-            List<Coordinate> occupiedCoords = new List<Coordinate>();
+            List<Coordinate> coords = new List<Coordinate>();
             foreach (Ship ship in ships)
                 if (ship != null)
-                    occupiedCoords.AddRange(ship.GetCoords());
-            return occupiedCoords.ToArray();
+                    coords.AddRange(ship.GetCoords());
+            return coords.ToArray();
         }
 
         /*
-           The GetShipCoords method returns an array containing coordinates
-           that the specified ship occupies
+           GetShipCoords - Returns coordinates that a type of ship
+           occupies on the board
         */
 
-        public Coordinate[] GetShipCoords(ShipType type)
+        public Coordinate[] GetShipCoords(ShipType shipType)
         {
-            return ships[(int)type].GetCoords();
+            return ships[(int)shipType].GetCoords();
         }
 
         /*
@@ -118,21 +138,21 @@ namespace Battleship
         }
 
         /*
-            The GetUnoccupiedCoords method returns an array of the coordinates
-            that are not currently occupied by any ship
+           GetUnoccupiedCoords - Returns unoccupied coordinates
+           on the board
         */
 
         public Coordinate[] GetUnoccupiedCoords()
         {
-            List<Coordinate> unoccupiedCoords = new List<Coordinate>();
+            List<Coordinate> coords = new List<Coordinate>();
             foreach (Tile tile in tiles)
                 if (!tile.IsOccupied)
-                    unoccupiedCoords.Add(tile.Coordinate);
-            return unoccupiedCoords.ToArray();
+                    coords.Add(tile.Coordinate);
+            return coords.ToArray();
         }
 
         /*
-            The IsCoordInRange method checks if a coordinate
+            IsCoordInRange - Returns whether a coordinate
             exists on the board
         */
 
@@ -148,21 +168,18 @@ namespace Battleship
         }
 
         /*
-            The IsShotOK method returns whether a shot can be made at the
-            specified coordinate
+            IsShotOK - Returns whether a coordinate can
+            be shot at on the board
         */
 
         public bool IsShotOK(Coordinate coord)
         {
-            bool ok = false;
-            if (!tiles[coord.y, coord.x].IsShot)
-                ok = true;
-            return ok;
+            return !tiles[coord.y, coord.x].IsShot;
         }
 
         /*
-            The IsSetupOK method returns if a ship with the given
-            coordinates can be placed on the board without error
+            IsSetupOK - Returns whether a ship can placed on
+            the board with the given coordinates
         */
 
         public bool IsSetupOK(Coordinate[] coords)

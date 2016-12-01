@@ -2,6 +2,8 @@
     This class handles the game logic
 */
 
+using System.Threading;
+
 namespace Battleship
 {
     public class Game
@@ -9,8 +11,7 @@ namespace Battleship
         // Fields
         private bool _isSetupMode, _isWatchGame;
         private Direction _directionSettingUp;
-        private Player player1, player2;
-        private PlayerType _activePlayer;
+        private Player _player1, _player2;
         private ShipType _shipSettingUp;
 
         /*
@@ -24,16 +25,18 @@ namespace Battleship
             _isSetupMode = (!watchGame) ? true : false;
             _isWatchGame = watchGame;
             _directionSettingUp = Direction.North;
-            player1 = new Player();
-            player2 = new Player(player1);
-            player1.SetOpponent(player2);
-            _activePlayer = PlayerType.Player1;
+            _player1 = new Player();
+            _player2 = new Player(_player1);
+            _player1.SetOpponent(_player2);
             _shipSettingUp = ShipType.AircraftCarrier;
 
-            player2.SetupBoard();
+            _player2.SetupBoard();
 
             if (watchGame)
-                player1.SetupBoard();
+            {
+                Thread.Sleep(1500);
+                _player1.SetupBoard();
+            }
         }
 
         /*
@@ -48,85 +51,84 @@ namespace Battleship
             else
                 _directionSettingUp = Direction.North;
         }
+          
 
         /*
-            The GetShipCoords method returns an array of the coordinates
-            that the specified ship occupies on the specified player's board
+            GetShipCoords - Returns coordinates that a type of
+            ship occupies on a player's board
         */
 
-        public Coordinate[] GetShipCoords(PlayerType player, ShipType type)
+        public Coordinate[] GetShipCoords(Player player, ShipType shipType)
         {
             Coordinate[] shipCoords;
-            if (player == PlayerType.Player1)
-                shipCoords = player1.TellShipCoords(type);
+            if (player == _player1)
+                shipCoords = _player1.TellShipCoords(shipType);
             else
-                shipCoords = player2.TellShipCoords(type);
+                shipCoords = _player2.TellShipCoords(shipType);
             return shipCoords;
         }
 
         /*
-            The GetUnoccupiedCoords method returns an array of coordinates that
-            are unoccupied on player 1's board
+            GetUnoccupiedCoords - Returns unoccupied coordinates on
+            player 1's board
         */
 
         public Coordinate[] GetUnoccupiedCoords()
         {
-            return player1.TellUnoccupiedCoords();
+            return _player1.TellUnoccupiedCoords();
         }
 
         /*
-            The GetWinner method returns the winner of the game, who will be
-            the one player that still has ships remaining
+            GetWinner - Returns the winner of the game
         */
 
-        public PlayerType GetWinner()
+        public Player GetWinner()
         {
-            PlayerType winner = PlayerType.Player1;
-            if (player1.IsDefeated())
-                winner = PlayerType.Player2;
+            Player winner = null;
+            if (_player1.IsDefeated())
+                winner = _player2;
+            if (_player2.IsDefeated())
+                winner = _player1;
             return winner;
         }
 
         /*
-            The IsOver method returns whether a player has been defeated
+            IsOver - Returns whether a player has been defeated
         */
 
         public bool IsOver()
         {
-            bool gameOver = false;
-            if (player1.IsDefeated() || player2.IsDefeated())
-                gameOver = true;
-            return gameOver;
+            return _player1.IsDefeated() || _player2.IsDefeated();
         }
 
         /*
-            The IsSetupOK method returns whether a ship can be setup
-            with the given coordinates on player 1's board
+            IsSetupOK - Returns whether a ship can be placed on
+            player 1's board with the given coordinates
         */
 
         public bool IsSetupOK(Coordinate[] coords)
         {
-            return player1.TellIfSetupOK(coords);
+            return _player1.TellIfSetupOK(coords);
         }
 
         /*
-            The IsValidShot method returns whether the specified
-            coordinate can be shot on player 2's board
+            IsValidShot - Returns whether a shot can be made
+            at a coordinate on player 2's board
         */
 
         public bool IsValidShot(Coordinate coord)
         {
-            return player2.TellIfShotOK(coord);
+            return _player2.TellIfShotOK(coord);
         }
 
         /*
-            The PlaceShip method places the current ship being setup on
-            player 1's board with the given coordinates
+            PlaceShip - Places ship currently being setup on
+            player 1's board
         */
 
         public void PlaceShip(Coordinate[] coords)
         {
-            player1.PlaceShip(_shipSettingUp, coords);
+            _player1.PlaceShip(_shipSettingUp, coords);
             if (_shipSettingUp != ShipType.PatrolBoat)
                 _shipSettingUp++;
             else
@@ -134,50 +136,29 @@ namespace Battleship
         }
 
         /*
-            The TakeTurn method has the active player take its turn
-            The method returns the shot made
+            DoTurn - Has player take a turn and returns
+            the shot the player made
+            Accepts the player to take turn
         */
 
-        public Shot TakeTurn()
+        public Shot DoTurn(Player player)
         {
             Shot shot;
-            if (_activePlayer == PlayerType.Player1)
-            {
-                shot = player1.MakeShot();
-                shot.Shooter = _activePlayer;
-                _activePlayer = PlayerType.Player2;
-            }
+            if (player == _player1)
+                shot = _player1.MakeShot();
             else
-            {
-                shot = player2.MakeShot();
-                shot.Shooter = _activePlayer;
-                _activePlayer = PlayerType.Player1;
-            }
+                shot = _player2.MakeShot();
             return shot;
         }
 
         /*
-            The TakeTurn method has the active player take its turn,
-            shooting at the specified coordinate
-            The method returns the shot made
+            DoTurn - Has player 1 take a turn and returns the shot
+            the player made at the specified coordinate
         */
 
-        public Shot TakeTurn(Coordinate coord)
+        public Shot DoTurn(Coordinate coord)
         {
-            Shot shot;
-            if (_activePlayer == PlayerType.Player1)
-            {
-                shot = player1.MakeShot(coord);
-                shot.Shooter = _activePlayer;
-                _activePlayer = PlayerType.Player2;
-            }
-            else
-            {
-                shot = player2.MakeShot(coord);
-                shot.Shooter = _activePlayer;
-                _activePlayer = PlayerType.Player1;
-            }
-            return shot;
+            return _player1.MakeShot(coord);
         }
 
         /*
@@ -208,12 +189,21 @@ namespace Battleship
         }
 
         /*
-            ActivePlayer Property
+            Player1 Property
         */
 
-        public PlayerType ActivePlayer
+        public Player Player1
         {
-            get { return _activePlayer; }
+            get { return _player1; }
+        }
+
+        /*
+            Player2 Property
+        */
+
+        public Player Player2
+        {
+            get { return _player2; }
         }
 
         /*

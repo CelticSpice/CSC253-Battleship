@@ -35,11 +35,15 @@ namespace Battleship
 
             // Get whether we will play or watch a game
             DialogResult res = ModeDialogForm.ShowModeDialog();
+            
+            // Play game
             if (res == DialogResult.Yes)
             {
                 game = new Game();
                 SetupGrids();
             }
+
+            // Watch game
             else
             {
                 game = new Game(true);
@@ -50,9 +54,7 @@ namespace Battleship
         }
 
         /*
-            The BeginAIGame method begins a game between
-            the AI and runs for as long as the game
-            is not over
+            BeginAIGame - Begins an AI vs. AI game
         */
 
         private void BeginAIGame()
@@ -61,8 +63,7 @@ namespace Battleship
         }
 
         /*
-            The GetCoordinate method returns the coordinate of the
-            specified label representing a tile
+            GetCoordinate - Returns coordinate of a label
         */
 
         private Coordinate GetCoordinate(Label control)
@@ -84,8 +85,8 @@ namespace Battleship
         }
 
         /*
-            The GetShipPlacementCoords method gets the coordinates of where the
-            ship currently being setup is
+            GetShipPlacementCoords - Returns coordinates of ship
+            being setup
         */
 
         private Coordinate[] GetShipPlacementCoords(Label origin)
@@ -165,27 +166,23 @@ namespace Battleship
         }
 
         /*
-            The SetLabelColors method sets the colors of both
-            sets of labels to reflect complete placement of ships
-
-            This method should not be called to update colors
-            of labels when manually placing ships - it is
-            only to display ship locations in an AI game
+            SetWatchGameLblColors - Sets colors of labels for a game
+            that is being watched
         */
 
-        private void SetLabelColors()
+        private void SetWatchGameLblColors()
         {
             for (ShipType type = ShipType.AircraftCarrier;
                  type <= ShipType.PatrolBoat; type++)
             {
                 foreach (Coordinate coord in game.GetShipCoords(
-                    PlayerType.Player1, type))
+                    game.Player1, type))
                 {
                     lblSet1[coord.y, coord.x].BackColor = shipColors[(int)type];
                 }
 
                 foreach (Coordinate coord in game.GetShipCoords(
-                    PlayerType.Player2, type))
+                    game.Player2, type))
                 {
                     lblSet2[coord.y, coord.x].BackColor = shipColors[(int)type];
                 }
@@ -193,10 +190,9 @@ namespace Battleship
         }
 
         /*
-            The SetupGrids method sets up the grids
-            representing each player's board
-            It accepts whether the game is being
-            played or being watched
+            SetupGrids - Builds the grids representing
+            game boards; accepts whether game will be
+            played or watched
         */
 
         private void SetupGrids(bool watch = false)
@@ -284,7 +280,7 @@ namespace Battleship
             if (game.IsValidShot(coord))
             {
                 // Take turn
-                Shot shot = game.TakeTurn(coord);
+                Shot shot = game.DoTurn(coord);
 
                 if (shot.Result == ShotResult.Miss)
                 {
@@ -312,7 +308,7 @@ namespace Battleship
                 if (!game.IsOver())
                 {
                     // Player 2 takes turn
-                    shot = game.TakeTurn();
+                    shot = game.DoTurn(game.Player2);
 
                     if (shot.Result == ShotResult.Miss)
                         // Set color of label
@@ -330,7 +326,7 @@ namespace Battleship
                         label.Click -= LabelSet2_Click;
 
                     // Declare winner
-                    if (game.GetWinner() == PlayerType.Player1)
+                    if (game.GetWinner() == game.Player1)
                         commentLbl.Text = "You won the game!";
                     else
                         commentLbl.Text = "The AI won! You lost!";
@@ -424,7 +420,7 @@ namespace Battleship
             for (ShipType type = ShipType.AircraftCarrier;
                  type < game.ShipSettingUp; type++)
                 foreach (Coordinate coord in game.GetShipCoords(
-                    PlayerType.Player1, type))
+                    game.Player1, type))
                 {
                     lblSet1[coord.y, coord.x].BackColor = shipColors[(int)type];
                 }
@@ -452,7 +448,7 @@ namespace Battleship
             }
             else
             {
-                SetLabelColors();
+                SetWatchGameLblColors();
                 BeginAIGame();
             }
         }
@@ -469,7 +465,7 @@ namespace Battleship
         }
 
         /*
-            DoWork handler for updateGuiWorker
+            DoWork handler for AIGameWorker
         */
 
         private void AIGameWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -480,7 +476,7 @@ namespace Battleship
                 AIGameWorker.ReportProgress(0, "Player 1 is thinking...");
                 Thread.Sleep(900);
 
-                Shot shot = game.TakeTurn();
+                Shot shot = game.DoTurn(game.Player1);
 
                 AIGameWorker.ReportProgress(0, shot);
                 Thread.Sleep(900);
@@ -492,7 +488,7 @@ namespace Battleship
                     AIGameWorker.ReportProgress(0, "Player 2 is thinking...");
                     Thread.Sleep(900);
 
-                    shot = game.TakeTurn();
+                    shot = game.DoTurn(game.Player2);
 
                     AIGameWorker.ReportProgress(0, shot);
                     Thread.Sleep(900);
@@ -502,7 +498,7 @@ namespace Battleship
                 if (game.IsOver())
                 {
                     // Declare winner
-                    if (game.GetWinner() == PlayerType.Player1)
+                    if (game.GetWinner() == game.Player1)
                         AIGameWorker.ReportProgress(0, "Player 1 has won!");
                     else
                         AIGameWorker.ReportProgress(0, "Player 2 has won!");
@@ -513,7 +509,7 @@ namespace Battleship
         }
 
         /*
-            ProgressChanged handler for updateGuiWorker
+            ProgressChanged handler for AIGameWorker
         */
 
         private void AIGameWorker_ProgressChanged(object sender,
@@ -526,7 +522,7 @@ namespace Battleship
                 // Check if hit
                 if (shot.Result == ShotResult.Miss)
                 {
-                    if (shot.Shooter == PlayerType.Player1)
+                    if (shot.Shooter == game.Player1)
                     {
                         lblSet2[shot.Coord.y, shot.Coord.x].BackColor =
                             Color.FloralWhite;
@@ -541,7 +537,7 @@ namespace Battleship
                 }
                 else
                 {
-                    if (shot.Shooter == PlayerType.Player1)
+                    if (shot.Shooter == game.Player1)
                     {
                         lblSet2[shot.Coord.y, shot.Coord.x].BackColor =
                             Color.Red;

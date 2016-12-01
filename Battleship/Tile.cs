@@ -40,7 +40,7 @@ namespace Battleship
 
         public void AlterNeighborWeights(Direction direction)
         {
-            const int LOWER_ALTER = -65;
+            const int LOWER_ALTER = -89;
             const int HIGHER_ALTER = 30;
 
             for (Direction d = Direction.North; d <= Direction.West; d++)
@@ -95,7 +95,7 @@ namespace Battleship
         {
             List<Tile> hitNeighbors = new List<Tile>();
             foreach (Tile n in neighbors)
-                if (n != null && n._isShot && n._isOccupied)
+                if (n != null && n.IsShotAndOccupied())
                     hitNeighbors.Add(n);
             return hitNeighbors.ToArray();
         }
@@ -120,26 +120,28 @@ namespace Battleship
             bool isPivot = false;
             for (Direction d = Direction.North; d <= Direction.West && !isPivot; d++)
             {
-                if (neighbors[(int)d] != null && neighbors[(int)d].IsShot)
+                if (neighbors[(int)d] != null && neighbors[(int)d].IsShotAndOccupied())
                 {
                     switch (d)
                     {
                         case Direction.North:
                         case Direction.South:
-                            if ((neighbors[(int)Direction.East] != null &&
-                                 neighbors[(int)Direction.East].IsShot) ||
-                                (neighbors[(int)Direction.West] != null &&
-                                 neighbors[(int)Direction.West].IsShot))
+                            Tile eastN = neighbors[(int)Direction.East];
+                            Tile westN = neighbors[(int)Direction.West];
+
+                            if (eastN != null && eastN.IsShotAndOccupied() ||
+                                westN != null && westN.IsShotAndOccupied())
                             {
                                 isPivot = true;
                             }
                             break;
                         case Direction.East:
                         case Direction.West:
-                            if ((neighbors[(int)Direction.North] != null &&
-                                 neighbors[(int)Direction.North].IsShot) ||
-                                (neighbors[(int)Direction.South] != null &&
-                                 neighbors[(int)Direction.South].IsShot))
+                            Tile northN = neighbors[(int)Direction.North];
+                            Tile southN = neighbors[(int)Direction.South];
+
+                            if (northN != null && northN.IsShotAndOccupied() ||
+                                southN != null && southN.IsShotAndOccupied())
                             {
                                 isPivot = true;
                             }
@@ -151,13 +153,22 @@ namespace Battleship
         }
 
         /*
+            IsShotAndOccupied - Returns whether the tile is shot and occupied
+        */
+
+        private bool IsShotAndOccupied()
+        {
+            return _isShot && _isOccupied;
+        }
+
+        /*
             The LowerNeighborWeights method lowers the weights of the tile's
             neighbors
         */
 
         public void LowerNeighborWeights()
         {
-            const int MIN = 80;
+            const int MIN = 90;
             const int MAX = 100;
             Random rand = new Random((int)DateTime.Now.Ticks);
 

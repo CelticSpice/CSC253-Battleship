@@ -8,16 +8,17 @@ namespace Battleship
     {
         // Fields
         private Coordinate _coord;
-        private PlayerType _shooter;
+        private Player _shooter;
         private ShotResult _result;
         private ShipType _shipHit;
 
         /*
-            Constructor
+            Constructor - Accepts the shooter
         */
 
-        public Shot()
+        public Shot(Player player)
         {
+            _shooter = player;
         }
 
         /*
@@ -34,10 +35,9 @@ namespace Battleship
             Shooter Property
         */
 
-        public PlayerType Shooter
+        public Player Shooter
         {
             get { return _shooter; }
-            set { _shooter = value; }
         }
 
         /*

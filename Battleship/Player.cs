@@ -45,8 +45,7 @@ namespace Battleship
         }
 
         /*
-            The IsDefeated method returns whether the player has been
-            defeated
+            IsDefeated - Returns whether the player is defeated
         */
 
         public bool IsDefeated()
@@ -61,7 +60,7 @@ namespace Battleship
 
         public Shot MakeShot()
         {
-            Shot shot = new Shot();
+            Shot shot = new Shot(this);
             shot.Coord = opponent.board.NextGuessableCoord();
             opponent.InformOfShot(shot);
             return shot;
@@ -75,7 +74,7 @@ namespace Battleship
 
         public Shot MakeShot(Coordinate coord)
         {
-            Shot shot = new Shot();
+            Shot shot = new Shot(this);
             shot.Coord = coord;
             opponent.InformOfShot(shot);
             return shot;
@@ -189,18 +188,18 @@ namespace Battleship
         }
 
         /*
-            The TellShipCoords method returns an array containing coordinates
-            that the specified ship occupies on the player's board
+           TellShipCoords - Returns coordinates that a type of ship
+           occupies on the player's board
         */
 
-        public Coordinate[] TellShipCoords(ShipType type)
+        public Coordinate[] TellShipCoords(ShipType shipType)
         {
-            return board.GetShipCoords(type);
+            return board.GetShipCoords(shipType);
         }
 
         /*
-            The TellUnoccupiedCoords method returns an array of coordinates
-            on the player's board that are unoccupied
+            TellUnoccupiedCoords - Returns unoccupied coordinates
+            on the player's board
         */
 
         public Coordinate[] TellUnoccupiedCoords()
@@ -209,8 +208,8 @@ namespace Battleship
         }
 
         /*
-            The TellIfShotOK method returns whether a shot can be made
-            on the player's board at the specified coordinate
+            TellIfShotOK - Returns whether a shot can be made
+            at a coordinate on the player's board
         */
 
         public bool TellIfShotOK(Coordinate coord)
@@ -219,8 +218,8 @@ namespace Battleship
         }
 
         /*
-            The TellIfSetupOK method returns whether a ship
-            with the given coordinates can be placed on the player's board
+            TellIfSetupOK - Returns whether a ship can be placed on
+            the player's board with the given coordinates
         */
 
         public bool TellIfSetupOK(Coordinate[] coords)
