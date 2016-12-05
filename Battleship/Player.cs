@@ -34,6 +34,16 @@ namespace Battleship
         }
 
         /*
+            GetBoardSize - Returns the size of the player's board
+            (N = NxN)
+        */
+
+        public int GetBoardSize()
+        {
+            return board.Rows;
+        }
+
+        /*
             The InformOfShot method tells the player of a shot
             that has been made
             The method modifies the shot to include results

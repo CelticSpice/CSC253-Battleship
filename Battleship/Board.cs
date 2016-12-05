@@ -1,5 +1,5 @@
 ﻿/*
-    This class represents a game board
+    A Battleship game board
 */
 
 using System;

@@ -1,6 +1,6 @@
 ﻿/*
-    This form enables the user to choose game
-    and shooting modes
+    Dialog for enabling the user to choose
+    game and shooting modes
 */
 
 using System;
@@ -17,10 +17,21 @@ namespace Battleship
             No-Arg Constructor
         */
 
-        public ModeDialogForm()
+        private ModeDialogForm()
         {
             InitializeComponent();
             CenterToScreen();
+        }
+
+        /*
+            Display - Shows the dialog
+        */
+
+        public static ModeSelection Display()
+        {
+            ModeDialogForm dialog = new ModeDialogForm();
+            dialog.ShowDialog();
+            return dialog.Selection;
         }
 
         /*
@@ -52,7 +63,7 @@ namespace Battleship
         }
 
         /*
-            _selection Property
+            Selection Property
         */
 
         public ModeSelection Selection

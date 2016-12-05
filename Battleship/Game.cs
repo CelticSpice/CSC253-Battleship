@@ -1,5 +1,5 @@
 ﻿/*
-    This class handles the game logic
+    The game of Battleship
 */
 
 using System.Threading;
@@ -17,8 +17,7 @@ namespace Battleship
         private ShotMode _shotMode;
 
         /*
-            Constructor - Accepts whether the game is human vs. AI or AI vs. AI,
-            and the shot mode
+            Constructor - Accepts the game & shooting mode
         */
 
         public Game(bool watchGame, ShotMode mode)
@@ -33,11 +32,15 @@ namespace Battleship
             _shipSettingUp = ShipType.AircraftCarrier;
             _shotMode = mode;
 
+            // Player 2 sets up its board with ships
             _player2.SetupBoard();
 
             if (watchGame)
             {
+                // To ensure pseudorandomness
                 Thread.Sleep(1500);
+
+                // Player 1 sets up its board with ships
                 _player1.SetupBoard();
             }
         }
@@ -53,7 +56,16 @@ namespace Battleship
                 _directionSettingUp++;
             else
                 _directionSettingUp = Direction.North;
-        }       
+        }
+
+        /*
+            GetBoardSize - Returns the size of the game board
+        */
+
+        public int GetBoardSize()
+        {
+            return _player1.GetBoardSize();
+        }
 
         /*
             GetShipCoords - Returns coordinates that a type of
@@ -62,12 +74,7 @@ namespace Battleship
 
         public Coordinate[] GetShipCoords(Player player, ShipType shipType)
         {
-            Coordinate[] shipCoords;
-            if (player == _player1)
-                shipCoords = _player1.TellShipCoords(shipType);
-            else
-                shipCoords = _player2.TellShipCoords(shipType);
-            return shipCoords;
+            return player.TellShipCoords(shipType);
         }
 
         /*
@@ -86,11 +93,9 @@ namespace Battleship
 
         public Player GetWinner()
         {
-            Player winner = null;
+            Player winner = _player1;
             if (_player1.IsDefeated())
                 winner = _player2;
-            if (_player2.IsDefeated())
-                winner = _player1;
             return winner;
         }
 
@@ -145,7 +150,7 @@ namespace Battleship
 
         public Shot DoTurn(Player player)
         {
-            if (_shotMode == ShotMode.Salvo)
+            if (_shotMode == ShotMode.Salvo && _numShotsRemaining == 0)
                 _numShotsRemaining = player.TellNumShipsLiving();
 
             Shot shot;
@@ -153,6 +158,10 @@ namespace Battleship
                 shot = _player1.MakeShot();
             else
                 shot = _player2.MakeShot();
+
+            if (_shotMode == ShotMode.Salvo)
+                _numShotsRemaining--;
+
             return shot;
         }
 
@@ -163,44 +172,13 @@ namespace Battleship
 
         public Shot DoTurn(Coordinate coord)
         {
-            return _player1.MakeShot(coord);
-        }
-
-        /*
-            DoSalvoTurn - Has player take a turn and returns
-            the shots the player made
-            Accepts the player to take turn
-        */
-
-        public Shot[] DoSalvoTurn(Player player)
-        {
-            Shot[] shots;
-            if (player == _player1)
+            if (_shotMode == ShotMode.Salvo)
             {
-                shots = new Shot[_player1.TellNumShipsLiving()];
-                for (int i = 0; i < shots.Length; i++)
-                    shots[i] = _player1.MakeShot();
+                if (_numShotsRemaining == 0)
+                    _numShotsRemaining = _player1.TellNumShipsLiving();
+                _numShotsRemaining--;
             }
-            else
-            {
-                shots = new Shot[_player2.TellNumShipsLiving()];
-                for (int i = 0; i < shots.Length; i++)
-                    shots[i] = _player2.MakeShot();
-            }
-            return shots;
-        }
 
-        /*
-            DoSalvoTurn - Has player 1 take a turn and returns
-            the shot the player made at a specified coordinate
-        */
-
-        public Shot DoSalvoTurn(Coordinate coord)
-        {
-            if (_numShotsRemaining == 0)
-                _numShotsRemaining = _player1.TellNumShipsLiving();
-
-            _numShotsRemaining--;
             return _player1.MakeShot(coord);
         }
 

@@ -1,6 +1,5 @@
 ﻿/*
-    This form provides the main interface between
-    the user and the Battleship game
+   Form providing the main UI
 */
 
 using System;
@@ -22,7 +21,7 @@ namespace Battleship
             Color.Yellow
         };
 
-        private Label[,] lblSet1, lblSet2;
+        private Label[,] grid1, grid2;
         private Game game;
 
         /*
@@ -33,15 +32,11 @@ namespace Battleship
         {
             InitializeComponent();
 
-            // Get whether we will play or watch a game
-            ModeDialogForm form = new ModeDialogForm();
-            form.ShowDialog();
-            ModeSelection selection = form.Selection;
-            form.Dispose();
+            // Get game & shooting mode
+            ModeSelection selection = ModeDialogForm.Display();
 
-            // Play game
+            // Start game
             game = new Game(selection.watchGame, selection.shotMode);
-            SetupGrids(selection.watchGame);
 
             CenterToScreen();
         }
@@ -52,24 +47,7 @@ namespace Battleship
 
         private void BeginAIGame()
         {
-            AIGameWorker.RunWorkerAsync();
-        }
-
-        /*
-            DoAITurn - Do AI's turn and return shot made
-        */
-
-        private Shot DoAITurn(Player player)
-        {
-            Shot shot = game.DoTurn((player == game.Player1) ? game.Player1 : game.Player2);
-
-            // Set color of label
-            if (shot.Result == ShotResult.Miss)
-                lblSet1[shot.Coord.y, shot.Coord.x].BackColor = Color.FloralWhite;
-            else
-                lblSet1[shot.Coord.y, shot.Coord.x].BackColor = Color.Red;
-
-            return shot;
+            aiGameWorker.RunWorkerAsync();
         }
 
         /*
@@ -78,20 +56,21 @@ namespace Battleship
 
         private Coordinate GetCoordinate(Label control)
         {
-            int numRows = lblSet1.GetLength(0);
-            int numCols = lblSet1.GetLength(1);
+            int numRows = grid1.GetLength(0);
+            int numCols = grid1.GetLength(1);
             bool found = false;
-            Coordinate coord = new Coordinate();
+            int xCoord = -1;
+            int yCoord = -1;
             for (int row = 0; row < numRows && !found; row++)
                 for (int col = 0; col < numCols && !found; col++)
-                    if (lblSet1[row, col] == control ||
-                        lblSet2[row, col] == control)
+                    if (grid1[row, col] == control ||
+                        grid2[row, col] == control)
                     {
                         found = true;
-                        coord.x = col;
-                        coord.y = row;
+                        xCoord = col;
+                        yCoord = row;
                     }
-            return coord;
+            return new Coordinate { x = xCoord, y = yCoord };
         }
 
         /*
@@ -99,131 +78,143 @@ namespace Battleship
             being setup
         */
 
-        private Coordinate[] GetShipPlacementCoords(Label origin)
+        private Coordinate[] GetShipPlacementCoords(Label head)
         {
-            // Coordinate of origin
-            Coordinate originCoord = GetCoordinate(origin);
-
-            // Determine number of parts the ship has
-            int numParts = 0;
+            // Get number of coordinates ship being setup
+            // occupies
+            int numCoords = 0;
             switch (game.ShipSettingUp)
             {
                 case ShipType.AircraftCarrier:
-                    numParts = 5;
+                    numCoords = 5;
                     break;
                 case ShipType.Battleship:
-                    numParts = 4;
+                    numCoords = 4;
                     break;
                 case ShipType.Submarine:
                 case ShipType.Destroyer:
-                    numParts = 3;
+                    numCoords = 3;
                     break;
                 case ShipType.PatrolBoat:
-                    numParts = 2;
+                    numCoords = 2;
                     break;
             }
 
             // Prepare array of ship's coordinates
-            Coordinate[] shipCoords = new Coordinate[numParts];
+            Coordinate[] shipCoords = new Coordinate[numCoords];
+            shipCoords[0] = GetCoordinate(head);
 
-            // Get coordinates in the current direction
-            for (int i = 0; i < shipCoords.Length; i++)
-                switch (game.DirectionSettingUp)
-                {
-                    case Direction.North:
-                        shipCoords[i] = new Coordinate {
-                            x = originCoord.x,
-                            y = originCoord.y - i
+            // Get coordinates in direction head is facing
+            switch (game.DirectionSettingUp)
+            {
+                case Direction.North:
+                    for (int i = 1; i < shipCoords.Length; i++)
+                        shipCoords[i] = new Coordinate
+                        {
+                            x = shipCoords[0].x,
+                            y = shipCoords[0].y - i
                         };
-                        break;
-                    case Direction.South:
-                        shipCoords[i] = new Coordinate {
-                            x = originCoord.x,
-                            y = originCoord.y + i
+                    break;
+                case Direction.South:
+                    for (int i = 1; i < shipCoords.Length; i++)
+                        shipCoords[i] = new Coordinate
+                        {
+                            x = shipCoords[0].x,
+                            y = shipCoords[0].y + i
                         };
-                        break;
-                    case Direction.East:
-                        shipCoords[i] = new Coordinate {
-                            x = originCoord.x + i,
-                            y = originCoord.y
+                    break;
+                case Direction.East:
+                    for (int i = 1; i < shipCoords.Length; i++)
+                        shipCoords[i] = new Coordinate
+                        {
+                            x = shipCoords[0].x + i,
+                            y = shipCoords[0].y
                         };
-                        break;
-                    case Direction.West:
-                        shipCoords[i] = new Coordinate {
-                            x = originCoord.x - i,
-                            y = originCoord.y
+                    break;
+                case Direction.West:
+                    for (int i = 1; i < shipCoords.Length; i++)
+                        shipCoords[i] = new Coordinate
+                        {
+                            x = shipCoords[0].x - i,
+                            y = shipCoords[0].y
                         };
-                        break;
-                }
+                    break;
+            }
 
             return shipCoords;
         }
 
         /*
-            The IsCoordInRange method checks that a coordinate
-            points to a valid index in the 2D arrays of labels
+            IsCoordInRange - Returns whether a coordinate
+            exists on a grid
         */
 
         private bool IsCoordInRange(Coordinate coord)
         {
-            bool isInRange = false;
-            if (coord.x >= 0 && coord.x < lblSet1.GetLength(0) &&
-                coord.y >= 0 && coord.y < lblSet1.GetLength(1))
-            {
-                isInRange = true;
-            }
-            return isInRange;
+            return (coord.x >= 0 && coord.x < grid1.GetLength(0) &&
+                    coord.y >= 0 && coord.y < grid1.GetLength(1));
         }
 
         /*
-            ReportAIShotResult - Reports and displays results of AI's shot
+            ReportShotResult - Reports and displays results of a shot
         */
 
-        private void ReportAIShotResult(Shot shot)
+        private void ReportShotResult(Shot shot)
         {
+            Label[,] lblSet = (shot.Shooter == game.Player1) ? grid2 :
+                                                               grid1;
+
             // Check if hit
             if (shot.Result == ShotResult.Miss)
             {
+                lblSet[shot.Coord.y, shot.Coord.x].BackColor =
+                    Color.FloralWhite;
+
                 if (shot.Shooter == game.Player1)
                 {
-                    lblSet2[shot.Coord.y, shot.Coord.x].BackColor =
-                        Color.FloralWhite;
-                    commentLbl.Text = "Player 1 missed!";
+                    if (!game.IsWatchGame)
+                        commentLbl.Text = "You missed me!";
+                    else
+                        commentLbl.Text = "Player 1 missed!";
                 }
-                else
-                {
-                    lblSet1[shot.Coord.y, shot.Coord.x].BackColor =
-                        Color.FloralWhite;
+
+                if (shot.Shooter == game.Player2)
                     commentLbl.Text = "Player 2 missed!";
-                }
             }
             else
             {
-                if (shot.Shooter == game.Player1)
-                {
-                    lblSet2[shot.Coord.y, shot.Coord.x].BackColor =
-                        Color.Red;
+                lblSet[shot.Coord.y, shot.Coord.x].BackColor = Color.Red;
 
-                    // Get if hit or sunk
-                    if (shot.Result == ShotResult.Hit)
-                        commentLbl.Text = "Player 1 hit Player 2's " +
-                            shot.ShipHit.ToString() + "!";
+                // Get if hit or sunk
+                if (shot.Result == ShotResult.Hit)
+                {
+                    if (shot.Shooter == game.Player1)
+                    {
+                        if (!game.IsWatchGame)
+                            commentLbl.Text = "You hit my " +
+                                shot.ShipHit.ToString() + "!";
+                        else
+                            commentLbl.Text = "Player 1 hit Player 2's " +
+                                shot.ShipHit.ToString() + "!";
+                    }
                     else
-                        commentLbl.Text = "Player 1 sunk Player 2's " +
-                           shot.ShipHit.ToString() + "!";
+                    commentLbl.Text = "Player 2 hit Player 1's " +
+                        shot.ShipHit.ToString() + "!";
                 }
                 else
                 {
-                    lblSet1[shot.Coord.y, shot.Coord.x].BackColor =
-                     Color.Red;
-
-                    // Get if hit or sunk
-                    if (shot.Result == ShotResult.Hit)
-                        commentLbl.Text = "Player 2 hit Player 1's " +
-                            shot.ShipHit.ToString() + "!";
+                    if (shot.Shooter == game.Player1)
+                    {
+                        if (!game.IsWatchGame)
+                            commentLbl.Text = "You sunk my " +
+                                shot.ShipHit.ToString() + "!";
+                        else
+                        commentLbl.Text = "Player 1 sunk Player 2's " +
+                           shot.ShipHit.ToString() + "!";
+                    }
                     else
                         commentLbl.Text = "Player 2 sunk Player 1's " +
-                           shot.ShipHit.ToString() + "!";
+                            shot.ShipHit.ToString() + "!";
                 }
             }
         }
@@ -241,92 +232,68 @@ namespace Battleship
                 foreach (Coordinate coord in game.GetShipCoords(
                     game.Player1, type))
                 {
-                    lblSet1[coord.y, coord.x].BackColor = shipColors[(int)type];
+                    grid1[coord.y, coord.x].BackColor = shipColors[(int)type];
                 }
 
                 foreach (Coordinate coord in game.GetShipCoords(
                     game.Player2, type))
                 {
-                    lblSet2[coord.y, coord.x].BackColor = shipColors[(int)type];
+                    grid2[coord.y, coord.x].BackColor = shipColors[(int)type];
                 }
             }
         }
 
         /*
-            SetupGrids - Builds the grids representing
-            game boards; accepts whether game will be
-            played or watched
+            SetupGrids- Builds the grids
         */
 
-        private void SetupGrids(bool watch = false)
+        private void SetupGrids()
         {
             // Variables
-            string lblSet1Name, lblSet2Name;
-            if (!watch)
-            {
-                lblSet1Name = "trackingGridLbl";
-                lblSet2Name = "shootingGridLbl";
-            }
-            else
-            {
-                lblSet1GroupBox.Text = "Player 1";
-                lblSet2GroupBox.Text = "Player 2";
-                lblSet1Name = "player1Lbl";
-                lblSet2Name = "player2Lbl";
-            }
-
-            string nameSuffix = "0_A";
-
-            char xLbl = '0',
-                 yLbl = 'A';
-
             Point location = new Point(30, 41);
             Size size = new Size(25, 25);
             Color color = Color.CornflowerBlue;
 
-            // Create labels
-            const int NUM_ROWS = 10;
-            const int NUM_COLUMNS = 10;
-            lblSet1 = new Label[NUM_ROWS, NUM_COLUMNS];
-            lblSet2 = new Label[NUM_ROWS, NUM_COLUMNS];
-            for (int row = 0; row < NUM_ROWS; row++)
+            // Change grid names if the game is being watched
+            if (game.IsWatchGame)
             {
-                for (int col = 0; col < NUM_COLUMNS; col++)
+                grid1GrpBox.Text = "Player 1";
+                grid2GrpBox.Text = "Player 2";
+            }
+
+            // Create labels
+            int numRows = game.GetBoardSize();
+            int numColumns = numRows;
+            grid1 = new Label[numRows, numColumns];
+            grid2 = new Label[numRows, numColumns];
+            for (int row = 0; row < numRows; row++)
+            {
+                for (int col = 0; col < numColumns; col++)
                 {
-                    // Create labels
+                    // Grid 1
                     Label label = new Label();
                     label.Location = location;
                     label.Size = size;
-                    label.Name = lblSet1Name + nameSuffix;
                     label.BackColor = color;
                     label.BorderStyle = BorderStyle.FixedSingle;
-                    lblSet1GroupBox.Controls.Add(label);
-                    lblSet1[row, col] = label;
+                    grid1GrpBox.Controls.Add(label);
+                    grid1[row, col] = label;
 
-
+                    // Grid 2
                     label = new Label();
                     label.Location = location;
                     label.Size = size;
-                    label.Name = lblSet2Name + nameSuffix;
                     label.BackColor = color;
                     label.BorderStyle = BorderStyle.FixedSingle;
-                    lblSet2GroupBox.Controls.Add(label);
-                    lblSet2[row, col] = label;
+                    grid2GrpBox.Controls.Add(label);
+                    grid2[row, col] = label;
 
-                    // To next xCoord
-                    xLbl++;
+                    // To next X coord
                     location.X += 24;
-
-                    nameSuffix = xLbl.ToString() + "_" + yLbl.ToString();
                 }
-
-                // To next yCoord
-                xLbl = '0';
-                yLbl++;
+                // To next Y coord
                 location.X = 30;
                 location.Y += 22;
-
-                nameSuffix = xLbl.ToString() + "_" + yLbl.ToString();
             }
         }
 
@@ -334,65 +301,22 @@ namespace Battleship
             Click handler for Label Set 2 labels
         */
 
-        private void LabelSet2_Click(object sender, EventArgs e)
+        private void Grid2Label_Click(object sender, EventArgs e)
         {
             // Get the coordinate of clicked label
             Coordinate coord = GetCoordinate((Label)sender);
 
             // Check that the shot can be made
-            if (game.IsValidShot(coord))
-            {
-                // Take turn
-                Shot shot = game.DoTurn(coord);
-
-                if (shot.Result == ShotResult.Miss)
-                {
-                    // Set color of label
-                    lblSet2[shot.Coord.y, shot.Coord.x].BackColor = Color.FloralWhite;
-
-                    // Display message
-                    commentLbl.Text = "You missed me!";
-                }
-                else
-                {
-                    // Set color of label
-                    lblSet2[shot.Coord.y, shot.Coord.x].BackColor = Color.Red;
-
-                    // Display appropriate message
-                    if (shot.Result == ShotResult.Hit)
-                        commentLbl.Text = "You hit my " +
-                            shot.ShipHit.ToString() + "!";
-                    else
-                        commentLbl.Text = "You sunk my " +
-                            shot.ShipHit.ToString() + "!";
-                }
-
-                // Check if the game is over
-                if (!game.IsOver())
-                    // Player 2 takes turn
-                    DoAITurn(game.Player2);
-
-                // Check if the game is over
-                if (game.IsOver())
-                {
-                    // Remove handler from labels
-                    foreach (Label label in lblSet2)
-                        label.Click -= LabelSet2_Click;
-
-                    // Declare winner
-                    if (game.GetWinner() == game.Player1)
-                        commentLbl.Text = "You won the game!";
-                    else
-                        commentLbl.Text = "The AI won! You lost!";
-                }
-            }
+            if (!humanGameWorker.IsBusy && game.IsValidShot(coord))
+                // Do turn
+                humanGameWorker.RunWorkerAsync(coord);
         }
 
         /*
-            Click handler for Label Set 1 labels
+            Click handler for Grid 1 labels
         */
 
-        private void LabelSet1_Click(object sender, EventArgs e)
+        private void Grid1Label_Click(object sender, EventArgs e)
         {
             // Place ship currently being setup in the selected location
             Coordinate[] shipCoords = GetShipPlacementCoords(((Label)sender));
@@ -406,20 +330,20 @@ namespace Battleship
                         game.ShipSettingUp.ToString();
                 else
                 {
-                    // Remove handlers from Label Set 1 labels
-                    foreach (Label label in lblSet1)
+                    // Remove handlers from Grid 1 labels
+                    foreach (Label label in grid1)
                     {
-                        label.Click -= LabelSet1_Click;
-                        label.MouseEnter -= LabelSet1_MouseEnter;
-                        label.MouseLeave -= LabelSet1_MouseLeave;
+                        label.Click -= Grid1Label_Click;
+                        label.MouseEnter -= Grid1Label_MouseEnter;
+                        label.MouseLeave -= Grid1Label_MouseLeave;
                     }
 
-                    // Add handler to Label Set 2 labels
-                    foreach (Label label in lblSet2)
-                        label.Click += LabelSet2_Click;
+                    // Add handler to Grid 2 labels
+                    foreach (Label label in grid2)
+                        label.Click += Grid2Label_Click;
 
                     // Inform ready
-                    commentLbl.Text = "Select a tile on your shooting grid";
+                    commentLbl.Text = "Select a tile on your shooting grid!";
                 }
             }
         }
@@ -439,60 +363,65 @@ namespace Battleship
         }
 
         /*
-            Mouse enter handler for Label Set 1 labels
+            Mouse enter handler for Grid 1 labels
         */
 
-        private void LabelSet1_MouseEnter(object sender, EventArgs e)
+        private void Grid1Label_MouseEnter(object sender, EventArgs e)
         {
-            // Get ship coords
+            // Get coordinates
             Coordinate[] shipCoords = GetShipPlacementCoords((Label)sender);
 
             // Set color of labels appropriately
             if (game.IsSetupOK(shipCoords))
                 foreach (Coordinate coord in shipCoords)
-                    lblSet1[coord.y, coord.x].BackColor =
+                    grid1[coord.y, coord.x].BackColor =
                         shipColors[(int)game.ShipSettingUp];
             else
                 foreach (Coordinate coord in shipCoords)
                     if (IsCoordInRange(coord))
-                        lblSet1[coord.y, coord.x].BackColor =
+                        grid1[coord.y, coord.x].BackColor =
                             Color.Red;
         }
 
         /*
-            Mouse leave handler for Label Set 1 labels
+            Mouse leave handler for Grid 1 labels
         */
 
-        private void LabelSet1_MouseLeave(object sender, EventArgs e)
+        private void Grid1Label_MouseLeave(object sender, EventArgs e)
         {
             // Reset color of unoccupied tiles
             foreach (Coordinate coord in game.GetUnoccupiedCoords())
-                lblSet1[coord.y, coord.x].BackColor =
+                grid1[coord.y, coord.x].BackColor =
                     Color.CornflowerBlue;
 
             // Reset color of occupied tiles
             for (ShipType type = ShipType.AircraftCarrier;
                  type < game.ShipSettingUp; type++)
-                foreach (Coordinate coord in game.GetShipCoords(
-                    game.Player1, type))
-                {
-                    lblSet1[coord.y, coord.x].BackColor = shipColors[(int)type];
-                }
+            {
+                foreach (Coordinate coord in game.GetShipCoords(game.Player1,
+                    type))
+                    {
+                        grid1[coord.y, coord.x].BackColor =
+                            shipColors[(int)type];
+                    }
+            }
         }
 
         /*
-            Load event handler for MainForm
+            Load event
         */
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            SetupGrids();
+
             if (!game.IsWatchGame)
             {
-                foreach (Label label in lblSet1)
+                foreach (Label label in grid1)
                 {
-                    label.Click += LabelSet1_Click;
-                    label.MouseEnter += LabelSet1_MouseEnter;
-                    label.MouseLeave += LabelSet1_MouseLeave;
+                    label.Click += Grid1Label_Click;
+                    label.MouseEnter += Grid1Label_MouseEnter;
+                    label.MouseLeave += Grid1Label_MouseLeave;
                 }
 
                 commentLbl.Text = "Construct your " +
@@ -508,12 +437,12 @@ namespace Battleship
         }
 
         /*
-            Key press handler for 'R' key when user wants to rotate direction of
-            ship being setup
+            Key Press handler for 'r' key
         */
 
         private void MainFormSetup_KeyPress(object sender, KeyPressEventArgs e)
         {
+            // Change direction setting up ship in
             if (e.KeyChar == 'R' || e.KeyChar == 'r')
                 game.ChangeShipDirection();
         }
@@ -524,49 +453,36 @@ namespace Battleship
 
         private void AIGameWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            do
+            while (!game.IsOver())
             {
                 // Player 1 takes turn
-                if (game.ShotMode == ShotMode.Normal)
+                do
                 {
-                    AIGameWorker.ReportProgress(0, "Player 1 is thinking...");
-                    Thread.Sleep(900);
-
                     Shot shot = game.DoTurn(game.Player1);
+                    aiGameWorker.ReportProgress(0, shot);
+                    Thread.Sleep(1000);
+                } while (game.NumShotsRemaining != 0 && !game.IsOver());
 
-                    AIGameWorker.ReportProgress(0, shot);
-                    Thread.Sleep(900);
-
-                    // Check if game is over
-                    if (!game.IsOver())
+                // Check if game is over
+                if (!game.IsOver())
+                    // Player 2 takes turn
+                    do
                     {
-                        // Player 2 takes turn
-                        AIGameWorker.ReportProgress(0, "Player 2 is thinking...");
-                        Thread.Sleep(900);
-
-                        shot = game.DoTurn(game.Player2);
-
-                        AIGameWorker.ReportProgress(0, shot);
-                        Thread.Sleep(900);
-                    }
-                }
-                else
-                {
-                    
-                }
+                        Shot shot = game.DoTurn(game.Player2);
+                        aiGameWorker.ReportProgress(0, shot);
+                        Thread.Sleep(1000);
+                    } while (game.NumShotsRemaining != 0 && !game.IsOver());
 
                 // Check if game is over
                 if (game.IsOver())
                 {
                     // Declare winner
                     if (game.GetWinner() == game.Player1)
-                        AIGameWorker.ReportProgress(0, "Player 1 has won!");
+                        aiGameWorker.ReportProgress(0, "Player 1 has won!");
                     else
-                        AIGameWorker.ReportProgress(0, "Player 2 has won!");
+                        aiGameWorker.ReportProgress(0, "Player 2 has won!");
                 }
-                else
-                    Thread.Sleep(900);
-            } while (!game.IsOver());
+            }
         }
 
         /*
@@ -577,7 +493,55 @@ namespace Battleship
                                                   ProgressChangedEventArgs e)
         {
             if (e.UserState is Shot)
-                ReportAIShotResult((Shot)e.UserState);
+                ReportShotResult((Shot)e.UserState);
+            else
+                commentLbl.Text = ((string)e.UserState);
+        }
+
+        /*
+            HumanGameWorker DoWork
+        */
+
+        private void HumanGameWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            // Player 1 takes turn
+            Shot shot = game.DoTurn((Coordinate)e.Argument);
+            humanGameWorker.ReportProgress(0, shot);
+            Thread.Sleep(1000);
+
+            // Check if the AI should take its turn
+            if (!game.IsOver() && game.NumShotsRemaining == 0)
+                do
+                {
+                    shot = game.DoTurn(game.Player2);
+                    humanGameWorker.ReportProgress(0, shot);
+                    Thread.Sleep(1000);
+                } while (game.NumShotsRemaining != 0 && !game.IsOver());
+
+            // Check if game is over
+            if (game.IsOver())
+            {
+                // Remove handlers from labels
+                foreach (Label label in grid2)
+                    label.Click -= Grid2Label_Click;
+
+                // Declare winner
+                if (game.GetWinner() == game.Player1)
+                    humanGameWorker.ReportProgress(0, "You won!");
+                else
+                    humanGameWorker.ReportProgress(0, "The AI won!");
+            }
+        }
+
+        /*
+           HumanGameWorker ProgressChanged
+        */
+
+        private void HumanGameWorker_ProgressChanged(object sender,
+                                                ProgressChangedEventArgs e)
+        {
+            if (e.UserState is Shot)
+                ReportShotResult(e.UserState as Shot);
             else
                 commentLbl.Text = ((string)e.UserState);
         }
