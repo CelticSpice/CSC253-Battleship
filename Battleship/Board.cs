@@ -89,6 +89,17 @@ namespace Battleship
                 tile.LowerNeighborWeights();
         }
 
+        public void AlterWeightsOnSink(Shot shot)
+        {
+            foreach (Tile tile in GetTilesAroundShip(GetShipAtCoord(shot.Coord)))
+            {
+                if (tile != null && tile.GetHitNeighbors().Length < 2)
+                {
+                    tile.Weight += 30;
+                }
+            }
+        }
+
         /*
             AreShipsLiving - Returns whether there are ships
             on the board that have at least 1 part
@@ -149,6 +160,30 @@ namespace Battleship
         private Ship GetShipAtCoord(Coordinate coord)
         {
             return ships.First(ship => ship.GetCoords().Contains(coord));
+        }
+
+        private Tile[] GetTilesAroundShip(Ship ship)
+        {
+            Tile[] shipTiles = new Tile[ship.NumParts];
+
+            int i = 0;
+
+            foreach(Coordinate coord in ship.GetCoords())
+            {
+                shipTiles[i++] = tiles[coord.y, coord.x];
+            }
+
+            List<Tile> neighbors = new List<Tile>();
+
+            foreach(Tile tile in shipTiles)
+            {
+                Tile[] tileNeighbors = tile.GetNeighbors();
+                foreach (Tile t in tileNeighbors)
+                    if (!shipTiles.Contains(t))
+                        neighbors.Add(t);
+            }
+
+            return neighbors.ToArray();
         }
 
         /*

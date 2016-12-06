@@ -215,7 +215,6 @@ C:\Users\alvesj5327\Source\Repos\CSC253-Battleship\Battleship\obj\Debug\Battlesh
 C:\Users\alvesj5327\Source\Repos\CSC253-Battleship\Battleship\bin\Debug\Battleship.exe
 C:\Users\alvesj5327\Source\Repos\CSC253-Battleship\Battleship\bin\Debug\Battleship.pdb
 C:\Users\alvesj5327\Source\Repos\CSC253-Battleship\Battleship\obj\Debug\Battleship.csprojResolveAssemblyReference.cache
-C:\Users\alvesj5327\Source\Repos\CSC253-Battleship\Battleship\obj\Debug\Battleship.BattleForm.resources
 C:\Users\alvesj5327\Source\Repos\CSC253-Battleship\Battleship\obj\Debug\Battleship.Properties.Resources.resources
 C:\Users\alvesj5327\Source\Repos\CSC253-Battleship\Battleship\obj\Debug\Battleship.csproj.GenerateResource.Cache
 E:\Adv. C#\Battleship\CSC253-Battleship\Battleship\bin\Debug\Battleship.exe.config
@@ -238,3 +237,5 @@ E:\Adv. C#\Battleship\CSC253-Battleship\Battleship\obj\Debug\Battleship.csproj.G
 \\VBOXSVR\burnst\ftcc\2016FA\CSC253\Battleship\Battleship\bin\Debug\Battleship.pdb
 \\VBOXSVR\burnst\ftcc\2016FA\CSC253\Battleship\Battleship\obj\Debug\Battleship.exe
 \\VBOXSVR\burnst\ftcc\2016FA\CSC253\Battleship\Battleship\obj\Debug\Battleship.pdb
+C:\Users\alvesj5327\Source\Repos\CSC253-Battleship\Battleship\obj\Debug\Battleship.MainForm.resources
+C:\Users\alvesj5327\Source\Repos\CSC253-Battleship\Battleship\obj\Debug\Battleship.ModeDialogForm.resources
