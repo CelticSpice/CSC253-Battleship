@@ -1,6 +1,9 @@
 ﻿/*
     Dialog for enabling the user to choose
     game and shooting modes
+    12/8/2016
+    CSC 253 0001 - M6PROJ
+    Author: James Alves, Shane McCann, Timothy Burns
 */
 
 using System;
@@ -20,6 +23,7 @@ namespace Battleship
         private ModeDialogForm()
         {
             InitializeComponent();
+            _selection.cancelClicked = true;
             CenterToScreen();
         }
 
@@ -30,7 +34,7 @@ namespace Battleship
         public static ModeSelection Display()
         {
             ModeDialogForm dialog = new ModeDialogForm();
-            dialog.ShowDialog();
+            dialog.ShowDialog();                
             return dialog.Selection;
         }
 
@@ -40,6 +44,7 @@ namespace Battleship
 
         private void playButton_Click(object sender, EventArgs e)
         {
+            _selection.cancelClicked = false;
             ShotMode mode = ShotMode.Normal;
             if (salvoShootRadBtn.Checked)
                 mode = ShotMode.Salvo;
@@ -54,6 +59,7 @@ namespace Battleship
 
         private void watchButton_Click(object sender, EventArgs e)
         {
+            _selection.cancelClicked = false;
             ShotMode mode = ShotMode.Normal;
             if (salvoShootRadBtn.Checked)
                 mode = ShotMode.Salvo;

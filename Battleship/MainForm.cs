@@ -1,5 +1,8 @@
 ﻿/*
    Form providing the main UI
+   12/8/2016
+   CSC 253 0001 - M6PROJ
+   Author: James Alves, Shane McCann, Timothy Burns
 */
 
 using System;
@@ -36,9 +39,11 @@ namespace Battleship
             ModeSelection selection = ModeDialogForm.Display();
 
             // Start game
-            game = new Game(selection.watchGame, selection.shotMode);
-
-            CenterToScreen();
+            if (!selection.cancelClicked)
+            {
+                game = new Game(selection.watchGame, selection.shotMode);
+                CenterToScreen();
+            }
         }
 
         /*
@@ -85,7 +90,7 @@ namespace Battleship
             int numCoords = 0;
             switch (game.ShipSettingUp)
             {
-                case ShipType.AircraftCarrier:
+                case ShipType.Aircraft_Carrier:
                     numCoords = 5;
                     break;
                 case ShipType.Battleship:
@@ -95,7 +100,7 @@ namespace Battleship
                 case ShipType.Destroyer:
                     numCoords = 3;
                     break;
-                case ShipType.PatrolBoat:
+                case ShipType.Patrol_Boat:
                     numCoords = 2;
                     break;
             }
@@ -184,6 +189,8 @@ namespace Battleship
             else
             {
                 lblSet[shot.Coord.y, shot.Coord.x].BackColor = Color.Red;
+                string shipHit = shot.ShipHit.ToString().Replace('_', ' ');
+
 
                 // Get if hit or sunk
                 if (shot.Result == ShotResult.Hit)
@@ -192,14 +199,14 @@ namespace Battleship
                     {
                         if (!game.IsWatchGame)
                             commentLbl.Text = "You hit my " +
-                                shot.ShipHit.ToString() + "!";
+                                shipHit + "!";
                         else
                             commentLbl.Text = "Player 1 hit Player 2's " +
-                                shot.ShipHit.ToString() + "!";
+                               shipHit + "!";
                     }
                     else
                     commentLbl.Text = "Player 2 hit Player 1's " +
-                        shot.ShipHit.ToString() + "!";
+                        shipHit + "!";
                 }
                 else
                 {
@@ -207,14 +214,14 @@ namespace Battleship
                     {
                         if (!game.IsWatchGame)
                             commentLbl.Text = "You sunk my " +
-                                shot.ShipHit.ToString() + "!";
+                                shipHit + "!";
                         else
                         commentLbl.Text = "Player 1 sunk Player 2's " +
-                           shot.ShipHit.ToString() + "!";
+                           shipHit + "!";
                     }
                     else
                         commentLbl.Text = "Player 2 sunk Player 1's " +
-                            shot.ShipHit.ToString() + "!";
+                            shipHit + "!";
                 }
             }
         }
@@ -226,8 +233,8 @@ namespace Battleship
 
         private void SetWatchGameLblColors()
         {
-            for (ShipType type = ShipType.AircraftCarrier;
-                 type <= ShipType.PatrolBoat; type++)
+            for (ShipType type = ShipType.Aircraft_Carrier;
+                 type <= ShipType.Patrol_Boat; type++)
             {
                 foreach (Coordinate coord in game.GetShipCoords(
                     game.Player1, type))
@@ -326,10 +333,15 @@ namespace Battleship
 
                 // Prepare to setup next ship, if possible
                 if (game.IsSetupMode)
-                    commentLbl.Text = "Construct your " +
-                        game.ShipSettingUp.ToString();
+                {
+                    string shipSettingUp = game.ShipSettingUp.ToString().Replace('_', ' ');
+                    commentLbl.Text = "Construct your " + shipSettingUp;
+                }
                 else
                 {
+                    // Hide key label
+                    keyLbl.Visible = false;
+
                     // Remove handlers from Grid 1 labels
                     foreach (Label label in grid1)
                     {
@@ -395,7 +407,7 @@ namespace Battleship
                     Color.CornflowerBlue;
 
             // Reset color of occupied tiles
-            for (ShipType type = ShipType.AircraftCarrier;
+            for (ShipType type = ShipType.Aircraft_Carrier;
                  type < game.ShipSettingUp; type++)
             {
                 foreach (Coordinate coord in game.GetShipCoords(game.Player1,
@@ -413,27 +425,33 @@ namespace Battleship
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            SetupGrids();
-
-            if (!game.IsWatchGame)
+            if (game != null)
             {
-                foreach (Label label in grid1)
-                {
-                    label.Click += Grid1Label_Click;
-                    label.MouseEnter += Grid1Label_MouseEnter;
-                    label.MouseLeave += Grid1Label_MouseLeave;
-                }
+                SetupGrids();
 
-                commentLbl.Text = "Construct your " +
-                    game.ShipSettingUp.ToString();
-                KeyPress += MainFormSetup_KeyPress;
-                KeyPreview = true;
+                if (!game.IsWatchGame)
+                {
+                    foreach (Label label in grid1)
+                    {
+                        label.Click += Grid1Label_Click;
+                        label.MouseEnter += Grid1Label_MouseEnter;
+                        label.MouseLeave += Grid1Label_MouseLeave;
+                    }
+
+                    string shipSettingUp = game.ShipSettingUp.ToString().Replace('_', ' ');
+                    commentLbl.Text = "Construct your " + shipSettingUp;
+                    keyLbl.Visible = true;
+                    KeyPress += MainFormSetup_KeyPress;
+                    KeyPreview = true;
+                }
+                else
+                {
+                    SetWatchGameLblColors();
+                    BeginAIGame();
+                }
             }
             else
-            {
-                SetWatchGameLblColors();
-                BeginAIGame();
-            }
+                Close();
         }
 
         /*

@@ -1,5 +1,8 @@
 ﻿/*
     The game of Battleship
+    12/8/2016
+    CSC 253 0001 - M6PROJ
+    Author: James Alves, Shane McCann, Timothy Burns
 */
 
 using System.Threading;
@@ -29,7 +32,7 @@ namespace Battleship
             _player1 = new Player();
             _player2 = new Player(_player1);
             _player1.SetOpponent(_player2);
-            _shipSettingUp = ShipType.AircraftCarrier;
+            _shipSettingUp = ShipType.Aircraft_Carrier;
             _shotMode = mode;
 
             // Player 2 sets up its board with ships
@@ -136,7 +139,7 @@ namespace Battleship
         public void PlaceShip(Coordinate[] coords)
         {
             _player1.PlaceShip(_shipSettingUp, coords);
-            if (_shipSettingUp != ShipType.PatrolBoat)
+            if (_shipSettingUp != ShipType.Patrol_Boat)
                 _shipSettingUp++;
             else
                 _isSetupMode = false;

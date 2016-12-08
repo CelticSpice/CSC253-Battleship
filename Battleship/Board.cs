@@ -1,5 +1,8 @@
 ﻿/*
     A Battleship game board
+    12/8/2016
+    CSC 253 0001 - M6PROJ
+    Author: James Alves, Shane McCann, Timothy Burns
 */
 
 using System;
@@ -89,15 +92,17 @@ namespace Battleship
                 tile.LowerNeighborWeights();
         }
 
-        public void AlterWeightsOnSink(Shot shot)
+        /*
+            RaiseWeightsAboutShip - Raises the weights of tiles around a ship
+            that have no hit neighbors besides the ship's tiles
+        */
+
+        private void RaiseWeightsAboutShip(Ship ship)
         {
-            foreach (Tile tile in GetTilesAroundShip(GetShipAtCoord(shot.Coord)))
-            {
+            const int INCREASE = 30;
+            foreach (Tile tile in GetTilesAroundShip(ship))
                 if (tile != null && tile.GetHitNeighbors().Length < 2)
-                {
-                    tile.Weight += 30;
-                }
-            }
+                    tile.Weight += INCREASE;
         }
 
         /*
@@ -162,22 +167,24 @@ namespace Battleship
             return ships.First(ship => ship.GetCoords().Contains(coord));
         }
 
+        /*
+            GetTilesAroundShip - Returns an array of tiles around a ship
+        */
+
         private Tile[] GetTilesAroundShip(Ship ship)
         {
-            Tile[] shipTiles = new Tile[ship.NumParts];
+            Coordinate[] shipCoords = ship.GetCoords();
+            Tile[] shipTiles = new Tile[shipCoords.Length];
 
-            int i = 0;
-
-            foreach(Coordinate coord in ship.GetCoords())
-            {
-                shipTiles[i++] = tiles[coord.y, coord.x];
-            }
+            for (int i = 0; i < shipTiles.Length; i++)
+                shipTiles[i] = tiles[shipCoords[i].y, shipCoords[i].x];
 
             List<Tile> neighbors = new List<Tile>();
 
+            Tile[] tileNeighbors;
             foreach(Tile tile in shipTiles)
             {
-                Tile[] tileNeighbors = tile.GetNeighbors();
+                tileNeighbors = tile.GetNeighbors();
                 foreach (Tile t in tileNeighbors)
                     if (!shipTiles.Contains(t))
                         neighbors.Add(t);
@@ -264,11 +271,16 @@ namespace Battleship
             {
                 Ship ship = GetShipAtCoord(shot.Coord);
                 if (--ship.NumParts > 0)
+                {
                     shot.Result = ShotResult.Hit;
+                    AlterWeights(tiles[shot.Coord.y, shot.Coord.x]);
+                }
                 else
+                {
                     shot.Result = ShotResult.Sink;
+                    RaiseWeightsAboutShip(ship);
+                }
                 shot.ShipHit = ship.Type;
-                AlterWeights(tiles[shot.Coord.y, shot.Coord.x]);
             }
             else
                 shot.Result = ShotResult.Miss;

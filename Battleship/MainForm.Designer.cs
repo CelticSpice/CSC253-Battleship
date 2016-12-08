@@ -97,6 +97,7 @@
             this.commentLbl = new System.Windows.Forms.Label();
             this.aiGameWorker = new System.ComponentModel.BackgroundWorker();
             this.humanGameWorker = new System.ComponentModel.BackgroundWorker();
+            this.keyLbl = new System.Windows.Forms.Label();
             this.grid1GrpBox.SuspendLayout();
             this.grid2GrpBox.SuspendLayout();
             this.player1ShipStatusPanel.SuspendLayout();
@@ -867,12 +868,25 @@
             this.humanGameWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.HumanGameWorker_DoWork);
             this.humanGameWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.HumanGameWorker_ProgressChanged);
             // 
+            // keyLbl
+            // 
+            this.keyLbl.BackColor = System.Drawing.Color.LightGray;
+            this.keyLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.keyLbl.Location = new System.Drawing.Point(310, 229);
+            this.keyLbl.Name = "keyLbl";
+            this.keyLbl.Size = new System.Drawing.Size(165, 40);
+            this.keyLbl.TabIndex = 7;
+            this.keyLbl.Text = "Press \'R\' key to rotate ship setting up";
+            this.keyLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.keyLbl.Visible = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(784, 392);
+            this.Controls.Add(this.keyLbl);
             this.Controls.Add(this.commentLbl);
             this.Controls.Add(this.quitButton);
             this.Controls.Add(this.player1ShipStatusPanel);
@@ -960,5 +974,6 @@
         private System.Windows.Forms.Label commentLbl;
         private System.ComponentModel.BackgroundWorker aiGameWorker;
         private System.ComponentModel.BackgroundWorker humanGameWorker;
+        private System.Windows.Forms.Label keyLbl;
     }
 }

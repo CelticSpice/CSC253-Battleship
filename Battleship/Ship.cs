@@ -1,5 +1,8 @@
 ﻿/*
     This class represents a ship
+    12/8/2016
+    CSC 253 0001 - M6PROJ
+    Author: James Alves, Shane McCann, Timothy Burns
 */
 
 namespace Battleship
@@ -20,7 +23,7 @@ namespace Battleship
         {
             switch (type)
             {
-                case ShipType.AircraftCarrier:
+                case ShipType.Aircraft_Carrier:
                     _numParts = 5;
                     coords = coordinates;
                     _type = type;
@@ -36,7 +39,7 @@ namespace Battleship
                     coords = coordinates;
                     _type = type;
                     break;
-                case ShipType.PatrolBoat:
+                case ShipType.Patrol_Boat:
                     _numParts = 2;
                     coords = coordinates;
                     _type = type;

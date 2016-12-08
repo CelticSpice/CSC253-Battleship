@@ -1,5 +1,8 @@
 ﻿/*
     This class represents a player
+    12/8/2016
+    CSC 253 0001 - M6PROJ
+    Author: James Alves, Shane McCann, Timothy Burns
 */
 
 using System;
@@ -119,14 +122,14 @@ namespace Battleship
             Random rand = new Random((int)DateTime.Now.Ticks);
 
             // Setup each of five ships
-            for (ShipType type = ShipType.AircraftCarrier;
-                 type <= ShipType.PatrolBoat; type++)
+            for (ShipType type = ShipType.Aircraft_Carrier;
+                 type <= ShipType.Patrol_Boat; type++)
             {
                 // Get number of parts
                 int numParts = 0;
                 switch (type)
                 {
-                    case ShipType.AircraftCarrier:
+                    case ShipType.Aircraft_Carrier:
                         numParts = 5;
                         break;
                     case ShipType.Battleship:
@@ -136,7 +139,7 @@ namespace Battleship
                     case ShipType.Destroyer:
                         numParts = 3;
                         break;
-                    case ShipType.PatrolBoat:
+                    case ShipType.Patrol_Boat:
                         numParts = 2;
                         break;
                 }

@@ -227,15 +227,14 @@ E:\Adv. C#\Battleship\CSC253-Battleship\Battleship\obj\Debug\Battleship.MainForm
 E:\Adv. C#\Battleship\CSC253-Battleship\Battleship\obj\Debug\Battleship.ModeDialogForm.resources
 E:\Adv. C#\Battleship\CSC253-Battleship\Battleship\obj\Debug\Battleship.Properties.Resources.resources
 E:\Adv. C#\Battleship\CSC253-Battleship\Battleship\obj\Debug\Battleship.csproj.GenerateResource.Cache
+C:\Users\alvesj5327\Source\Repos\CSC253-Battleship\Battleship\obj\Debug\Battleship.MainForm.resources
+C:\Users\alvesj5327\Source\Repos\CSC253-Battleship\Battleship\obj\Debug\Battleship.ModeDialogForm.resources
+\\VBOXSVR\burnst\ftcc\2016FA\CSC253\Battleship\Battleship\bin\Debug\Battleship.exe.config
+\\VBOXSVR\burnst\ftcc\2016FA\CSC253\Battleship\Battleship\bin\Debug\Battleship.exe
+\\VBOXSVR\burnst\ftcc\2016FA\CSC253\Battleship\Battleship\bin\Debug\Battleship.pdb
 \\VBOXSVR\burnst\ftcc\2016FA\CSC253\Battleship\Battleship\obj\Debug\Battleship.MainForm.resources
 \\VBOXSVR\burnst\ftcc\2016FA\CSC253\Battleship\Battleship\obj\Debug\Battleship.ModeDialogForm.resources
 \\VBOXSVR\burnst\ftcc\2016FA\CSC253\Battleship\Battleship\obj\Debug\Battleship.Properties.Resources.resources
 \\VBOXSVR\burnst\ftcc\2016FA\CSC253\Battleship\Battleship\obj\Debug\Battleship.csproj.GenerateResource.Cache
-\\VBOXSVR\burnst\ftcc\2016FA\CSC253\Battleship\Battleship\obj\Debug\Battleship.csprojResolveAssemblyReference.cache
-\\VBOXSVR\burnst\ftcc\2016FA\CSC253\Battleship\Battleship\bin\Debug\Battleship.exe.config
-\\VBOXSVR\burnst\ftcc\2016FA\CSC253\Battleship\Battleship\bin\Debug\Battleship.exe
-\\VBOXSVR\burnst\ftcc\2016FA\CSC253\Battleship\Battleship\bin\Debug\Battleship.pdb
 \\VBOXSVR\burnst\ftcc\2016FA\CSC253\Battleship\Battleship\obj\Debug\Battleship.exe
 \\VBOXSVR\burnst\ftcc\2016FA\CSC253\Battleship\Battleship\obj\Debug\Battleship.pdb
-C:\Users\alvesj5327\Source\Repos\CSC253-Battleship\Battleship\obj\Debug\Battleship.MainForm.resources
-C:\Users\alvesj5327\Source\Repos\CSC253-Battleship\Battleship\obj\Debug\Battleship.ModeDialogForm.resources
